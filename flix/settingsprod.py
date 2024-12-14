@@ -26,10 +26,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['comic-finch-strongly.ngrok-free.app', "localhost", 'flixshow.onrender.com']
+ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
-CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
-CORS_ALLOW_CREDENTIALS = True
+# CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
+# CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_daraja',
     'tailwind',
     'theme',
     'multimedia',
