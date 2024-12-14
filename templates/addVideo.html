@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block title %}
+Upload | video
+{% endblock title %}
+
+{% block style %}
+    #formSection {
+        background-image: linear-gradient(to right, rgb(4, 139, 163), rgb(64, 40, 172), rgb(174, 0, 255));
+    }
+    .formSection {
+        min-height: 90vh;
+    }
+    form div {
+       paddding: 0.5rem 0 ;
+       margin: 1rem 1rem 0;
+       border-bottom: 1px solid rgba(37, 37, 37, 0.3);
+       min-width: 40vw;
+    }
+    form div li {
+        color: red;
+        
+        
+    }
+    form input:focus {
+        border-bottom: 1px solid rgba(37, 37, 37, 0.6);
+        outline:none;
+    }
+    form textarea:focus {
+        border: 1px solid rgba(37, 37, 37, 0.6);
+        outline:none;
+    }
+    form label {
+        color: rgba(37, 37, 37, 0.9);
+        display:block;
+    }
+    form input {
+       padding:0.3rem; 
+       display:block;
+       width:100%;
+       
+    }
+    @media screen and (min-width:1000px) {
+        form div {
+            min-width: 30vw;
+        }
+    }
+    @media screen and (min-width:1200px) {
+        form div {
+            min-width: 20vw;
+        }
+    }
+    @media screen and (min-width:1800px) {
+        form div {
+            min-width: 10vw;
+        }
+    }
+{% endblock style %}
+
+    
+{% block bodyContent %}
+
+{% if context.is_approved%}
+<div class="" id="formSection">
+    <div class="bg-white p-2 mb-7 mt-2S flex items-center justify-center ">
+        <span class="text-xl bg-amber-700 text-white px-2 rounded-s-md hover:cursor-pointer hover:bg-amber-600 font-sans" id="videoDetailsSpan">Video Details</span>
+        <span class="text-xl bg-amber-700 text-gray-300 px-2 rounded-e-md opacity-50 hover:cursor-pointer hover:bg-amber-600 font-sans" id="videoSpan">Video Upload</span>
+    </div>
+
+    <section id="formSection" class=" grid items-start justify-center mt-2 pb-6 formSection px-3" >
+        <div class="bg-white rounded-md overflow-hidden" id="videoDetailsForm">
+            <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">FlixShows</a>
+            
+            
+            <form action="/admins/addVideo/" method="post" id="form" class="sm:w-fit m-auto font-sans" enctype="multipart/form-data">
+                {% csrf_token %}
+                    {{context.form}}
+                    <input type="text" name="upload_type" value = "video_details" hidden>
+                <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+                
+                    Upload
+                    
+                </button>
+            </form>
+        
+        </div>
+        <div class="bg-white rounded-md overflow-hidden hidden" id="videoForm">
+            <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">FlixShows</a>
+            
+            
+            <form action="/admins/addVideo/" method="post" id="form" class="w-fit m-auto font-sans" enctype="multipart/form-data">
+                {% csrf_token %}
+               
+
+
+               
+                    <input type="text" name="upload_type" value = "video" hidden>
+                    {{context.videoForm}}
+                
+                
+                <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+                
+                    Upload
+                    
+                </button>
+            </form>
+        
+        </div>
+    
+    </section>
+</div>
+{% else %}
+
+<section class="bg-black h-screen grid place-content-center">
+    <p class="text-red-600 text-4xl font-bold font-sans">Restricted Location!!</p>
+    <p class="text-white">{{context.is_approved}}</p>
+</section>
+{% endif %}
+<script>
+    const form = document.getElementById("form")
+    const inputs = document.querySelectorAll("input")
+    const videoForm = document.getElementById("videoForm")
+    const videoDetailsForm = document.getElementById("videoDetailsForm")
+    const videoSpan = document.getElementById("videoSpan")
+    const videoDetailsSpan = document.getElementById("videoDetailsSpan")
+    
+    try {
+        const id_file = document.getElementById("id_video")
+        id_file.setAttribute("multiple", "True")
+    } catch(error) {
+        console.log(error)
+    }
+    
+
+    for (const input of inputs) {
+        if(input.id == "id_username"){
+            input.placeholder = "Type your username"
+        } else if(input.id == "id_email"){
+            input.placeholder = "Type your email"
+        }else if(input.id == "id_password1"){
+            input.placeholder = "Type your password"
+        }else if(input.id == "id_password2"){
+            input.placeholder = "Confirm your password"
+        } else if(input.id == "id_password"){
+            input.placeholder = "Type your password"
+        } else {
+            console.log()
+        }
+    }
+
+    videoSpan.addEventListener("click", ()=> {
+        if (videoForm.classList.contains("hidden")){
+            videoForm.classList.remove("hidden")
+            videoDetailsForm.classList.add("hidden")
+            videoSpan.classList.remove("text-gray-300")
+            videoSpan.classList.remove("opacity-50")
+            videoSpan.classList.add("text-white")
+            videoDetailsSpan.classList.remove("text-white")
+            videoDetailsSpan.classList.add("text-gray-300")
+            videoDetailsSpan.classList.add("opacity-50")
+        }
+    })
+    videoDetailsSpan.addEventListener("click", ()=> {
+        if (videoDetailsForm.classList.contains("hidden")){
+            videoForm.classList.add("hidden")
+            videoDetailsForm.classList.remove("hidden")
+            videoSpan.classList.remove("text-white")
+            videoSpan.classList.add("text-gray-300")
+            videoSpan.classList.add("opacity-50")
+            videoDetailsSpan.classList.remove("text-gray-300")
+            videoDetailsSpan.classList.remove("opacity-50")
+            videoDetailsSpan.classList.add("text-white")
+            
+        }  
+        
+    })
+   
+
+    
+</script>
+{% endblock bodyContent %}

@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block style %}
+    #header, header, #slidingNav {
+        background: rgb(0, 84, 117);
+    }
+    #header {
+        max-height: 40vh;
+    }
+{% endblock style %}
+{% block bodyContent %}
+{% if context.is_approved %}
+
+
+<header class="p-3 flex items-start justify-between">
+    <a href="/" class="text-gray-300 font-sans font-bold text-3xl hover:text-white transition-all duration-150 ease-linear gap-8">FlixShows</a>
+    <nav class="hidden items-center justify-end gap-3 sm:flex" id="fixedNav">
+        <!--direct user to profile page-->
+        
+            <a href="/membership/dashboard/"class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">{{context.username}}</a>
+     
+        <span class="text-white font-extrabold text-2xl block">/</span>
+        <!--direct to add movie page-->
+        <a href="/admins/addVideo/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">Add video</a>
+        <span class="text-white font-extrabold text-2xl block">/</span>
+        <!--profile urls i.e settings, signout dashboard-->
+        <a href="/membership/dashboard/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">profile</p>
+    </nav>
+    <div id="listMenuButton" class="border-2 rounded-sm border-white hover:border-sky-300 sm:hidden transition-all duration-100 ease-in">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 block text-white hover:cursor-pointer hover:text-sky-300 transition-all duration-100 ease-in">
+            <path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+    </div>
+
+    <!--Sliding Navbar-->
+    <nav class="fixed w-0 top-0 -right-96 h-full flex flex-col items-center justify-start gap-3 z-10 p-4 transition-all duration-300 ease-in" id="slidingNav">
+        <div id="cancelMenuButton" class="w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-9 block hover:cursor-pointer text-white hover:text-sky-400 transition-all duration-100 ease-linear">
+                <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+        </div>
+
+        <!--direct user to profile page-->
+      
+            <a href="/membership/dashboard/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">{{context.username}}</button>
+        
+        
+        <!--direct to add movie page-->
+        <a href="/admins/addVideo/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">Add video</a>
+        <!--profile urls i.e settings, signout dashboard-->
+        <a href="/membership/dashboard/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">profile</a>
+    </nav>
+
+</header>
+
+<h1 class="my-4 text-center font-bold font-sans text-2xl">Recent Updates</h1>
+<main class="px-4 mb-5">
+    <!--payments and Download updates-->
+    <div class="sm:grid-cols-2 grid gap-5 gsm:gap-5 sm:items-start sm:justify-center">
+        <div id="header" class="p-3 rounded-md overflow-scroll">
+            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Payment updates</h2>
+            <table class="w-full">
+                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                    <th class="text-left">Name</th>
+                    <th>Amount</th>
+                    <th>Time</th>
+                </thead>
+                <tbody>
+                    {% for pay in context.payments %}
+                    <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
+                        <td class="p-1 text-left">{{pay.name}}</td>
+                        <td class="p-1">Ksh. <span>{{pay.amount}}</span></td>
+                        <td class="p-1">{{pay.time}}</td>
+                    </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+        </div>
+
+        <div id="header" class="p-3 rounded-md overflow-scroll">
+            <h2 class="text-white text-center font-sans font-bold py-2 text-xl whitespace-nowrap">Download Updates</h2>
+            <table class="w-full">
+                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                    <th class="whitespace-nowrap text-left">Buyer</th>
+                    <th class="whitespace-nowrap">Video Name</th>
+                    <th class="whitespace-nowrap">Cost</th>
+                    <th class="whitespace-nowrap">Time</th>
+                </thead>
+                <tbody >
+                    {% for down in context.downloads %}
+                    <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.name}}</td>
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.video_name}}</td>
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">Ksh. <span>{{down.cost}}</span></td>
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.time}}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--Messages Updates-->
+    <div id="header" class=" mt-6 p-3 xl:w-4/5 xl:mx-auto rounded-md overflow-y-scroll" >
+        <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Messages Updates</h2>
+        <table class="w-full">
+            <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                <th>Sender</th>
+                <th>Message</th>
+            </thead>
+            <tbody>
+                {% for message in context.messages %}
+                <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50 px-2">
+                    <td class="capitalize bg-slate-900 opacity-70 t">{{message.email}}</td>
+                    <td class="text-left">{{message.message}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+{% else %}
+
+<section class="bg-black h-screen grid place-content-center">
+    <p class="text-red-600 text-4xl font-bold font-sans">Restricted Location!!</p>
+</section>
+
+{% endif %}
+<script>
+    const cancelMenuButton = document.getElementById("cancelMenuButton")
+    const listMenuButton = document.getElementById("listMenuButton")
+    const fixedNav = document.getElementById("fixedNav")
+    const slidingNav = document.getElementById("slidingNav")
+
+    listMenuButton.addEventListener("click", ()=> {
+        slidingNav.style.right="0"
+        slidingNav.style.width="100%"
+    })
+    cancelMenuButton.addEventListener("click", function(){
+        slidingNav.style.width="0"
+        slidingNav.style.right="-30rem"
+        
+    })
+
+</script>
+
+{% endblock bodyContent %}

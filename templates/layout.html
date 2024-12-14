@@ -1,0 +1,25 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <title>
+		{% block title %}
+		HomePage
+		{% endblock title %}
+	</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% tailwind_css %}
+	</head>
+	<style>
+		{% block style %}
+		
+		{% endblock style %}
+	</style>
+	<body class="bg-gray-50 relative font-serif leading-normal tracking-normal" id="body">
+		{% block bodyContent %}
+		<p>james</p>
+		{% endblock bodyContent %}
+	</body>
+</html>

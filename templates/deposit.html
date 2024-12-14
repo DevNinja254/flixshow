@@ -1,0 +1,33 @@
+{% extends "registration.html" %}
+{% block title %}
+    Deposit
+{% endblock title %}
+{% block form %}
+{% if context.buyer %}
+<form action="/deposit/" method="post" class="">
+    {% csrf_token %}
+    <label for="amount">Amount</label>
+    <input type="number" name="amount" id="amount" placeholder="1000">
+    <label for="amount">Phone Number</label>
+    <input type="number" name="phoneNumber" id="phoneNumber" placeholder=0712345678>
+    <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+        
+        deposit
+        
+    </button>
+</form>
+{% else %}
+<p class="text-xl font-sans">You Account is not Authorised to perform Some functions in this platform. <a class="text-sky-700" href="/message">Please Contact for any query</a>. </p>
+{% endif %}
+</section>
+{% endblock form %}
+
+
+{% block formExtra %}
+{% endblock formExtra %}
+{% block formExtraLink %}
+
+{% endblock formExtraLink %}
+{% block formExtraLinkName %}
+
+{% endblock formExtraLinkName %}

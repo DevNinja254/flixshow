@@ -1,0 +1,9 @@
+*.pyc
+*/*.pyc
+*/*/*.pyc
+media
+.venv
+db.sqlite3
+assets
+.ssh
+.ssh.pub

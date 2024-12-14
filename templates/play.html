@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+{% block title %}
+Watch
+{% endblock title %}
+{% block style %}
+s {
+        background-image: linear-gradient(to right, rgb(4, 139, 163), rgb(64, 40, 172), rgb(174, 0, 255));
+        min-height:100vh;
+    }
+    #advert {
+        background-color: rgb(4, 38, 46);
+    }
+{% endblock style %}
+{% block bodyContent %}
+<div id="sec2" class="pb-6">
+    <div id="advert" class="py-3 text-lg font-sans font-bold capitalize text-white text-center tracking-widest">
+        <p>Spring Into savings Up to 35% off Latest Movies</p>
+    </div>
+    <div class="flex items-center justify-between gap-8 py-4 px-3">
+        <div class="flex items-center justify-start gap-4">
+            <a href="/" class="font-extrabold font-sans text-2xl tracking-wider">FlixShows</a>
+            <a href="/multi-media/movies" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Movies</a>
+            <a href="/multi-media/tvShows" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Tv Shows</a>
+            <a href="/multi-media/music" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Music</a>
+            <a href="/multi-media/movies" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Trending</a>
+            
+        </div>
+        <div class="flex items-center justify-end gap-4">
+            <!--search video-->
+            <form action="" class="justify-end p-2 items-center shadow-md shadow-gray-500 rounded-2xl hidden lg:flex">
+                
+                  <input type="text" name="searchName" class="focus:outline-none px-1" id="search" placeholder="search Movies, Tv shows and Musics">
+                  <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-black text-opacity-80">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                      </svg>
+                  </button>
+            </form>
+
+            <!--message-->
+            <a href="/message/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:fill-slate-500 hover:text-slate-200">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            </svg>
+                  
+                </a>
+
+                <a href="/membership/dashboard/">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:fill-white hover:text-black">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>
+                      
+                </a>
+
+                <!--cart icon-->
+                
+        </div>
+    </div>
+
+
+    <!--SLiding Link-->
+</header>
+    <!--update paid page on user accept-->
+    <p id="paidTv" class="hidden">{{context.titles}}</p>
+    <form action="/activate/" method="post">
+        {% csrf_token %}
+        <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
+        <button id="activatePay"></button>
+    </form>
+    <form action="/mp4/">
+        <input type="text" name="videoTitle" value="{{context.playVideo.video}}" hidden>
+        <button id="deactivatePay"></button>
+    </form>
+    <div class="w-full md:w-4/5 m-auto pt-6 bg-gray-700" >
+        <video controls muted class="w-full" title="{{context.playVideo.name}}" id="videoPlay"> 
+            <source src="{{context.playVideo.video.url}}" type="video/mp4">
+        </video>
+    </div>
+
+    <div>
+        <h2 class="font-bold font-sans text-2xl my-10 text-center tracking-wider">Similar to {{context.playVideo.name}}: </h2>
+        <div class="flex flex-wrap items-start justify-center gap-5">       
+            {% for viddas in context.otherVideo %}
+                <form action="/play/" class="max-w-56 overflow-hidden rounded-md min-w-52 shadow-md shadow-gray-400 bg-gray-500 hover:shadow-sky-400">
+                    <input type="text" name="videoNae" value="{{viddas.video}}" hidden>
+                    <input type="text" name="name" value="{{viddas.name}}" hidden>
+                    <input type="text" name="quality" value={{context.quality}} hidden>
+                    <button class="grid hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out max-w-56" id="{{vids.video}}">
+                    
+                        <video  muted class="inline-block object-cover max-w-56 vido" id="{{vids.video}}">
+                            <source src="{{viddas.video.url}}" type="video/mp4">
+                            <source src="{{viddas.video.url}}" type="video/ogg">
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class = "text-white w-full overflow-hidden">
+                            <p class="videoLabel whitespace-nowrap" id="{{viddas.video}}"></p>
+                        </span>
+                    </button>
+                </form>
+            {% endfor %}
+    </div>
+    </div>
+</div>
+
+<script>
+    const videoPlay = document.getElementById("videoPlay")
+    const activatePay = document.getElementById("activatePay")
+    const deactivatePay = document.getElementById("deactivatePay")
+    const paidTv = document.getElementById("paidTv")
+    const vido = document.getElementsByClassName('vido')
+    let paid = false
+    const duratin = Number(videoPlay.duration) - 7
+    paider = (paidTv.innerText).split("'")
+    tite = videoPlay.title
+    console.log(tite)
+    for (const pai of paider){
+        console.log(pai)
+        if (tite == pai){
+            paid = true
+            break
+        }
+    }
+    console.log(paid)
+    if (!paid) {
+        let internalId = setInterval(()=>{        
+            if(videoPlay.currentTime > 10) {
+                
+                videoPlay.pause()
+                videoPlay.removeAttribute("controls")
+                if(window.confirm("Purchase the video?")){
+                    activatePay.click()
+                    paid = false
+                    
+                }else {
+                    paid  =false
+                    console.log(deactivatePay)
+                    deactivatePay.click()
+                    //  location.assign("/")
+                    clearInterval()
+                }
+            }
+            
+        },500)
+    } else {
+        setInterval(()=>{        
+            if(Number(videoPlay.currentTime) >= duratin) {
+                console.log("hello")
+                videoPlay.load()
+                videoPlay.removeAttribute("controls")
+                deactivatePay.click()
+            } 
+            
+        },50)
+    }
+    for (const vid of vido) {
+    vid.currentTime = 3
+       vid.play()
+    }
+    for (const vid of vido) {
+        setInterval(()=>{
+            if(vid.currentTime >= 10) {
+                vid.currentTime = 0
+                vid.play()
+            }
+        }, 50)
+        
+     }
+    
+</script>
+
+{% endblock bodyContent %}

@@ -1,0 +1,43 @@
+{% extends "registration.html" %}
+
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block form %}
+        
+<form action="/membership/login/" method="post" id="form" class="w-fit m-auto font-sans">
+     {% csrf_token %}
+     
+     {{form}}
+     
+     
+     <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+        
+         login
+         
+     </button>
+ </form>
+ {% endblock form %}
+ {% block forgotPassword %}
+ <div class="w-4/5 m-auto whitespace-nowrap">
+             
+     <p class="py-2 text-gray-600">forgot password?
+         <a href="{% url 'password_reset' %}" class="text-sky-600 font-sans text-sm hover:text-sky-400">
+             Reset
+         </a></p>
+ 
+ </div>
+ {% endblock forgotPassword %}
+{% block formExtra %}
+You don't have account? 
+{% endblock formExtra %}
+
+{% block formExtraLink %}
+/membership/register/
+{% endblock formExtraLink %}
+
+{% block formExtraLinkName %}
+Create
+{% endblock formExtraLinkName %}

@@ -1,0 +1,24 @@
+
+{% extends "registration.html"%}
+
+{% block title %}
+Message
+{% endblock title %}
+{% block form %}
+<form action="/message/" method="post" id="form" class="w-fit m-auto font-sans">
+    {% csrf_token %}
+    
+    {{form}}
+    
+    
+    <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+       
+        Submit
+        
+    </button>
+</form>
+{% endblock form %}
+
+{% block removeExtra %}
+
+{% endblock removeExtra %}
