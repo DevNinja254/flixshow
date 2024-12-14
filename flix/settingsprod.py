@@ -88,7 +88,7 @@ DATABASES = {
            "USER": "aga",
            "PASSWORD":os.environ.get('DB_PASSWORD', ''),
            "HOST":"localhost",
-           "PORT":" "
+           "PORT":""
        }
    }
 
