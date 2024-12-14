@@ -28,7 +28,6 @@ more-itertools==10.5.0
 packaging==24.2
 pillow==11.0.0
 pluggy==0.6.0
-psycopg2-binary==2.9.9
 py==1.11.0
 pycparser==2.22
 pycryptodome==3.21.0
@@ -50,4 +49,4 @@ types-python-dateutil==2.9.0.20241003
 typing_extensions==4.12.2
 urllib3==2.2.3
 uvicorn==0.32.1
-python-dotenv==1.0.1
+
