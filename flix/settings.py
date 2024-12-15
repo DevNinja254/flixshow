@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23"]
+ALLOWED_HOSTS = ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23", "flixshow.mooo.com"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
 # CORS_ALLOW_CREDENTIALS = True
