@@ -81,14 +81,24 @@ AUTH_USER_MODEL = "Members.Members"
 
 DATABASES = {
        'default': {
-           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'ENGINE': 'django.db.backends.postgresql',
            'NAME': "flixshow",
-           "USER": "aga",
+           "USER": "postgres",
            "PASSWORD":"Augustine@566",
            "HOST":"localhost",
-           "PORT":""
+           "PORT":"5432"
        }
    }
+#   DATABASES = {
+ #      'default': {
+ #          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+  #         'NAME': "flixshow",
+   #        "USER": "aga",
+    #       "PASSWORD":"Augustine@566",
+     #      "HOST":"localhost",
+      #     "PORT":""
+      # }
+   #}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -125,13 +135,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'statics'),
-# ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+     os.path.join(BASE_DIR, 'static'),
+ ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
-
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
