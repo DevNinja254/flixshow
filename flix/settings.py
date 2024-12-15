@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23", "flixshow.mooo.com"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
-    'theme',
+   # 'theme',
     'multimedia',
     'Members',
-    'django_browser_reload'
+    'django_browser_reload',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'flix.wsgi.application'
-TAILWIND_APP_NAME = "theme"
+#TAILWIND_APP_NAME = "theme"
 AUTH_USER_MODEL = "Members.Members"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -83,7 +84,7 @@ DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': "flixshow",
-           "USER": "aga",
+           "USER": "postgres",
            "PASSWORD":"Augustine@566",
            "HOST":"localhost",
            "PORT":""
@@ -144,6 +145,12 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+COMPRESS_ROOT = BASE_DIR / 'static'
+
+COMPRESS_ENABLED = True
+
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
