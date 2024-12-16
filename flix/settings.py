@@ -93,7 +93,7 @@ DATABASES = {
 #   DATABASES = {
  #      'default': {
  #          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-  #         'NAME': "flixshow",
+  #         'NAME': "postgres",
    #        "USER": "aga",
     #       "PASSWORD":"Augustine@566",
      #      "HOST":"localhost",

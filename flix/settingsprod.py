@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23", "flixshow.xyz", "www.flixshow.xyz"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
 # CORS_ALLOW_CREDENTIALS = True
@@ -84,7 +86,7 @@ DATABASES = {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': "flixshow",
            "USER": "aga",
-           "PASSWORD":"Augustine@566",
+           "PASSWORD":os.environ.get('DB_PASSWORD', ''),
            "HOST":"localhost",
            "PORT":""
        }
