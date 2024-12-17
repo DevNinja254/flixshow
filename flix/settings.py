@@ -80,11 +80,23 @@ AUTH_USER_MODEL = "Members.Members"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+if DEBUG:
+    DATABASES = {
+           'default': {
+               'ENGINE': 'django.db.backends.postgresql_psycopg2',
+               'NAME': "flixshow",
+               "USER": "postgres",
+               "PASSWORD":"Augustine@566",
+               "HOST":"localhost",
+               "PORT":""
+           }
+    }
+else:
+    DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': "flixshow",
-           "USER": "postgres",
+           "USER": "aga",
            "PASSWORD":"Augustine@566",
            "HOST":"localhost",
            "PORT":""
@@ -135,7 +147,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/statics/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
      os.path.join(BASE_DIR, 'statics/'),
  ]
