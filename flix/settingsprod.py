@@ -22,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = "sdafsdfsdfsdfsdfgsdvcvfsdfsd"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "144.126.222.23", "flixshow.xyz", "www.flixshow.xyz"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "159.223.195.29", "flixshow.xyz", "www.flixshow.xyz"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
 # CORS_ALLOW_CREDENTIALS = True
@@ -86,7 +86,7 @@ DATABASES = {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
            'NAME': "flixshow",
            "USER": "aga",
-           "PASSWORD":os.environ.get('DB_PASSWORD', ''),
+           "PASSWORD":"Augustine@566,
            "HOST":"localhost",
            "PORT":""
        }
