@@ -84,8 +84,6 @@ class VideosFormGenerator(models.Model):
 
 class HomepageVideo(models.Model):
     videoName = models.ForeignKey(VideoUpload, to_field="title", verbose_name="Select Video Name", default="movie", on_delete=models.CASCADE)
-    def __str__(self):
-        return self.videoName
 
     class Meta:
         db_table = "homepagevideos"
