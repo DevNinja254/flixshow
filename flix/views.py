@@ -411,3 +411,10 @@ def search(request):
         "videoDetail": videoDetail,
     }     
     return render(request, "search.html", {"context": context})
+def cancelPurchase(request):
+    videoName = request.POST["videoName"]
+    videoExist = Onwatch.objects.filter(video_name = videoName)
+    if videoExist.exists:
+        for vids in videoExist:
+            vids.delete()
+    return redirect("/")

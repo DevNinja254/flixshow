@@ -102,7 +102,7 @@ Flixshow
 
    
     <div class="px-6 grid grid-cols-2 grid-flow-row bg-gray-950 bg-opacity-10 fixed backdrop-blur-sm w-full top-0 pb-5 items-center">
-        <h1 class="text-red-600 bold pb-2 text-3xl font-bold  ">FlixShows</h1>
+        <h1 class="text-red-600 bold pb-2 text-3xl font-bold  ">KINGSTONEMOVIES</h1>
         <nav>
             <ul class="hidden font-mono text-white justify-evenly lg:justify-end lg:gap-4 text-opacity-80 font-bold" id="listMenus">
                 <li><a href="" class="hover:text-red-500 transition-all duration-100 ease-out">Home</a></li>
@@ -241,15 +241,15 @@ Flixshow
         
         <h2 class="text-bold font-sans text-lg pb-4">Popular</h2>
        
-        <div class="t-6 flex justify-start items-center gap-2  sm:grid sm:grid-cols-5 md:grid lg:grid xl:grid 2xl:grid sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10" id="CartegoryOverflow">
+        <div class="t-6 flex justify-start items-center gap-2  sm:grid sm:grid-cols-5 md:grid lg:grid xl:grid 2xl:grid sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 flex-wrap" id="CartegoryOverflow">
              <!--Loop though video and disply where display where display on popular is true-->
             
              {% for videoDetail in context.allVideoDetails %}
              {% if videoDetail.popular ==  "True"%}
-                 <form action="/mp4/" class="overflow-hidden">
-                     <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
+                 <form action="/mp4/" class="block w-28 ">
+                     <input type="text"  name="videoTitle" value="{{videoDetail.title}}" hidden>
                      <button class="block w-full">
-                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="inline-block object-cover w-full" id="categoryFormImg">
+                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="inline-block object-cover w-28 flex-wrap" width="120" id="categoryFormImg">
                          <div>
                              <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                              <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>
@@ -269,14 +269,14 @@ Flixshow
         <div>
 
             <!--Get movie id and link to movie page-->
-            <div class="t-6 flex justify-start items-center gap-2  sm:grid sm:grid-cols-5 md:grid lg:grid xl:grid 2xl:grid sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 overflow-scroll">
+            <div class="flex items-center justify-start gap-3 overflow-scroll" id="CartegoryOverflow">
                 <!--Loop movie data and diplay on the tags below-->
                 {% for videoDetail in context.allVideoDetails %}
                     {% if videoDetail.display ==  "True" and videoDetail.cartegory_id == cartegory.cartName%}
-                        <form action="/mp4/" class="min-w-52">
+                        <form action="/mp4/" class="max-w-52 overflow-hidden">
                             <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
                             <button class="block min-w-50">
-                                <img src="{{videoDetail.image.url}}" alt="Movie img" class="inline-block object-cover  w-full" id="categoryFormImg">
+                                <img src="{{videoDetail.image.url}}" width="120" alt="Movie img" class="inline-block object-cover w-28" id="categoryFormImg">
                                 <div>
                                     <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                                     <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>

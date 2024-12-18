@@ -64,7 +64,7 @@ s {
     <p id="paidTv" class="hidden">{{context.titles}}</p>
     <form action="/activate/" method="post">
         {% csrf_token %}
-        <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
+        
         <button id="activatePay"></button>
     </form>
     <form action="/mp4/">
@@ -90,6 +90,7 @@ s {
                         <video  muted class="inline-block object-cover max-w-56 vido" id="{{vids.video}}">
                             <source src="{{viddas.video.url}}" type="video/mp4">
                             <source src="{{viddas.video.url}}" type="video/ogg">
+                            <source src="{{viddas.video.url}}" type="video/mkv">
                             Your browser does not support the video tag.
                         </video>
                         <span class = "text-white w-full overflow-hidden">
@@ -101,6 +102,27 @@ s {
     </div>
     </div>
 </div>
+<section class="fixed top-0 hidden left-0 w-full z-50 h-screen bg-gray-400  bg-opacity-50 items-start justify-center transition-all duration-100 ease-linear" id="purchaseSection">
+    
+    <div class="bg-gray-900 text-white mt-3 p-3 rounded-md w-fit">
+        <p class="py-2 px-1">Purchase {{context.playVideo.name}}.</p>
+        <div class="flex items-center justify-center gap-10">
+            <form action="/activate/" method="post">
+                {% csrf_token %}
+               <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
+                <button class="capitalize bg-green-700 px-2 font-bold rounded-md hover:bg-red-500" id="purchase">Purchase</button>
+            </form>
+             <form action="/deactivatePay/" method="post">
+                {% csrf_token %}
+               <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
+                <button class="capitalize bg-red-700 px-2 font-bold rounded-md hover:cursor-pointer hover:bg-green-500" id="cancelPurchase">Cancel</button>
+            </form>
+            
+        </div>
+        
+    </div>
+   
+</section>
 
 <script>
     const videoPlay = document.getElementById("videoPlay")
@@ -108,6 +130,7 @@ s {
     const deactivatePay = document.getElementById("deactivatePay")
     const paidTv = document.getElementById("paidTv")
     const vido = document.getElementsByClassName('vido')
+    const purchaseSection = document.getElementById("purchaseSection")
     let paid = false
     const duratin = Number(videoPlay.duration) - 7
     paider = (paidTv.innerText).split("'")
@@ -122,36 +145,16 @@ s {
     }
     console.log(paid)
     if (!paid) {
-        let internalId = setInterval(()=>{        
+        let internalId = setInterval(()=>{ 
             if(videoPlay.currentTime > 10) {
                 
-                videoPlay.pause()
-                videoPlay.removeAttribute("controls")
-                if(window.confirm("Purchase the video?")){
-                    activatePay.click()
-                    paid = false
-                    
-                }else {
-                    paid  =false
-                    console.log(deactivatePay)
-                    deactivatePay.click()
-                    //  location.assign("/")
-                    clearInterval()
-                }
-            }
-            
-        },500)
-    } else {
-        setInterval(()=>{        
-            if(Number(videoPlay.currentTime) >= duratin) {
-                console.log("hello")
                 videoPlay.load()
                 videoPlay.removeAttribute("controls")
-                deactivatePay.click()
-            } 
-            
-        },50)
-    }
+               purchaseSection.style.display = "flex"
+                    clearInterval(internalId)
+            }
+        },500)
+    }  
     for (const vid of vido) {
     vid.currentTime = 3
        vid.play()
