@@ -18,7 +18,7 @@ s {
     </div>
     <div class="flex items-center justify-between gap-8 py-4 px-3">
         <div class="flex items-center justify-start gap-4">
-            <a href="/" class="font-extrabold font-sans text-2xl tracking-wider">FlixShows</a>
+            <a href="/" class="font-extrabold font-sans text-2xl tracking-wider">KingstoneMovies</a>
             <a href="/multi-media/movies" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Movies</a>
             <a href="/multi-media/tvShows" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Tv Shows</a>
             <a href="/multi-media/music" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Music</a>
@@ -110,12 +110,12 @@ s {
             <form action="/activate/" method="post">
                 {% csrf_token %}
                <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
-                <button class="capitalize bg-green-700 px-2 font-bold rounded-md hover:bg-red-500" id="purchase">Purchase</button>
+                <button class="capitalize bg-green-700 px-2 font-bold rounded-md hover:bg-green-500" id="purchase">Purchase</button>
             </form>
              <form action="/deactivatePay/" method="post">
                 {% csrf_token %}
                <input type="text" name="videoName" value="{{context.playVideo.name}}" hidden>
-                <button class="capitalize bg-red-700 px-2 font-bold rounded-md hover:cursor-pointer hover:bg-green-500" id="cancelPurchase">Cancel</button>
+                <button class="capitalize bg-red-700 px-2 font-bold rounded-md hover:cursor-pointer hover:bg-red-500" id="cancelPurchase">Cancel</button>
             </form>
             
         </div>

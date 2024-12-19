@@ -44,6 +44,6 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 
-admin.site.site_header = "Flixshow Admin"  # Default: "Django Administration"
+admin.site.site_header = "KingstoneMovies Admin"  # Default: "Django Administration"
 admin.site.index_title = "Dashboard"  # Default: "Site administration"
-admin.site.site_title = "FlixShow"  # Default: "Django site admin"
+admin.site.site_title = "KingstoneMovies"  # Default: "Django site admin"

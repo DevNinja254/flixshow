@@ -376,21 +376,22 @@ def removeCart(request):
     return redirect("/cart/")
 def activate(request):
     if request.method == "POST":
-        Onwatch.objects.create(
-            video_name = request.POST["videoName"],
-            watcher = userDetails(request)["userBuyrDetailsDi"]["username"]
-        )
         userAccount = Buyers.objects.get(username = userDetails(request)["userBuyrDetailsDi"]["username"])
         videoDet = VideoUpload.objects.get(title = request.POST["videoName"])
         print(videoDet.price,userAccount.account)
         if userAccount.account < videoDet.price:
             return redirect("/deposit/")
-        userAccount.account = int(userAccount.account) - int(videoDet.price)
-        userAccount.save()
+        else:
+            userAccount.account = int(userAccount.account) - int(videoDet.price)
+            userAccount.save()
+            Onwatch.objects.create(
+                video_name = request.POST["videoName"],
+                watcher = userDetails(request)["userBuyrDetailsDi"]["username"]
+            )
         videox = Videos.objects.filter(name = request.POST["videoName"])
         for vid in videox:
             vid.ended = False
-            vid.save
+            vid.save()
     return redirect("/membership/dashboard")
 
 def deactivate(request):

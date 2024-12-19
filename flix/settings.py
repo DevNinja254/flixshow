@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.flixshow.xyz", "flixshow.xyz"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.xyz", "kingstonemovies.xyz"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app"]
 # CORS_ALLOW_CREDENTIALS = True
@@ -84,9 +84,9 @@ if DEBUG:
     DATABASES = {
            'default': {
                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-               'NAME': "flixshow",
-               "USER": "postgres",
-               "PASSWORD":"Augustine@566",
+               'NAME': "kingstonemovies",
+               "USER": "kevin",
+               "PASSWORD":"12701522Rk",
                "HOST":"localhost",
                "PORT":""
            }
@@ -95,9 +95,9 @@ else:
     DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-           'NAME': "flixshow",
-           "USER": "aga",
-           "PASSWORD":"Augustine@566",
+           'NAME': "kingstonemovies",
+           "USER": "kevin",
+           "PASSWORD":"12701522Rk",
            "HOST":"localhost",
            "PORT":""
        }
@@ -151,7 +151,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
      os.path.join(BASE_DIR, 'statics/'),
  ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
 INTERNAL_IPS = [
