@@ -17,7 +17,7 @@
     <nav class="hidden items-center justify-end gap-3 sm:flex" id="fixedNav">
         <!--direct user to profile page-->
         
-            <a href="/membership/dashboard/"class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">{{context.username}}</a>
+        <a href="/membership/dashboard/"class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">{{context.username}}</a>
      
         <span class="text-white font-extrabold text-2xl block">/</span>
         <!--direct to add movie page-->
@@ -101,24 +101,47 @@
             </table>
         </div>
     </div>
-
-    <!--Messages Updates-->
-    <div id="header" class=" mt-6 p-3 xl:w-4/5 xl:mx-auto rounded-md overflow-y-scroll" >
-        <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Messages Updates</h2>
-        <table class="w-full">
-            <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
-                <th>Sender</th>
-                <th>Message</th>
-            </thead>
-            <tbody>
-                {% for message in context.messages %}
-                <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50 px-2">
-                    <td class="capitalize bg-slate-900 opacity-70 t">{{message.email}}</td>
-                    <td class="text-left">{{message.message}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <!--Watching and messages updates-->
+    <div class="sm:grid-cols-2 grid gap-5 gsm:gap-5 sm:items-start sm:justify-center mt-6">
+        <!--watching Updates-->
+        <div id="header" class="p-3 rounded-md overflow-scroll">
+            <h2 class="text-white text-center font-sans font-bold py-2 text-xl whitespace-nowrap">Watching Updates</h2>
+            <table class="w-full">
+                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                    <th class="whitespace-nowrap text-left">Watcher</th>
+                    <th class="whitespace-nowrap">Video Name</th>
+                    <th class="whitespace-nowrap">Start Time</th>
+                </thead>
+                <tbody >
+                    {% for down in context.watch %}
+                    <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.watcher}}</td>
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.video_name}}</td>
+                        <td class="p-1 pr-2 whitespace-nowrap text-left">{{down.start_date}}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+        <!--Messages Updates-->
+        <div id="header" class="p-3 xl:w-4/5 xl:mx-auto rounded-md overflow-y-scroll" >
+            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Messages Updates</h2>
+            <table class="w-full">
+                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                    <th>Sender</th>
+                    <th>Message</th>
+                </thead>
+                <tbody>
+                    {% for message in context.messages %}
+                    <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50 px-2">
+                        <td class="capitalize bg-slate-900 opacity-70 t">{{message.email}}</td>
+                        <td class="text-left">{{message.message}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
 

@@ -72,7 +72,7 @@ class videos(models.Model):
         db_table = "videos"
 
 class VideosFormGenerator(models.Model):
-    name=models.ForeignKey(VideoUpload, to_field="title", verbose_name="Select Video Name", default="movie", on_delete=models.CASCADE)
+    name=models.CharField(max_length=200, verbose_name="Enter Video Name", default="movie")
     video = models.FileField()
     quality = models.CharField(max_length=100)
     def __str__(self):

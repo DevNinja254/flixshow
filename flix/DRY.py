@@ -12,7 +12,9 @@ def userDetails(request):
         userDetailQuery = Members.objects.filter(email = user).values()
         userMembrID = 0
         userMembDetailsDic = ''
-
+        seller = False
+        if userDetailQuery.exists:
+            seller = True
         # Assign Id from userDetails to userID
         for userdet in userDetailQuery:
             # user memeberId
@@ -20,7 +22,7 @@ def userDetails(request):
             userMembrID = userdet["id"]
 
         
-
+        buyer =False
         # Get username from buyer table, filtering by user iD frm members table
         userDetailQuery = Buyers.objects.filter(members_ptr_id = userMembrID).values()
         userBuyrDetailsDic = ''
@@ -30,16 +32,21 @@ def userDetails(request):
             for usernam in userDetailQuery:
                 userBuyrDetailsDic = usernam
                 username = usernam["username"]
+                buyer = True
         userDetail = {
             "userMembDetailsDic": userMembDetailsDic,
             "userBuyrDetailsDi": userBuyrDetailsDic,
             "email": user,
             "username": str(username),
-            "logged": True
+            "logged": True,
+            "buyer":buyer,
+            "seller":seller
         }
     else:
         userDetail = {
             "logged": False,
+            "buyer":False,
+            "seller":False
             
         }
            

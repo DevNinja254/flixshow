@@ -89,6 +89,12 @@ KingstoneMovies
 
     <!--If autheticated display profile content-->
     {% if user.is_authenticated %}
+    {% if context.is_approved.is_approved %}
+    <a href="/admins/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Admins</a>
+    {% endif %}
+    {% if context.is_approved.is_superuser %}
+    <a href="/admin/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Admin</a>
+    {% endif %}
     <a href="/membership/dashboard/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Dashboard</a>
     <a href="/cart/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Cart</a>
     <a href="/membership/setting/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Setting</a>
@@ -122,12 +128,17 @@ KingstoneMovies
 
                 <!--if Autheticated display profile clickable link-->
                 {% if user.is_authenticated %}
-                <div class="bg-sky-600" id="profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    {% if context.is_approved.is_approved %}
+                        <a href="/admins/" class="hover:text-red-500 transition-all duration-100 ease-out">Admins</a>
+                    {% endif %}
+                    {% if context.is_approved.is_superuser %}
+                        <a href="/admin/" class="hover:text-red-500 transition-all duration-100 ease-out">Admin</a>
+                    {% endif %}
+                    <div class="bg-sky-600" id="profile">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
                       </svg>
-                      
-                </div>
+                    </div>
 
                 <!--profile setting links display-->
 
@@ -143,7 +154,7 @@ KingstoneMovies
                             {% if not context.username == "False" %}
                             <p class="border-b-2 border-gray-300 border-opacity-50">Hi, {{context.username}}</p>
                             {% else %}
-                            <p class="border-b-2 border-gray-300 border-opacity-50">Hi, FlixShower</p>
+                            <p class="border-b-2 border-gray-300 border-opacity-50">Hi, Stoners</p>
                             {% endif %}
                             <p>{{context.email}}</p>
                         </div>
@@ -182,7 +193,7 @@ KingstoneMovies
                     <!--link to watch trailler play page-->
                    <form action="/mp4/">
                         <input type="text" name="videoTitle" value="{{context.videoObject.title}}" hidden>
-                        <button class="inline-block bg-black bg-opacity-60 text-sm font-extrabold font-sans text-red-600 bold p-2 rounded-md hover:text-red-500 hover:cursor-pointer" >WATCH TRAILLER</button>
+                        <button class="inline-block bg-black bg-opacity-60 text-sm font-extrabold font-sans text-red-600 bold p-2 rounded-md hover:text-red-500 hover:cursor-pointer" >WATCH</button>
                     </form>
                     <p class="bg-black bg-opacity-60 text-sm font-extrabold font-sans text-red-600 bold p-2 rounded-md hover:text-red-500 hover:cursor-pointer hidden" id="playTrailer">WATCH</p>
                 
@@ -206,20 +217,20 @@ KingstoneMovies
                     <input type="text" name="videoTitle" value="{{context.videoObject.title}}" hidden>
                     <button class="text-xl font-bold font-sans capitalize " id="Trailler-title">{{context.videoObject.title}} </button>
                    </form>
-                    <p class="font-sans font-bold font-sm text-white text-opacity-80 text-justify pt-3" id="Trailler-description">{{context.videoObject.synopsis}} </p>
+                    <p class="font-sans font-bold font-sm text-white text-opacity-80 text-justify pt-3 capitalize" id="Trailler-description">{{context.videoObject.synopsis}} </p>
                 </div>
 
                 <div class="flex justify-start items-center mt-3 w-full flex-wrap">
                     <!--Link to category page-->
                     <form action="/multi-media/cart/" class="border-r-2 pr-4 border-white">
                         <input type="text" name ="cartName" value="{{context.videoObject.cartegory}}" hidden>
-                        <button class="text-red-600 font-bold">{{context.videoObject.cartegory}}</button>
+                        <button class="text-red-600 font-bold capitalize">{{context.videoObject.cartegory}}</button>
                     </form>
 
                     <!--Link to type page-->
                     <form action="/multi-media/tvShows/" class="border-r-2 pl-4 pr-4 border-white">
                         <input type="text" value="{{context.videoObject.typs}}" name="type" hidden>
-                        <button class="text-red-600 font-bold">{{context.videoObject.typs}}</button>
+                        <button class="text-red-600 font-bold capitalize">{{context.videoObject.typs}}</button>
                     </form>
 
                     <!--link to movie page-->
@@ -265,18 +276,18 @@ KingstoneMovies
     <!--load categories and videoDetails from database, Loop through  in each cartegories, loop thorugh videoDetails and diplay video whose display is true and catergories is equal-->
     <div class="pt-4">
         {% for cartegory in context.cartegories %}
-        <h2 class="text-bold font-sans text-lg cartName" >{{cartegory.cartName}}</h2>
+        <h2 class="text-bold font-sans text-lg cartName capitalize" >{{cartegory.cartName}}</h2>
         <div>
 
             <!--Get movie id and link to movie page-->
-            <div class="flex items-center justify-start gap-3 overflow-scroll" id="CartegoryOverflow">
+            <div class="flex items-center justify-start gap-3 overflow-scroll flex-wrap" id="CartegoryOverflow">
                 <!--Loop movie data and diplay on the tags below-->
                 {% for videoDetail in context.allVideoDetails %}
                     {% if videoDetail.display ==  "True" and videoDetail.cartegory_id == cartegory.cartName%}
                         <form action="/mp4/" class="max-w-52 overflow-hidden">
                             <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
                             <button class="block min-w-50">
-                                <img src="{{videoDetail.image.url}}" width="120" alt="Movie img" class="inline-block object-cover w-28" id="categoryFormImg">
+                                <img src="{{videoDetail.image.url}}" width="120" alt="Movie img" class="block object-cover min-w-28" id="categoryFormImg">
                                 <div>
                                     <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                                     <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .form import CustomUserCreationForm, CustomUserChangeForm
-from .models import Members,Buyers, Onwatch, Payment, DepositHistory
+from .models import Members,Buyers, Onwatch, Payment, DepositHistory, DownloadHistory,Cart, Message
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -32,3 +32,6 @@ admin.site.register(Buyers)
 admin.site.register(Onwatch)
 admin.site.register(Payment)
 admin.site.register(DepositHistory)
+admin.site.register(DownloadHistory)
+admin.site.register(Cart)
+admin.site.register(Message)

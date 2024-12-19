@@ -23,7 +23,7 @@ Dashboard
 
 <header class="p-3 flex items-start justify-between gap-5">
     <div>
-        <a href="/" class="text-gray-300 font-sans font-bold text-3xl hover:text-white transition-all duration-150 ease-linear gap-8">FlixShow</a>
+        <a href="/" class="text-gray-300 font-sans font-bold text-3xl hover:text-white transition-all duration-150 ease-linear gap-8">KingstoneMovies</a>
     </div>
     <nav class="items-center justify-end gap-3 flex">
         <a href="/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">Home</a>
@@ -110,6 +110,28 @@ Dashboard
                         <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
                             <td class="p-1 text-left">Ksh. <span>{{depo.amount}}</span></td>
                             <td class="p-1">{{depo.time}}</td>
+                        </tr>
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--watching-->
+    <div class="sm:grid-cols-2 grid gap-5 gsm:gap-5 sm:items-start sm:justify-center">
+        <div id="header" class="p-3 mt-6 rounded-md overflow-scroll">
+            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Watching</h2>
+            <table class="w-full">
+                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
+                    
+                    <th class="text-left">Video_Title</th>
+                    <th>Start Time</th>
+                </thead>
+                <tbody>
+                    {% for depo in context.watch %}
+                        <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
+                            <td class="p-1 text-left">{{depo.video_name}}</span></td>
+                            <td class="p-1">{{depo.start_date}}</td>
                         </tr>
                     {% endfor %}
                 

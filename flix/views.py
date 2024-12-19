@@ -43,8 +43,11 @@ def home(request):
         allVideoDetail.cartegory_id = str(allVideoDetail.cartegory_id)
         allVideoDetail.display = str(allVideoDetail.display)
         allVideoDetail.popular = str(allVideoDetail.popular)        
-        allVideoDetails.append(allVideoDetail) 
-
+        allVideoDetails.append(allVideoDetail)  
+    if userDetail["buyer"]:
+        is_approved = userDetail["userMembDetailsDic"]
+    elif userDetail["seller"]:
+        is_approved = userDetail["userMembDetailsDic"]
     if userDetail["logged"] == True:
         context = {
             "username": userDetail["username"],
@@ -52,6 +55,7 @@ def home(request):
             "videoObject":videoObject,
             "cartegories":cartegories,
             "allVideoDetails": allVideoDetails,
+            "is_approved":is_approved,
         }
     else:
          context = {
@@ -61,7 +65,7 @@ def home(request):
             "cartegories":cartegories,
             "allVideoDetails": allVideoDetails,
         }
-
+    
     return render(request, "homePage.html", {"context":context})
 @login_required(login_url="/membership/login/")
 def moviesAndSeries(request):
@@ -124,12 +128,14 @@ def admins(request):
     messages = Message.objects.all()
     payments = DepositHistory.objects.all()
     download = DownloadHistory.objects.all()
+    watch = Onwatch.objects.all()
     context = {
         "username":userDetail["username"],
         "is_approved": userDetail["userMembDetailsDic"]["is_approved"],
         "messages": messages,
         "payments":payments,
-        "downloads": download
+        "downloads": download,
+        "watch":watch
     }
     return render(request, "admins.html", {"context": context})
 
