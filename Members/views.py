@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import logout as auth_logout, login as auth_login
+from django.contrib.auth import logout as auth_logout, login as auth_login, authenticate
 from  Members.form import Buyer
 from django.contrib.auth.decorators import login_required
 from flix.DRY import userDetails
@@ -15,8 +15,12 @@ def register(request):
     #   detailed form
       form = Buyer(request.POST)
       if form.is_valid():
-         form.save()
-         return redirect("/")
+        user = form.save()
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password1")
+        user = authenticate(email = email, password=password)
+        auth_login(request, user)
+        return redirect("/")
       
     else:
         # blank form
