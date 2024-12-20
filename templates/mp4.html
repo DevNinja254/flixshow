@@ -14,7 +14,7 @@ main {
     </div> 
 
     <!--Search form-->
-    <form action="/" class="hidden lg:flex xl:w-1/2 justify-start items-center bg-gray-600 bg-opacity-30 py-1 border border-md border-gray-700 border-opacity-50 rounded-md overflow-hidden">
+    <form action="/search/" class="hidden lg:flex xl:w-1/2 justify-start items-center bg-gray-600 bg-opacity-30 py-1 border border-md border-gray-700 border-opacity-50 rounded-md overflow-hidden">
         <span class="inline-flex items-center px-3 text-sm text-gray-900  border border-e-0 rounded-s-md  dark:text-gray-400 border-none">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 ">
                 <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
@@ -70,8 +70,9 @@ main {
          
 </header>
 
-<main class="bg-black bg-opacity-50 w-full">
+<main class="bg-black bg-opacity-50 w-full flex flex-col justify-between gap-7">
     {% if context.buyer %}
+    <span>
     <div class="h-0 transition-all duration-200 ease-linear bg-gray-800" id="searchForm">
         <form action="/" class=" hidden w-4/5 m-auto" id="searchFormButton">
             <label for="searchTerm" class="text-white text-opacity-60 text-xl py-3">Search Term:</label>
@@ -84,16 +85,16 @@ main {
         <!--movie Details-->
     <div class="px-3 pt-5">
         <p class="text-gray-200  capitalize font-sans font-bold text-xl">{{context.videoDetails.title}}</p>
-        <p class="text-gray-200 text-lg font-sans pb-3">{{context.videoDetails.season}}</p>
+        <p class="text-gray-200 text-lg font-sans pb-3 capitalize">{{context.videoDetails.season}}</p>
     </div>
     <img src="{{context.videoDetails.image.url}}" alt="" class="absolute top-0 right-0 -z-10 h-full object-fill w-full">
-    <div class="min-h-full md:w-4/5 xl:w-3/4 grid grid-cols-3 gap-2 md:m-auto px-3 pt-5">
+    <div class="min-h-full md:w-4/5 xl:w-3/4 grid grid-cols-2 sm:grid sm:grid-cols-3 gap-2 md:m-auto px-3 pt-5">
        
-        <div class="col-span-2 grid grid-cols-3 gap-4 ">
+        <div class="col-span-2 grid  grid-cols-3 gap-4 ">
             <!--video details-->
             <div class="col-span-2">
                
-                <img src="{{context.videoDetails.image.url}}" class="h-1/3 w-full block rounded-md border-gray-300 shadow-sm shadow-white border-2" alt="">
+                <img src="{{context.videoDetails.image.url}}" class="h-2/3 w-full block rounded-md border-gray-300 shadow-sm shadow-white border-2" alt="">
                 {% if not context.cartExist %}
                 <form action="/cart/" method="post">
                     {% csrf_token %}
@@ -101,7 +102,7 @@ main {
                     <button class="w-full text-white bg-blue-400 mt-3 py-1 font-sans font-bold rounded-md text-lg hover:text-blue-400 hover:bg-white transition-all duration-150 ease-linear ">Add Cart</button>
                 </form>
                 {% endif %}
-                <p class="w-full text-center text-white bg-blue-400 mt-3 py-1 font-sans font-bold rounded-md text-lg hover:cursor-pointer downloadButtonActivator hover:text-blue-400 hover:bg-white transition-all duration-150 ease-linear "  >Download</p>
+                <p class="w-full text-center text-white bg-blue-400 my-3 py-1 font-sans font-bold rounded-md text-lg hover:cursor-pointer downloadButtonActivator hover:text-blue-400 hover:bg-white transition-all duration-150 ease-linear "  >Download</p>
             </div>
             <div class="">
 
@@ -187,9 +188,9 @@ main {
         </div>
 
         <!--trending-->
-        <div class="mx-2">
+        <div class="mx-2 hidden">
             <h3 class="text-white font-bold text-lg font-sans mb-5">Trending:</h3>
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 items-start justify-start">
                 {% for vidas in context.trending %}
                 <form action="/mp4/" class="overflow-hidden hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out bg-gray-500 bg-opacity-55 rounded-sm mb-4">
                     <input type="text" name="videoTitle" value="{{vidas.title}}" hidden>
@@ -206,9 +207,9 @@ main {
 
 
     </div>
-
-    <div class="bg-black opacity-60">
-        <p class="capitalize text-lg text-white font-bold p-4">Synopsis Of movieName Torrent On Flixshow:</p>
+</span>
+    <div class="bg-black opacity-60 w-full">
+        <p class="capitalize text-lg text-white font-bold p-4">Synopsis Of {{context.videoDetails.title}} Torrent On Flixshow:</p>
         <p class=" p-4 text-white md:w-1/2">Movie Story : {{context.videoDetails.synopsis}}... </p>
     </div>
     {% else %}
