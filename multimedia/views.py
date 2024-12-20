@@ -11,6 +11,7 @@ def types(request):
     context = {
         'user': user,
         "videoDetails":videoDetails,
+        "type": str(typer).capitalize()
     }
     return render(request, "type.html", {"context": context})
 
@@ -20,5 +21,6 @@ def cart(request):
     videoDetails = VideoUpload.objects.filter(cartegory_id = cartName)
     context = {
         "videoDetails": videoDetails,
+        "cartegory": str(cartName).capitalize()
     }
     return render(request, "categories.html", {"context":context})

@@ -409,13 +409,16 @@ def deactivate(request):
     return redirect("/membership/dashboard")
 def search(request):
     searchTerm = request.GET["searchTerm"]
-    videoDetail = VideoUpload.objects.filter(title = searchTerm)
+    videoDetail = VideoUpload.objects.filter(title = searchTerm.capitalize())
     if videoDetail.exists() ==False:
-        videoDetail = VideoUpload.objects.filter(cartegory = searchTerm)
+       videoDetail = VideoUpload.objects.filter(cartegory = searchTerm.capitalize())
     elif videoDetail.exists() ==False:
-         videoDetail = VideoUpload.objects.filter(typs = searchTerm)
+        videoDetail = VideoUpload.objects.filter(typs = searchTerm.capitalize())
+    print(videoDetail.exists())
     context = {
         "videoDetail": videoDetail,
+        "searchTerm":str(searchTerm).capitalize(),
+        
     }     
     return render(request, "search.html", {"context": context})
 def cancelPurchase(request):
@@ -425,3 +428,4 @@ def cancelPurchase(request):
         for vids in videoExist:
             vids.delete()
     return redirect("/")
+

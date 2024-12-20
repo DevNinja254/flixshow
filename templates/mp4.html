@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% load static %}
+{% block title %}
+{{context.videoDetails.title}}
+{% endblock title %}
 {% block style %}
 main {
     min-height: 90vh; 
@@ -92,9 +95,11 @@ main {
        
         <div class="col-span-2 grid  grid-cols-3 gap-4 ">
             <!--video details-->
-            <div class="col-span-2">
+            <div class="col-span-2  ">
                
-                <img src="{{context.videoDetails.image.url}}" class="h-2/3 w-full block rounded-md border-gray-300 shadow-sm shadow-white border-2" alt="">
+               <div class="max-h-16  overflow-hidden">
+                <img src="{{context.videoDetails.image.url}}" class="block rounded-md border-gray-300 shadow-sm shadow-white border-2 w-full" width="400" height="200" alt="">
+               </div>
                 {% if not context.cartExist %}
                 <form action="/cart/" method="post">
                     {% csrf_token %}
@@ -227,7 +232,7 @@ main {
                 <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
               </svg>
         </div>
-        <p class="text-green-400 tracking-widest text-center font-sans text-lg mt-3 mb-6">Download movieName</p>
+        <p class="text-green-400 tracking-widest text-center font-sans text-lg mt-3 mb-6">Download {{context.videoDetails.title}}</p>
         <table class="text-white w-full  p-3 text-center text-lg">
             <thead >
                 <th>Name</th>

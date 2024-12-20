@@ -3,12 +3,14 @@
 
 
 {% block title %}
-    Search
+    {{context.searchTerm}}
 {% endblock title %}
 
-
+{% block searchFor %}
+                Searched {{context.searchTerm}}
+    {% endblock searchFor %}
 {% block loopContent %}
-{% for videoDetail in  context.videoDetails%}
+{% for videoDetail in  context.videoDetail%}
 <form action="/mp4/" class="rounded-md overflow-hidden hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out">
     <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
     <button class="block w-full">

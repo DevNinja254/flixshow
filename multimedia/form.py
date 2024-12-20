@@ -1,5 +1,5 @@
 from django import forms
-from .models import VideoUpload, VideosFormGenerator
+from .models import VideoUpload, videos
 
 
 class VideoUploads(forms.ModelForm):
@@ -11,5 +11,5 @@ class VideoUploads(forms.ModelForm):
 class VideoForm(forms.ModelForm):
 
    class Meta:
-      model = VideosFormGenerator
+      model = videos
       fields = ("name", "video", "quality")

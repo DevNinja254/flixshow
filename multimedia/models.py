@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django_resized import ResizedImageField
 
 # Create your models here.
 
@@ -18,8 +19,7 @@ class Cartegories(models.Model):
 class Type(models.Model):
     TYPE_CHOICES = [
         ('movies', 'Movies'),
-        ("series", 'Series'),
-        ('Music', "Music")
+        ("series", 'Series')
     ]
     typeId = models.BigAutoField(primary_key=True,auto_created=True)
     typeName = models.CharField(max_length=50, null=False, unique=True)
@@ -29,13 +29,15 @@ class Type(models.Model):
     
     class Meta:
         db_table = "types"
+    def save(self, *args, **kwargs):
+        self.typeName = self.name.capitalize()  # Convert name to lowercase
+        super().save(*args, **kwargs)
 
 
 class VideoUpload(models.Model):
     TYPE_CHOICES = [
         ('movies', 'Movies'),
         ("series", 'Series'),
-        ('Music', "Music")
     ]
  
     vidId = models.BigAutoField(primary_key=True, auto_created=True)
@@ -45,7 +47,7 @@ class VideoUpload(models.Model):
     typs = models.CharField(choices=TYPE_CHOICES, verbose_name="video Type", default="movies", max_length=150)
     synopsis = models.TextField()
     date_uploaded = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(upload_to="videoImage/")
+    image = ResizedImageField(size=[760, 420], upload_to="videoImage/")
     Quality = models.CharField(max_length=50)
     display = models.BooleanField( default=False)
     paid = models.BooleanField(default=False)
@@ -53,7 +55,9 @@ class VideoUpload(models.Model):
     popular = models.BooleanField(default=False)
     def __str__(self):
         return self.title
-    
+    def save(self, *args, **kwargs):
+        self.title = self.title.capitalize()  # Convert name to lowercase
+        super().save(*args, **kwargs)
     class Meta:
         db_table = "uploads"
 
@@ -67,19 +71,12 @@ class videos(models.Model):
     ended = models.BooleanField(default=False)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()  # Convert name to capitalize
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = "videos"
-
-class VideosFormGenerator(models.Model):
-    name=models.CharField(max_length=200, verbose_name="Enter Video Name", default="movie")
-    video = models.FileField()
-    quality = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = "videosform"
 
 
 class HomepageVideo(models.Model):
