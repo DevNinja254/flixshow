@@ -9,7 +9,7 @@ from.stk_code import sendStkPush
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
-import json
+import json, base64
 
 # Create your views here.
 def home(request):
@@ -120,8 +120,6 @@ def moviesAndSeries(request):
         }
     return render(request, "mp4.html", {"context":context})
 
- 
-
 @login_required(login_url="/membership/login/")
 def admins(request):
     userDetail = userDetails(request)
@@ -157,20 +155,20 @@ def addVideo(request):
     userDetail = userDetails(request)
     if request.method == 'POST':
         uploadType = request.POST["upload_type"]
-        print(uploadType)
+        #print(uploadType)
         if uploadType == "video_details":
             form = VideoUploads(request.POST, request.FILES)
             if form.is_valid():
                 
                 form.save()
         elif uploadType == "video":
-            print("video")
+            #print("video")
             vidz = VideoForm(request.POST, request.FILES)
             if vidz.is_valid():
                 print("valid")
                 for fila in request.FILES.getlist('video'):
                     # Handle the uploaded file (e.g., save to storage)
-                    print(fila)
+                    #print(fila)
                     Videos.objects.create(
                         name = request.POST["name"],
                         video = fila,
@@ -262,17 +260,56 @@ def deposit(request):
         is_buyer = True
         user = userDetails(request)
         if request.method == "POST":
-            Amount = str(request.POST["amount"])
+            Amount = int(request.POST["amount"])
             number = str(request.POST["phoneNumber"])
             phoneNumber = "254" + number[1:]
-            stk = sendStkPush(Amount, phoneNumber)
-            # print(stk)
-            depoExist = Payment.objects.filter(phone_number = phoneNumber)
-            if depoExist.exists() == False:
-               Payment.objects.create(
-                username = user["username"],
-                phone_number = phoneNumber
-            )
+            # Your API username and password
+            api_username = "0unBXb8nkf0BXLSUaWGz"
+            api_password = "uuazzq2X33n4rFnKOh0Un5HMG8KrmU7TnJJYFxF3"
+            # Concatenating username and password with colon
+            credentials = f'{api_username}:{api_password}'
+            # Base64 encode the credentials
+            encoded_credentials = base64.b64encode(credentials.encode()).decode()
+            # Creating the Basic Auth token
+            basic_auth_token = f'Basic {encoded_credentials}'
+            # Output the token
+            print(basic_auth_token)
+
+
+            import requests
+
+            url = 'https://backend.payhero.co.ke/api/v2/payments'
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': basic_auth_token
+            }
+            data = {
+                "amount": Amount,
+                "phone_number": phoneNumber,
+                "channel_id": 1238,
+                "provider": "m-pesa",
+                "external_reference": "INV-009",
+                "callback_url": "https://kingstonemovies.xyz/stk/"
+            }
+
+            response = requests.post(url, json=data, headers=headers)
+            # print(response.json())
+            paymentDict = {
+
+            }
+            for key in response.json():
+                paymentDict[key] = response.json()[key]
+            
+            print(paymentDict['success'])
+            # insert pending info
+            if paymentDict['success']:
+                depoExist = Payment.objects.filter(phone_number = phoneNumber)
+                if depoExist.exists() == False:
+                    Payment.objects.create(
+                        username = user["username"],
+                        phone_number = phoneNumber
+                    )
+
             return redirect("/membership/dashboard/")
     else:
         is_buyer = False
@@ -310,24 +347,16 @@ def download(request):
 @csrf_exempt
 def stkCallback(request):
     callback_data = json.loads(request.body)
-    # print("hello", request.user, callback_data)
+    print(callback_data)
      # Check the result code
-    result_code = callback_data['Body']['stkCallback']['ResultCode']
-    if result_code != 0:
-    # If the result code is not 0, there was an error
-        error_message = callback_data['Body']['stkCallback']['ResultDesc']
-        response_data = {'ResultCode': result_code, 'ResultDesc': error_message}
-        return JsonResponse(response_data)
-    callback_metadata = callback_data['Body']['stkCallback']['CallbackMetadata']
     amount = None
     phone_number = None
-    for item in callback_metadata['Item']:
-        if item['Name'] == 'Amount':
-            amount = item['Value']
-        elif item['Name'] == 'PhoneNumber':
-            phone_number = item['Value']
-    # Check the result code
-    result_code = callback_data['Body']['stkCallback']['ResultCode']
+    result_status = callback_data['response']['Status']
+    if result_status == "Success":
+        amount = callback_data['response']['Amount']
+        phone_number=callback_data['response']['Phone']
+    
+    
     paid = Payment.objects.get(phone_number = str(phone_number))
     # print(paid)
     if paid.payment_Suc == False:
@@ -342,12 +371,8 @@ def stkCallback(request):
         paid.delete()
     else:
         paid.delete()   
-    # print(phone_number, amount)
-    # Save the variables to a file or database, etc.
-    # ...
-
     # Return a success response to the M-Pesa server
-    response_data = {'ResultCode': result_code, 'ResultDesc': 'Success'}
+    response_data = {'ResultStatus': result_status, 'ResultDesc': 'Success'}
     return JsonResponse(response_data)
 login_required(login_url="/membership/login")
 def cart(request):
