@@ -49,6 +49,7 @@ class VideoUpload(models.Model):
     date_uploaded = models.DateTimeField(default=timezone.now)
     image = ResizedImageField(size=[760, 420], upload_to="videoImage/")
     Quality = models.CharField(max_length=50)
+    size = models.CharField(max_length=100, default="0mb")
     display = models.BooleanField( default=False)
     paid = models.BooleanField(default=False)
     season = models.CharField(max_length=150, default="season 2")

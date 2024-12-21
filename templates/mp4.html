@@ -214,7 +214,7 @@ main {
     </div>
 </span>
     <div class="bg-black opacity-60 w-full">
-        <p class="capitalize text-lg text-white font-bold p-4">Synopsis Of {{context.videoDetails.title}} Torrent On Flixshow:</p>
+        <p class="capitalize text-lg text-white font-bold p-4">Synopsis Of {{context.videoDetails.title}} Torrent On Kingstonemovies:</p>
         <p class=" p-4 text-white md:w-1/2">Movie Story : {{context.videoDetails.synopsis}}... </p>
     </div>
     {% else %}
@@ -225,45 +225,52 @@ main {
 
 <!--Download page-->
 
+<!--Download page-->
+
 <div class="fixed hidden top-0 backdrop-blur-sm bg-black bg-opacity-40 w-screen h-full" id="downloadSection">
-    <div class="bg-black mt-24 w-4/5 md:w-2/3 2xl:w-1/2 m-auto p-2 rounded-md">
+    <div class="bg-black mt-24 w-fit m-auto p-2 rounded-md">
         <div id="cancelDownload" class="flex justify-end items-end text-left">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 block w-full hover:cursor-pointer text-white opacity-60">
                 <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
               </svg>
         </div>
         <p class="text-green-400 tracking-widest text-center font-sans text-lg mt-3 mb-6">Download {{context.videoDetails.title}}</p>
-        <table class="text-white w-full  p-3 text-center text-lg">
-            <thead >
-                <th>Name</th>
-                <th>Size</th>
-                <th>Quality</th>
-                <th>Cost</th>
-                <th>Download</th>
-                
+        <table class="text-white p-3 text-center text-lg hidden sm:block">
+            <thead class="w-full border-white border-b-2 border-opacity-30">
+              <th class="px-3">Name</th>
+                <th class="px-3">Size</th>
+                <th class="px-3">Quality</th>
+                <th class="px-3">Cost</th>
+                <th class="px-3">Download</th>
+
             </thead>
-            
-            <tbody>
+
+            <tbody class="">
                 {% for qulty in context.videoDetails.Quality %}
-                    <tr class=" border-white border-t-2 border-opacity-30">
+                    <tr >
                         <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{context.videoDetails.title}}</td>
 
-                        <td class="text-center pt-4 px-3 text-opacity-80 text-white uppercase">900mb</td>
+                        <td class="text-center pt-4 px-3 text-opacity-80 text-white uppercase">{{context.videoDetails.size}}</td>
 
                         <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{qulty}}</td>
                         <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{context.videoDetails.price}}</td>
-                        <!--cost--> 
-                    
+                        <!--cost-->
+
                         <span id="cost" class="hidden">{{context.videoDetails.price}}</span>
                        <form action="/download/" class="hidden" method="post">
                             {% csrf_token %}
                             <input type="text" value="{{context.videoDetails.title}}" name="videoTitle" hidden>
                             <input type="number" value="{{context.videoDetails.price}}" name="price" hidden>
-                            
+
                             <button class="hover:text-sky-400 downloadButtn">{{qulty}}</button>
                         </form>
                     <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">
-                        <button class="hover:text-sky-400 downloadButtn" id="{{qulty}}">Download</button>
+                                            <button class="hover:text-sky-400 downloadButtn" id="{{qulty}}"><div class="my-3 mx-1 bg-black bg-opacity-30 p-1 grid place-content-center border-gray-500 border-2 rounded-md hover:cursor-pointer transition-all duration-150 ease-linear hover:shadow-sm hover:shadow-sky-300 downloadButtonActivator" >
+                    <svg class="w-6 h-6 text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
+                      </svg>
+                      
+                </div></button>
                     </td>
                     </tr>
                     {% for vidz in context.video %}
@@ -275,8 +282,57 @@ main {
                     {% endfor %}
                 {%endfor%}
             </tbody>
-
+          <!--sm body-->
         </table>
+         <table class="sm:hidden">
+                {% for qulty in context.videoDetails.Quality %}
+                    <tr class=" border-white text-white border-t-2 border-opacity-30 text-left">
+                      <th>Name</th>
+                        <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{context.videoDetails.title}}</td>
+                  </tr>
+                  <tr class="text-white text-left">
+                    <th>Size</th>
+                        <td class="text-center pt-4 px-3 text-opacity-80 text-white uppercase">{{context.videoDetails.size}}</td>
+                  </tr>
+                  <tr class="text-white text-left">
+                       <th>Quality</th>
+                
+                        <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{qulty}}</td>
+                      </tr>
+                  <tr class="text-white text-left">
+                    <th class="text-white">Cost</th>
+            
+                        <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">{{context.videoDetails.price}}</td>
+                        <!--cost-->
+                    </tr>
+                  <tr class="text-white text-left">
+                      <th>Download</th>
+                        <span id="cost" class="hidden">{{context.videoDetails.price}}</span>
+                       <form action="/download/" class="hidden" method="post">
+                            {% csrf_token %}
+                            <input type="text" value="{{context.videoDetails.title}}" name="videoTitle" hidden>
+                            <input type="number" value="{{context.videoDetails.price}}" name="price" hidden>
+
+                            <button class="hover:text-sky-400 downloadButtn">{{qulty}}</button>
+                        </form>
+                    <td class="text-center pt-4 px-3 text-opacity-80 text-white capitalize">
+                                            <button class="hover:text-sky-400 downloadButtn" id="{{qulty}}"><div class="my-3 mx-1 bg-black bg-opacity-30 p-1 grid place-content-center border-gray-500 border-2 rounded-md hover:cursor-pointer transition-all duration-150 ease-linear hover:shadow-sm hover:shadow-sky-300 downloadButtonActivator" >
+                    <svg class="w-6 h-6 text-blue-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
+                      </svg>
+                      
+                </div></button>
+                    </td>
+                    </tr>
+                    {% for vidz in context.video %}
+                        {% if vidz.quality == qulty %}
+                        <tr class=" border-white border-t-2 border-opacity-30 col-span-5 hidden">
+                            <a href="{{vidz.video.url}}" class="text-center pt-4 px-3 text-opacity-80 text-white vida capitalize hidden" download target="_blank">{{vidz.quality}}</a>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                {%endfor%}
+            </table>
     </div>
 </div>
 </div>
@@ -345,8 +401,7 @@ main {
             vids.load()
         }
     })
-
-    //episodes play
+        //episodes play
     playTrailer.addEventListener("click", ()=> {
         //trailerVideoContainer.classList.remove("hidden")
         trailerVideoContainer.style.display = "block"
@@ -387,7 +442,7 @@ main {
                     btn.click()
                 }
             }
-       })
+            })
 
     }
 
@@ -408,3 +463,6 @@ main {
    
 </script>
 {% endblock bodyContent %}
+                                                                                                                                                                                     410,1         Bot
+
+
