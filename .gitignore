@@ -7,3 +7,6 @@ db.sqlite3
 assets
 .ssh
 .ssh.pub
+*/migrations
+*/*/migrations
+*/*/*/migrations

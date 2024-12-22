@@ -54,11 +54,11 @@ def dashboard(request):
     userDetailed = userDetails(request)["userBuyrDetailsDi"]
     downloadHistory = DownloadHistory.objects.filter(name = userDetailed['username'])
     depositHistory = DepositHistory.objects.filter(name = userDetailed['username'])
-    watch = Onwatch.objects.all()
+    watch = Onwatch.objects.all().reverse()
     context = {
         "userDetail":userDetailed,
-        "downloadHistory":downloadHistory,
-        "depositHistory":depositHistory,
+        "downloadHistory":downloadHistory.reverse(),
+        "depositHistory":depositHistory.reverse(),
         "watch":watch
     }
     return render(request, "dashboard.html", {"context": context})

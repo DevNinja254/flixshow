@@ -104,6 +104,14 @@ def moviesAndSeries(request):
                 popularVid.append(vida)
             if count == 5:
                 break
+        
+        # DOwnloaded video
+        downloaded = DownloadHistory.objects.filter(name = user["username"])
+        downloadeds = []
+        if downloaded.exists():
+            for div in downloaded:
+                downloadeds.append(div.video_name)
+         # print(downloadeds)
         context = {
             "videoDetails":videoDetail,
             "video":vidzUpdate,
@@ -112,6 +120,7 @@ def moviesAndSeries(request):
             "cartExist": cartExist,
             "trending":popularVid,
             "buyer" : is_buyer,
+            "downloaded": downloadeds,
         }
     else:
         is_buyer = False
@@ -123,10 +132,10 @@ def moviesAndSeries(request):
 @login_required(login_url="/membership/login/")
 def admins(request):
     userDetail = userDetails(request)
-    messages = Message.objects.all()
-    payments = DepositHistory.objects.all()
-    download = DownloadHistory.objects.all()
-    watch = Onwatch.objects.all()
+    messages = Message.objects.all().reverse()
+    payments = DepositHistory.objects.all().reverse()
+    download = DownloadHistory.objects.all().reverse()
+    watch = Onwatch.objects.all().reverse()
     context = {
         "username":userDetail["username"],
         "is_approved": userDetail["userMembDetailsDic"]["is_approved"],
@@ -320,7 +329,7 @@ def deposit(request):
 
 def download(request):
     if request.method == "POST":
-        videoTitle = request.POST["videoTitle"]
+        videoTitle = request.POST["videoTitle"].capitalize()
         user = userDetails(request)["username"]
         # print(user)
         price = request.POST["price"]
@@ -328,21 +337,25 @@ def download(request):
         existCart = Cart.objects.filter(video_name = videoTitle)
         if existCart.exists():
             existCart.delete()
-        # save download details to downloadhistory table
-        DownloadHistory.objects.create(
-            name = user,
-            video_name = videoTitle,
-            cost = price  
-        )
-        # deduct payment from user Account
-        userAccount = Buyers.objects.filter(username = user)
-        if userAccount.exists():
-            for use in userAccount:
-                use.account = int(use.account) - int(price)
-                use.save()
-                break
-        # userAccount.account = int(userAccount.account)
-        
+        #check if downloaded:
+        is_download = DownloadHistory.objects.filter(name = videoTitle)
+        if is_download.exists():
+            # deduct payment from user Account
+            userAccount = Buyers.objects.filter(username = user)
+            if userAccount.exists():
+                for use in userAccount:
+                    if int(use.account) >= int(price):
+                        use.account = int(use.account) - int(price)
+                        use.save()
+                        # save download details to downloadhistory table
+                        DownloadHistory.objects.create(
+                            name = user,
+                            video_name = videoTitle,
+                            cost = price  
+                        )
+                        break
+                    else:
+                        return redirect("/deposit/")
     return redirect("/membership/dashboard/")
 @csrf_exempt
 def stkCallback(request):
@@ -393,7 +406,7 @@ def cart(request):
             total += dat.price
             Allcarts.append(dat)
     context = {
-        "allCarts":Allcarts,
+        "allCarts":Allcarts.reverse(),
         "total":total,
         "number": len(Cart.objects.filter(username = user)),
     }

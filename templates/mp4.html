@@ -72,7 +72,8 @@ main {
         </div>
          
 </header>
-
+<!--Downloaded movies-->
+<span id="downloaded" class="hidden">{{context.downloaded}}</span>
 <main class="bg-black bg-opacity-50 w-full flex flex-col justify-between gap-7">
     {% if context.buyer %}
     <span>
@@ -87,7 +88,7 @@ main {
     </div>
         <!--movie Details-->
     <div class="px-3 pt-5">
-        <p class="text-gray-200  capitalize font-sans font-bold text-xl">{{context.videoDetails.title}}</p>
+        <p class="text-gray-200  capitalize font-sans font-bold text-xl" id="vidzTitle">{{context.videoDetails.title}}</p>
         <p class="text-gray-200 text-lg font-sans pb-3 capitalize">{{context.videoDetails.season}}</p>
     </div>
     <img src="{{context.videoDetails.image.url}}" alt="" class="absolute top-0 right-0 -z-10 h-full object-fill w-full">
@@ -351,6 +352,8 @@ main {
     const accountBalance = document.getElementById("accountBalance")
     const vidaz = document.getElementsByClassName("vidaz")
     const videos = document.querySelectorAll("video")
+    const downloded = document.getElementById("downloaded")
+    const vidzTitle = document.getElementById("vidzTitle")
     let searchActivated = false
     searchActivator.addEventListener('click', function() {
         if(!searchActivated){
@@ -375,12 +378,19 @@ main {
     for (const d_ButtonActivator of downloadButtonActivator) {
         d_ButtonActivator.addEventListener("click", ()=> {
            const movieCost = Number(cost.innerText)
+           let downloadUpper = []
+           for (const dwded of downloaded.innerText.split("'")) {
+            downloadUpper.push(dwded.toLowerCase())
+            
+           }
+          
+          // console.log(downloadUpper.includes(vidzTitle.innerText.toLowerCase()))
            //error
            //If the cost is less then amount download enable else tellthe client to deposit
            const accountAmount = Number(accountBalance.innerText)
            
 
-           if(accountAmount >= movieCost){
+           if(accountAmount >= movieCost || downloadUpper.includes(vidzTitle.innerText.toLowerCase())){
             downloadSection.classList.remove("hidden")
            } else {
             if(window.confirm("insufficient Funds, Deposit")){
@@ -431,7 +441,7 @@ main {
                 setTimeout(()=> {
                     if (vid.innerText == dwd.id) {
                         vid.click()
-                        console.log("video downloading")
+                    
                        }
                    
                 }, 200)
