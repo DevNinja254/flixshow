@@ -87,9 +87,16 @@ def moviesAndSeries(request):
         # Fetch whose name == videoTitle change all data to arrayString
         vidz = Videos.objects.filter(name = videoTitle)
         vidzUpdate = []
+        videoQuality = []
+        videoNumber = 0
         for vid in vidz:
             vid.quality = vid.quality.upper().strip()
+            videoQuality.append(vid.quality.upper().strip())
             vidzUpdate.append(vid)
+        for vidNUmber in vidz:
+            # print(vidNUmber.quality, videoQuality[0])
+            if vidNUmber.quality == videoQuality[0]:
+                videoNumber += 1
         carty = Cart.objects.filter(username = user["username"])
         cartExist = False
         for cats in carty:
@@ -111,7 +118,12 @@ def moviesAndSeries(request):
         if downloaded.exists():
             for div in downloaded:
                 downloadeds.append(div.video_name)
-         # print(downloadeds)
+        onWatch = Onwatch.objects.filter(watcher = user["username"])
+        if onWatch.exists():
+            for div in onWatch:
+                downloadeds.append(div.video_name)
+                # print(div.video_name)
+        # print(downloadeds)
         context = {
             "videoDetails":videoDetail,
             "video":vidzUpdate,
@@ -121,6 +133,7 @@ def moviesAndSeries(request):
             "trending":popularVid,
             "buyer" : is_buyer,
             "downloaded": downloadeds,
+            "videoNumber":videoNumber,
         }
     else:
         is_buyer = False
@@ -211,6 +224,7 @@ def addVideo(request):
 
 
 def play(request):
+    user = userDetails(request)["userBuyrDetailsDi"]
     nam = str(request.GET["name"]).strip()
     videoName = request.GET["videoNae"]
     vide = Videos.objects.filter(name = nam)
@@ -231,7 +245,7 @@ def play(request):
             endTrue +=1
         else:
             endFalse += 1
-    print(endFalse, endTrue)
+    # print(endFalse, endTrue)
     for viz in vided:
         if count <= 10:
             otherVideos.append(viz)
@@ -246,6 +260,12 @@ def play(request):
             if onwat.name == videoName:
                 onwat.delete()
     titles = []
+    # Downloaded movies
+    downloaded = DownloadHistory.objects.filter(name = user["username"])
+    if downloaded.exists():
+        for div in downloaded:
+            titles.append(div.video_name)
+        # print(downloadeds)
     for wat in onWatch:
         if wat.watcher == userDetails(request)["userBuyrDetailsDi"]["username"]:
             titles.append(wat.video_name)
@@ -330,33 +350,73 @@ def deposit(request):
 def download(request):
     if request.method == "POST":
         videoTitle = request.POST["videoTitle"].capitalize()
+        quality = request.POST["quality"].capitalize()
         user = userDetails(request)["username"]
         # print(user)
         price = request.POST["price"]
-        # remove item from cart on download it the item exist in cart table
-        existCart = Cart.objects.filter(video_name = videoTitle)
-        if existCart.exists():
-            existCart.delete()
-        #check if downloaded:
-        is_download = DownloadHistory.objects.filter(name = videoTitle)
-        if is_download.exists():
-            # deduct payment from user Account
-            userAccount = Buyers.objects.filter(username = user)
-            if userAccount.exists():
-                for use in userAccount:
-                    if int(use.account) >= int(price):
-                        use.account = int(use.account) - int(price)
-                        use.save()
-                        # save download details to downloadhistory table
-                        DownloadHistory.objects.create(
-                            name = user,
-                            video_name = videoTitle,
-                            cost = price  
-                        )
-                        break
-                    else:
-                        return redirect("/deposit/")
-    return redirect("/membership/dashboard/")
+
+        # Get movie with the name of videoTitle
+        videozMatch = Videos.objects.filter(name = videoTitle)
+        if videozMatch.exists():
+            videoExist = True
+            # get video details
+            videozdetails = VideoUpload.objects.filter(title = videoTitle)
+            videozdetail = ""
+            for videozMa in videozdetails:
+                    videozdetail = videozMa
+                    break
+            # video with Wanted pixel
+            videoPixel = []
+            for videozMa in videozMatch:
+                if videozMa.quality.capitalize() == quality:
+                    videoPixel.append(videozMa)
+            print(videoPixel)
+            # remove item from cart on download it the item exist in cart table
+            existCart = Cart.objects.filter(video_name = videoTitle)
+            if existCart.exists():
+                existCart.delete()
+            #check if downloaded:
+            is_download = DownloadHistory.objects.filter(name = user)
+            is_watch = Onwatch.objects.filter(watcher = user)
+            paidList = []
+            for isWatch in is_watch:
+                paidList.append(isWatch.video_name)
+            for isDownloaded in is_download:
+                paidList.append(isDownloaded.video_name)
+            # print(paidList)
+            VideoPaid = False
+            for payed in paidList:
+                if payed == videoTitle:
+                    VideoPaid = True
+            if not VideoPaid:
+                # deduct payment from user Account
+                userAccount = Buyers.objects.filter(username = user)
+                if userAccount.exists():
+                    for use in userAccount:
+                        if int(use.account) >= int(price):
+                            use.account = int(use.account) - int(price)
+                            use.save()
+                            # save download details to downloadhistory table
+                            DownloadHistory.objects.create(
+                                name = user,
+                                video_name = videoTitle,
+                                cost = price  
+                            )
+                            break
+                        else:
+                          return redirect("/deposit/")
+        else:
+            videoExist = False  
+            videoPixel = False
+            videozdetail = False
+   # print(len(videoPixel))
+    context = {
+        "videos":videoPixel,
+        "videoDetails":videozdetail,
+        "videoExist":videoExist
+    }
+        
+    return render(request, "download.html", {"context":context})
 @csrf_exempt
 def stkCallback(request):
     callback_data = json.loads(request.body)
@@ -397,7 +457,7 @@ def cart(request):
             username = user
         )
         return redirect("/cart/")
-    userCart = Cart.objects.filter(username = user)
+    userCart = Cart.objects.filter(username = user).reverse()
     Allcarts = []
     total = 0
     for cat in userCart:
@@ -406,7 +466,7 @@ def cart(request):
             total += dat.price
             Allcarts.append(dat)
     context = {
-        "allCarts":Allcarts.reverse(),
+        "allCarts":Allcarts,
         "total":total,
         "number": len(Cart.objects.filter(username = user)),
     }
@@ -422,7 +482,7 @@ def activate(request):
     if request.method == "POST":
         userAccount = Buyers.objects.get(username = userDetails(request)["userBuyrDetailsDi"]["username"])
         videoDet = VideoUpload.objects.get(title = request.POST["videoName"])
-        print(videoDet.price,userAccount.account)
+        # print(videoDet.price,userAccount.account)
         if userAccount.account < videoDet.price:
             return redirect("/deposit/")
         else:
@@ -452,7 +512,7 @@ def search(request):
        videoDetail = VideoUpload.objects.filter(cartegory = searchTerm.capitalize())
     elif videoDetail.exists() ==False:
         videoDetail = VideoUpload.objects.filter(typs = searchTerm.capitalize())
-    print(videoDetail.exists())
+    # print(videoDetail.exists())
     context = {
         "videoDetail": videoDetail,
         "searchTerm":str(searchTerm).capitalize(),
