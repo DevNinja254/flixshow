@@ -4,9 +4,19 @@
 {{context.videoDetails.title}}
 {% endblock title %}
 {% block style %}
-main {
-    min-height: 90vh; 
-}
+    main {
+        min-height: 90vh; 
+    }
+   @media screen and (min-width:600px){
+    #imgCart {
+        height: 300px;
+    }
+   }
+   @media screen and (min-width:1000px){
+    #imgCart {
+        height: 350px;
+    }
+   }
 {% endblock style %}
 {% block bodyContent %}
 <div class="w-full overflow-x-hidden">
@@ -93,15 +103,18 @@ main {
         <p class="text-gray-200  capitalize font-sans font-bold text-xl" id="vidzTitle">{{context.videoDetails.title}}</p>
         <p class="text-gray-200 text-lg font-sans pb-3 capitalize">{{context.videoDetails.season}}</p>
     </div>
-    <img src="{{context.videoDetails.image.url}}" alt="" class="absolute top-0 right-0 -z-10 h-full object-fill w-full">
+    <div class="absolute top-0 right-0 -z-10 h-screen object-fill w-full">
+        <img src="{{context.videoDetails.image.url}}" alt="" class="w-full object-cover h-full">
+    </div>
+    
     <div class="min-h-full md:w-4/5 xl:w-3/4 grid grid-cols-2 sm:grid sm:grid-cols-3 gap-2 md:m-auto px-3 pt-5">
        
         <div class="col-span-2 grid  grid-cols-3 gap-4 ">
             <!--video details-->
             <div class="col-span-2  ">
                
-               <div class="max-h-16  overflow-hidden">
-                <img src="{{context.videoDetails.image.url}}" class="block rounded-md border-gray-300 shadow-sm shadow-white border-2 w-full" width="400" height="200" alt="">
+               <div class="block rounded-md border-gray-300 shadow-sm shadow-white border-2 w-full" >
+                <img src="{{context.videoDetails.image.url}}" class="object-fill w-full h-full" width="170" id="imgCart" height="200" alt="">
                </div>
                 {% if not context.cartExist %}
                 <form action="/cart/" method="post">

@@ -9,7 +9,7 @@ KingstoneMovies
         background:black;
     }
     header {
-        height: 100vh;
+        height: 100%;
         color:white;
     }
     #imgTrail {
@@ -35,35 +35,28 @@ KingstoneMovies
     #movie {
         background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5) )
     }
-   #CartegoryOverflow {
-    overflow-x: scroll;
-    gap: 1rem;
-
-   }
+ 
    #CartegoryOverflow::webkit-scrollbar {
     width: 2px;
    }
    #CartegoryOverflow::webkit-scrollbar-thumb {
     width:3px;
    }
-   .formPopular {
-    min-width: 130px;
-    max-width: 300px;
-   }
-   @media screen and (min-width: 400px) {
-    #CartegoryOverflow {
-        overflow:hidden;    
-       }
+ 
+   @media screen and (min-width: 500px) {
+        #CartegoryOverflow {
+            display: flex;
+            gap: 1rem;
+            flex-wrap:wrap;
+        }
+                
+     
    }
    @media screen and (min-width:720px) {
         #movie {
             display: grid;
             grid-template-columns:1fr 1fr;
         }
-        .formPopular {
-            min-width: 130px;
-            max-width: 200px;
-           }
         
         #listMenu {
             display:none;
@@ -274,17 +267,17 @@ KingstoneMovies
     
     <div class="pt-4">
         
-        <h2 class="text-bold font-sans text-lg pb-4">Popular</h2>
+        <h2 class="font-bold font-sans text-lg pb-4">Popular</h2>
        
-        <div class="flex items-start " id="CartegoryOverflow">
+        <div class="grid grid-cols-2 gap-4" id="CartegoryOverflow">
              <!--Loop though video and disply where display where display on popular is true-->
             
              {% for videoDetail in context.allVideoDetails %}
              {% if videoDetail.popular ==  "True"%}
-                 <form action="/mp4/" class="block w-28 formPopular ">
+                 <form action="/mp4/" class="block formPopular ">
                      <input type="text"  name="videoTitle" value="{{videoDetail.title}}" hidden>
                      <button class="block w-full">
-                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="object-cover w-full" width="270" height="400" id="categoryFormImg">
+                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="object-cover w-full" width="" height="400" id="categoryFormImg">
                          <div class="overflow-hidden w-full">
                              <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                              <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>
@@ -300,18 +293,18 @@ KingstoneMovies
     <!--load categories and videoDetails from database, Loop through  in each cartegories, loop thorugh videoDetails and diplay video whose display is true and catergories is equal-->
     <div class="pt-4">
         {% for cartegory in context.cartegories %}
-        <h2 class="text-bold font-sans text-lg cartName capitalize" >{{cartegory.cartName}}</h2>
+        <h2 class="font-bold font-sans text-lg cartName capitalize" >{{cartegory.cartName}}</h2>
         <div>
 
             <!--Get movie id and link to movie page-->
-            <div class="flex items-start justify-start sm:flex-wrap sm:overflow-hidden" id="CartegoryOverflow">
+            <div class="grid grid-cols-2 gap-4" id="CartegoryOverflow">
                 <!--Loop movie data and diplay on the tags below-->
                 {% for videoDetail in context.allVideoDetails %}
                     {% if videoDetail.display ==  "True" and videoDetail.cartegory_id == cartegory.cartName%}
-                        <form action="/mp4/" class="block w-28 formPopular">
+                        <form action="/mp4/" class="block  formPopular">
                             <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
-                            <button class="block min-w-50">
-                                <img src="{{videoDetail.image.url}}" width="270" height="400" alt="Movie img" class="block object-cover" id="categoryFormImg">
+                            <button class="block w-full">
+                                <img src="{{videoDetail.image.url}}" width="" height="400" alt="Movie img" class="block object-cover" id="categoryFormImg">
                                 <div class="overflow-hidden w-full">
                                     <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                                     <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>
