@@ -83,9 +83,9 @@ AUTH_USER_MODEL = "Members.Members"
 if DEBUG:
     DATABASES = {
            'default': {
-               'ENGINE': 'django.db.backends.postgresql_psycopg2',
+               'ENGINE': 'django.db.backends.postgresql',
                'NAME': "flixshow",
-               "USER": "postgres",
+               "USER": "aga",
                "PASSWORD":"Augustine@566",
                "HOST":"localhost",
                "PORT":""
