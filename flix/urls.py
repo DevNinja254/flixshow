@@ -39,7 +39,8 @@ urlpatterns = [
     path("activate/", views.activate, name="activate"),
     path("stk/", views.stkCallback, name="stkCallBack"),
     path("search/", views.search, name="Search"),
-    path("deactivatePay/", views.cancelPurchase, name="cancelPurcharse")
+    path("deactivatePay/", views.cancelPurchase, name="cancelPurcharse"),
+    path("downloadall/", views.downloadAll, name="downloadAll")
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 

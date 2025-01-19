@@ -412,7 +412,7 @@ def download(request):
    # print(len(videoPixel))
     context = {
         "videos":videoPixel,
-        "videoDetails":videozdetail,
+        "videoDetails":[videozdetail],
         "videoExist":videoExist
     }
         
@@ -527,3 +527,77 @@ def cancelPurchase(request):
             vids.delete()
     return redirect("/")
 
+@login_required(login_url="/membership/login")
+def downloadAll(request):
+    user = userDetails(request)["username"]
+    total= 0
+    videoNotExist = []
+    videoExist = []
+    allCarts = Cart.objects.filter(username = user)
+    downloadQuality = ""
+     #check if downloaded:
+    is_download = DownloadHistory.objects.filter(name = user)
+    is_watch = Onwatch.objects.filter(watcher = user)
+    paidList = []
+    videodetails = set([])
+    videoDetailz = []
+    for isWatch in is_watch:
+        paidList.append(isWatch.video_name)
+    for isDownloaded in is_download:
+        paidList.append(isDownloaded.video_name)
+    # print(paidList)
+    for cart in allCarts:
+        videoUploaded = Videos.objects.filter(name = cart.video_name)
+        if videoUploaded.exists():
+            for vid in videoUploaded:
+                quality = str(VideoUpload.objects.get(title = vid.name).Quality).strip().split(" ")[0]
+                if str(vid.quality) == str(quality):
+                    videoExist.append(vid)
+                    videodetails.add(vid.name)
+        else:
+            videoNotExist.append(cart.video_name)
+    # for paid in paidList:
+    #             if str(cart.video_name) != str(paid): 
+    #                 price = int(VideoUpload.objects.get(title = cart.video_name).price)
+                    # total += price
+    for vidd in videodetails:
+        videoDetailz.append(VideoUpload.objects.get(title = vidd))
+        if DownloadHistory.objects.filter(video_name = vidd).exists():
+            pass
+            # total += int(VideoUpload.objects.get(title = vidd).price)
+        elif Onwatch.objects.filter(video_name = vidd).exists():
+            # print("exist1")
+            pass
+            # total += int(VideoUpload.objects.get(title = vidd).price)
+        else:
+            total += int(VideoUpload.objects.get(title = vidd).price)
+        cartName = Cart.objects.get(video_name = vidd)
+        cartName.delete()
+    print(total)
+    if total > 0 :
+        userAccount = Buyers.objects.get(username = user)
+        if int(userAccount.account) >= total:
+            userAccount.account = int(userAccount.account) - total
+            userAccount.save()
+            for vidDown in videoExist:
+                for paid in paidList:
+                    if str(paid) != vidDown.name:
+                        DownloadHistory.objects.create(
+                                name = user,
+                                video_name = vidDown.name,
+                                cost = VideoUpload.objects.get(title = vidDown.name).price  
+                            )
+   
+                    # deleteCart = Cart.objects.get(video_name = paid)
+                    # deleteCart.delete()
+        else:
+            return redirect("/deposit/")
+    print(1, videoExist)
+    # print(paidList)
+    context = {
+        "videos":videoExist,
+        "videoDetails":videoDetailz,
+        "videoExist":len(videoNotExist) == 0
+    }
+
+    return render(request, "download.html", {"context":context})

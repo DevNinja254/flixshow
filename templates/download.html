@@ -19,7 +19,9 @@
         <div class="flex items-center justify-start gap-4 p-3 flex-wrap">
             {% for vida in context.videos %}
             <div class="vidaContainer bg-gray-400">
-                <img src="{{context.videoDetails.image.url}}" alt="movie image">
+                {% for img in context.videoDetails %}
+                <img src="{{img.image.url}}" alt="movie image">
+                {%endfor%}
                 <p class="{{vida.video}} vidName">{{vida.video}}</p>
                 <a href="{{vida.video.url}}" download >
                     <div class="my-3 mx-1 bg-black bg-opacity-30 p-1 grid place-content-center border-gray-500 border-2 rounded-md hover:cursor-pointer transition-all duration-150 ease-linear hover:shadow-sm hover:shadow-sky-300 downloadButtonActivator" >

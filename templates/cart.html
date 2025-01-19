@@ -7,23 +7,43 @@
         #advert {
             background-color: rgb(4, 38, 46);
     }
+    .grider {
+        margin-bottom: 1rem;
+    }
+    @media screen and (min-width:600px) {
+        #scroll-cart {
+            overflow: hidden
+        }
+    }
 {% endblock style %}
 
 {% block bodyContent %}
 
-<header class="sticky top-0 right-0 w-full backdrop-blur-md">
+<header class="sticky top-0 z-10 bg-white right-0 w-full backdrop-blur-md">
     <!--Advitisement part-->
-    <div id="advert" class="py-3 text-lg font-sans font-bold capitalize text-white text-center tracking-widest">
+    <div id="advert" class="py-3 text-md w-full md:text-lg font-sans font-bold capitalize text-white text-center tracking-wider">
         <p>Spring Into savings Up to 35% off Latest Movies</p>
     </div>
     <!--Links-->
     <div class="flex items-center justify-between gap-8 py-4 px-3">
         <div class="flex items-center justify-start gap-4">
             <a href="/" class="font-extrabold font-sans text-2xl tracking-wider">KingstoneMovies</a>
-            <a href="/multi-media/movies" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Movies</a>
-            <a href="/multi-media/tvShows" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Tv Shows</a>
-            <a href="/multi-media/music" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Music</a>
-            <a href="/multi-media/movies" class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Trending</a>
+            <form action="/multi-media/movies/">
+                <input type="text" value="movies" name="type" class="hidden">
+                <button class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Movies</button>
+            </form>
+            <form action="/multi-media/movies/">
+                <input type="text" value="tvShows" name="type" class="hidden">
+                <button class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Tv Shows</button>
+            </form>
+            <form action="/multi-media/movies/">
+                <input type="text" value="music" name="type" class="hidden">
+                <button class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Music</button>
+            </form>
+            <form action="/multi-media/movies/">
+                <input type="text" value="movies" name="type" class="hidden">
+                <button class="text-black text-opacity-75 text-md font-sans hover:text-opacity-95 tracking-wide hidden md:block">Trending</button>
+            </form>
             
         </div>
         <div class="flex items-center justify-end gap-4">
@@ -72,52 +92,63 @@
 <main class="px-10 py-3 md:w-5/6 mx-auto">
 
     <h2 class="text-center font-bold text-xl font-sans tracking-wide mb-8">Your Cart ({{context.number}} items)</h2>
-    <section class="w-full overflow-scroll">
-        <table class="w-full">
-            <thead class="border-b-2 border-b-gray-600 border-opacity-10">
+        <section class="w-full sm:grid sm:grid-cols-2 sm:gap-3 md:grid md:grid-cols-3 md:gap-4 xl:grid xl:grid-cols-4 xl:gap-3 3xl:grid 3xl:grid-cols-5 3xl:gap-3 ">
+            <!-- <thead class="border-b-2 border-b-gray-600 border-opacity-10 hidden">
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Item</th>
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Type</th>
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Year</th>
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Price</th>
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Download</th>
                 <th class="pb-3 text-center  text-lg font-sans tracking-wide">Edit</th>
-            </thead>
+            </thead> -->
 
-            <tbody>
+           
                 {% for carty in  context.allCarts%}
-                <tr class="border-b-2 border-b-gray-600 border-opacity-10 ">
-                    <td class="flex items-center justify-start gap-3 py-5 pr-2">
-                        <img src="{{carty.image.url}}" class="w-24" alt="">
-                    <div>
-                        <p class="py-5 text-amber-700 font-bold font-sans">{{carty.title}}</p>
-                    </div>
-                    </td>
+                <div class="p-2 rounded-md w-full  mb-4 shadow-md shadow-gray-400">
+                    <div class="grid grid-cols-2 gap-3 place-content-center  ">
+                        <!-- normal positioned image -->
+                        <div class="rounded-md overflow-hidden">
+                            <img src="{{carty.image.url}}" class="w-full" alt="" width="270" height="170">
+                        </div>
+                        <div class="">
+                            <div>
+                                <p class=" text-amber-700 font-bold font-sans py-1">{{carty.title}}</p>
+                            </div>
+                        
 
-                    <td class="text-black text-opacity-70 font-sans  text-center px-2 overflow-hidden capitalize">{{carty.typs}}</td>
-                    <td class="text-black text-opacity-70 font-sans  text-center px-2 overflow-hidden capitalize">{{carty.season}}</td>
-                    <td class="text-black text-opacity-70 font-sans  text-center px-2 overflow-hidden capitalize">
-                        Ksh.<span>{{carty.price}}</span>
-                    </td>
-                    <td>
+                            <div class="text-amber-700 font-bold font-sans py-1 capitalize">{{carty.typs}}</div>
+                            <div class="text-amber-700 font-bold font-sans py-1 capitalize">{{carty.season}}</div>
+                            <div class="text-gray-700 font-bold font-sans py-1 capitalize">
+                                Ksh.{{carty.price}}
+                            </div>
+                        </div>
+                    </div>
+
+                   <div class="mt-3 flex items-center justify-start gap-4">
+                    <div >
                         <form action="/mp4/">
                             <input type="text" value="{{carty.title}}" name="videoTitle" hidden>
                             <button class="bg-green-600 w-fit px-2 rounded-md text-sm font-sans text-gray-100 hover:cursor-pointer hover:bg-opacity-70 font-bold">Download</button>
                         </form>
-                    </td>
+                    </div>
                     <!--remove from cart-->
-                    <td>
+                    <div>
                         <p class="bg-red-600 w-fit px-2 rounded-md text-sm font-sans text-gray-100 hover:cursor-pointer hover:bg-opacity-70 font-bold removeCartActivate" id="{{carty.title}}">Remove</p>
-                    </td>
-                </tr>
+                    </div>
+                   </div>
+                   </div>
+                </div>
                 {% endfor %}
 
 
-            </tbody>
-        </table>
-    </section>
+            </div>
+        </section>
     <div class="my-5">
         <p class="capitalize font-bold text-lg font-sans tracking-wide">Grand total: Ksh.<span>{{context.total}}</span></p>
     </div>
+    <form action="/downloadall/" class="bg-amber-700 w-fit p-1 rounded-md text-sm text-white font-bold hover:shadow-md hover:shadow-sky-300">
+        <button class="">Downaload All</button>
+    </form>
 </main>
 
 <!--Delete confirm-->

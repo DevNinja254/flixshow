@@ -6,6 +6,7 @@ KingstoneMovies
 {% block style %}
     body {
         scroll-behaviour:smooth;
+        background:black;
     }
     header {
         height: 100vh;
@@ -36,13 +37,33 @@ KingstoneMovies
     }
    #CartegoryOverflow {
     overflow-x: scroll;
+    gap: 1rem;
 
+   }
+   #CartegoryOverflow::webkit-scrollbar {
+    width: 2px;
+   }
+   #CartegoryOverflow::webkit-scrollbar-thumb {
+    width:3px;
+   }
+   .formPopular {
+    min-width: 130px;
+    max-width: 300px;
+   }
+   @media screen and (min-width: 400px) {
+    #CartegoryOverflow {
+        overflow:hidden;    
+       }
    }
    @media screen and (min-width:720px) {
         #movie {
             display: grid;
             grid-template-columns:1fr 1fr;
         }
+        .formPopular {
+            min-width: 130px;
+            max-width: 200px;
+           }
         
         #listMenu {
             display:none;
@@ -255,16 +276,16 @@ KingstoneMovies
         
         <h2 class="text-bold font-sans text-lg pb-4">Popular</h2>
        
-        <div class="t-6 flex justify-start items-center gap-2  sm:grid sm:grid-cols-5 md:grid lg:grid xl:grid 2xl:grid sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 flex-wrap" id="CartegoryOverflow">
+        <div class="flex items-start " id="CartegoryOverflow">
              <!--Loop though video and disply where display where display on popular is true-->
             
              {% for videoDetail in context.allVideoDetails %}
              {% if videoDetail.popular ==  "True"%}
-                 <form action="/mp4/" class="block w-28 ">
+                 <form action="/mp4/" class="block w-28 formPopular ">
                      <input type="text"  name="videoTitle" value="{{videoDetail.title}}" hidden>
                      <button class="block w-full">
-                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="inline-block object-cover w-28 flex-wrap" width="120" id="categoryFormImg">
-                         <div>
+                         <img src="{{videoDetail.image.url}}" alt="Movie img" class="object-cover w-full" width="270" height="400" id="categoryFormImg">
+                         <div class="overflow-hidden w-full">
                              <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                              <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>
                          </div>
@@ -283,15 +304,15 @@ KingstoneMovies
         <div>
 
             <!--Get movie id and link to movie page-->
-            <div class="flex items-center justify-start gap-3 overflow-scroll flex-wrap" id="CartegoryOverflow">
+            <div class="flex items-start justify-start sm:flex-wrap sm:overflow-hidden" id="CartegoryOverflow">
                 <!--Loop movie data and diplay on the tags below-->
                 {% for videoDetail in context.allVideoDetails %}
                     {% if videoDetail.display ==  "True" and videoDetail.cartegory_id == cartegory.cartName%}
-                        <form action="/mp4/" class="max-w-52 overflow-hidden">
+                        <form action="/mp4/" class="block w-28 formPopular">
                             <input type="text" name="videoTitle" value="{{videoDetail.title}}" hidden>
                             <button class="block min-w-50">
-                                <img src="{{videoDetail.image.url}}" width="120" alt="Movie img" class="block object-cover min-w-28" id="categoryFormImg">
-                                <div>
+                                <img src="{{videoDetail.image.url}}" width="270" height="400" alt="Movie img" class="block object-cover" id="categoryFormImg">
+                                <div class="overflow-hidden w-full">
                                     <p class="w-full text-left capitalize text-red-600 font-bold pt-2" id="categoryFormP">{{videoDetail.title}}</p>
                                     <p id="categoryFormP" class="w-full text-left text-red-600 capitalize font-bold pb-3">{{videoDetail.typs}}</p>
                                 </div>
@@ -320,7 +341,7 @@ KingstoneMovies
         <h2 class="text-red-600 bold pb-2 text-3xl font-bold pt-4 sm:pt-0">KingstoneMovies</h2>
         <div>
             <h3 class="text-white font-bold text-lg ">Quick Navigation</h3>
-            <div class="flex flex-col">
+            <div class=" md:flex flex-col items-start justify-center">
                 <a href="/" class="text-white text-opacity-70 font-sans text-bold">Home</a>
                 <a href="https://augustine.pages.dev" class="text-white text-opacity-70 font-sans text-bold">About</a>
                 <li><form action="/multi-media/movies/">
