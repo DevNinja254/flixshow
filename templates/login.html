@@ -4,10 +4,8 @@
 {% block title %}
 Login
 {% endblock title %}
-
 {% block form %}
-        
-<form action="/membership/login/" method="post" id="form" class="w-fit m-auto font-sans">
+<form action="/membership/login/" method="post" id="form" class="text-black w-fit m-auto font-sans">
      {% csrf_token %}
      
      {{form}}
