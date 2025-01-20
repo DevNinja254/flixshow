@@ -497,7 +497,7 @@ def activate(request):
             vid.ended = False
             vid.save()
     return redirect("/membership/dashboard")
-
+# this is just a comment
 def deactivate(request):
     if request.method == "POST":
         vide = Videos.objects.filter(video = request.POST["videoName"])
