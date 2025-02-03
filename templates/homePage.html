@@ -49,19 +49,50 @@ KingstoneMovies
     justify-content: start;
     align-items: start;
     width: 100%;
-    animation: slides 25s infinite;
+    animation: slides 100s infinite;
    }
    @keyframes slides {
     0% {transform: translateX(0%);}
-    20% {transform: translateX(0%);}
-    25% {transform: translateX(-100%);}
-    40% {transform: translateX(-100%);}
-    45% {transform: translateX(-200%);}
-    60% {transform: translateX(-200%);}
-    65% {transform: translateX(-300%);}
-    80% {transform: translateX(-300%);}
-    85% {transform: translateX(-400%);}
-    100% {transform: translateX(-400%);}
+    5% {transform: translateX(0%);}
+    6% {transform: translateX(-100%);}
+    10% {transform: translateX(-100%);}
+    11% {transform: translateX(-200%);}
+    15% {transform: translateX(-200%);}
+    16% {transform: translateX(-300%);}
+    20% {transform: translateX(-300%);}
+    21% {transform: translateX(-400%);}
+    25% {transform: translateX(-400%);}
+    26% {transform: translateX(-500%);}
+    30% {transform: translateX(-500%);}
+    31% {transform: translateX(-600%);}
+    35% {transform: translateX(-600%);}
+    36% {transform: translateX(-700%);}
+    40% {transform: translateX(-700%);}
+    41% {transform: translateX(-800%);}
+    45% {transform: translateX(-800%);}
+    46% {transform: translateX(-900%);}
+    50% {transform: translateX(-900%);}
+    51% {transform: translateX(-1000%);}
+    55% {transform: translateX(-1000%);}
+    56% {transform: translateX(-1100%);}
+    60% {transform: translateX(-1100%);}
+    61% {transform: translateX(-1200%);}
+    65% {transform: translateX(-1200%);}
+    66% {transform: translateX(-1300%);}
+    70% {transform: translateX(-1300%);}
+    71% {transform: translateX(-1400%);}
+    75% {transform: translateX(-1400%);}
+    76% {transform: translateX(-1500%);}
+    80% {transform: translateX(-1500%);}
+    81% {transform: translateX(-1600%);}
+    85% {transform: translateX(-1600%);}
+    86% {transform: translateX(-1700%);}
+    90% {transform: translateX(-1700%);}
+    91% {transform: translateX(-1800%);}
+    95% {transform: translateX(-1800%);}
+    96% {transform: translateX(-1900%);}
+    100% {transform: translateX(-1900%);}
+
 
    }
    .slide {
@@ -137,11 +168,11 @@ KingstoneMovies
     <li><a href="/membership/login/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Login</a></li>
     {% endif %}
 </ul>
-  <header class="sticky top-0 w-full z-10 bg-black" id="header">
+  <header class="sticky top-0 w-full z-10 bg-black  bg-opaciyt-50" id="header">
 
    
    <!-- <div class="fixed top-0 left-0 w-full"> -->
-    <div class="bg-gray-100 flex justify-between items-center relative p-3 gap-2 bg-opacity-10">
+    <div class="bg-black flex justify-between items-center relative p-3 gap-2 bg-opacity-10">
         <h1 class="text-red-600 bold flex items-start justify-start flex-wrap text-3xl font-bold  ">
             <p>Kingstone</p>
             <p>Movies</p>
@@ -283,7 +314,7 @@ KingstoneMovies
                         <p class="font-sans font-bold font-sm text-white text-opacity-80 text-center pt-3 capitalize" id="Trailler-description">{{latest.synopsis}} </p>
                     </div>
             
-                    <div class="flex justify-start items-center mt-3 w-full flex-wrap">
+                    <div class="flex justify-center items-center mt-3 w-full flex-wrap">
                         <!--Link to category page-->
                         <form action="/multi-media/cart/" class="border-r-2 pr-4 border-white">
                             <input type="text" name ="cartName" value="{{latest.cartegory}}" hidden>

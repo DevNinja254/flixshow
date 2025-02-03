@@ -44,7 +44,7 @@ def home(request):
         allVideoDetail.popular = str(allVideoDetail.popular)        
         allVideoDetails.append(allVideoDetail) 
     # latest videos 
-    lates = allVideoDetails[-1:-6:-1]
+    lates = allVideoDetails[-1:-21:-1]
     latests = []
     for late in lates: 
         if len(late.synopsis) > 50:
