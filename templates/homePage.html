@@ -16,6 +16,7 @@ KingstoneMovies
         width: 100%;
         height: 60vh;
         object-fit: cover;
+        <!-- display: block; -->
     }
     #Trailler-title {
         font-size: 1.8rem;
@@ -48,7 +49,7 @@ KingstoneMovies
     justify-content: start;
     align-items: start;
     width: 100%;
-    animation: slides 30s infinite;
+    animation: slides 25s infinite;
    }
    @keyframes slides {
     0% {transform: translateX(0%);}
@@ -136,11 +137,11 @@ KingstoneMovies
     <li><a href="/membership/login/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Login</a></li>
     {% endif %}
 </ul>
-  <header class="sticky top-0 w-full z-20" id="header">
+  <header class="sticky top-0 w-full z-10 bg-black" id="header">
 
    
    <!-- <div class="fixed top-0 left-0 w-full"> -->
-    <div class="bg-gray-500 flex justify-between items-center relative p-3 gap-2">
+    <div class="bg-gray-100 flex justify-between items-center relative p-3 gap-2 bg-opacity-10">
         <h1 class="text-red-600 bold flex items-start justify-start flex-wrap text-3xl font-bold  ">
             <p>Kingstone</p>
             <p>Movies</p>

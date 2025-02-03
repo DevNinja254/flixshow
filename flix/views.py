@@ -399,7 +399,7 @@ def download(request):
                 if payed == videoTitle:
                     VideoPaid = True
             if not VideoPaid:
-                # deduct payment from user Account
+                  # deduct payment from user Account
                 userAccount = Buyers.objects.filter(username = user)
                 if userAccount.exists():
                     for use in userAccount:
@@ -410,13 +410,13 @@ def download(request):
                             DownloadHistory.objects.create(
                                 name = user,
                                 video_name = videoTitle,
-                                cost = price  
+                                cost = price
                             )
                             break
                         else:
                           return redirect("/deposit/")
         else:
-            videoExist = False  
+            videoExist = False
             videoPixel = False
             videozdetail = False
    # print(len(videoPixel))
@@ -425,8 +425,9 @@ def download(request):
         "videoDetails":[videozdetail],
         "videoExist":videoExist
     }
-        
+
     return render(request, "download.html", {"context":context})
+
 @csrf_exempt
 def stkCallback(request):
     callback_data = json.loads(request.body)
@@ -550,63 +551,66 @@ def cancelPurchase(request):
 def downloadAll(request):
     if request.method == "POST":
         user = userDetails(request)["username"]
-        videoExist = []
         allCarts = Cart.objects.filter(username = user)
         #check if downloaded:
         is_download = DownloadHistory.objects.filter(name = user)
         is_watch = Onwatch.objects.filter(watcher = user)
         paidList = set([])
-        videodetails = set([])
-        videoDetailz = []
-        videoExist = []
         for isWatch in is_watch:
             paidList.add(isWatch.video_name)
-            # videodetails.add(isWatch.video_name)
         for isDownloaded in is_download:
-            # videodetails.add(isDownloaded.video_name)
             paidList.add(isDownloaded.video_name)
-        # print(paidList)
-        # print(videodetails)
-     
-        for allCart in allCarts:
-            videodetails.add(allCart.video_name)
-            for paid in paidList:
-                if allCart.video_name == paid:
-                    videodetails.remove(allCart.video_name)
-
-        total = 0 
-        for vid in videodetails:
-            print(vid.title)
-            total += int(VideoUpload.objects.get(title = vid).price)
+        
+        # videos Title
+        videoTitles = []
+        videoTitlesNot = []
         for cart in allCarts:
-            videoDetailz.append(VideoUpload.objects.get(title = cart.video_name))
-            quality = VideoUpload.objects.get(title = cart.video_name).Quality.strip().split(" ")[0]
-            for vidz in Videos.objects.filter(name = cart.video_name):
-                print(vidz.quality, quality)
-                if vidz.quality == quality:
-                    videoExist.append(vidz)
-        print(len(videoExist))             
-        account = userDetails(request)["userBuyrDetailsDi"]["account"]
-        username = Buyers.objects.get(username = user)
-        if int(account) >= total:
-            username.account = int(username.account) - int(total)
-            username.save()
-            for vidas in videodetails:
+            videoTitlesNot.append(cart.video_name)
+            videoTitles.append(cart.video_name)
+        # remove paid videos
+        # print(videoTitlesNot)
+        for paid in paidList:
+            if paid in videoTitles:
+                videoTitlesNot.remove(paid)
+        # print(videoTitlesNot, "teo")
+        # calculate total
+        prize = 0
+        for notPaid in videoTitlesNot:
+            prize = prize + VideoUpload.objects.get(title = notPaid).price
+        # print(prize)
+        # deduct from account
+        user = Buyers.objects.get(username = user)
+        if user.account >= prize:
+            user.account = user.account - prize
+            user.save()
+            # print(user.account)
+            # add movies to downloaded
+            for notpay in videoTitlesNot:
                 DownloadHistory.objects.create(
                                 name = user,
-                                video_name = vidas,
-                                cost = VideoUpload.objects.get(title = vidas).price  
+                                video_name = notpay,
+                                cost =  VideoUpload.objects.get(title = notPaid).price
                             )
-                cart = Cart.objects.get(video_name = vidas)
-            context = {
-                "videos":videoExist,
-                "videoDetails":videoDetailz,
-                "videoExist":len(videodetails) == 0
-            }
-            for cart in allCarts:
-                existCart = Cart.objects.get(video_name = cart.video_name)
-                existCart.delete()
-            return render(request, "download.html", {"context":context})
-        else: 
+            # clear cart
+            existCart = Cart.objects.filter(username = user)
+            for cartz in existCart:
+                if existCart.exists():
+                    cartz.delete()
+            # videos and video details
+            videos = []
+            videoDetails = []
+            for vide in allCarts:
+                videoDetails.append(VideoUpload.objects.get(title = vide.video_name))
+                for vido in Videos.objects.filter(name = vide.video_name):
+                    videos.append(vido)
+        else:
             return redirect("/deposit/")
-    return redirect("/cart/")
+        context = {
+            "videoExist": len(videos),
+            "videoDetails": videoDetails,
+            "videos": videos
+        }
+        return render(request, "download.html", {"context":context})
+    else: 
+        return redirect("/cart/")
+        
