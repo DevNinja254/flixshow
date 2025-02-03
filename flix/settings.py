@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.xyz", "kingstonemovies.xyz","https://comic-finch-strongly.ngrok-free.app", "comic-finch-strongly.ngrok-free.app"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'Members',
     'django_browser_reload',
     'compressor',
-    'webpush',
+    # 'webpush',
 ]
 
 MIDDLEWARE = [
@@ -131,11 +131,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-WEBPUSH_SETTINGS = {
-   "VAPID_PUBLIC_KEY": "BBYaa0FQmdfE8hPaLNvFtcREwg3Hfu2ALoBxu1NNxX-ETscM8F1RwxizbeCXfynpKkU831_D8IBsgAQtqCXFXP0",
-   "VAPID_PRIVATE_KEY": "iaFSdEjLkUVi-OBtTT5IaelzrWT3iKflXYxSr7ABNNA",
-   "VAPID_ADMIN_EMAIL": "aga.imbali1@gmail.com"
-}
+# WEBPUSH_SETTINGS = {
+#    "VAPID_PUBLIC_KEY": "BBYaa0FQmdfE8hPaLNvFtcREwg3Hfu2ALoBxu1NNxX-ETscM8F1RwxizbeCXfynpKkU831_D8IBsgAQtqCXFXP0",
+#    "VAPID_PRIVATE_KEY": "iaFSdEjLkUVi-OBtTT5IaelzrWT3iKflXYxSr7ABNNA",
+#    "VAPID_ADMIN_EMAIL": "aga.imbali1@gmail.com"
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

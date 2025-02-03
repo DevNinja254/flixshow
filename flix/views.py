@@ -34,7 +34,6 @@ def home(request):
     for carties in cartegoris:
         carties.cartName = str(carties.cartName)
         cartegories.append(carties) 
-
     # fetch all videoDetails object convert type and display to string
     allVideoDetailed = VideoUpload.objects.all()
     allVideoDetails = []
@@ -43,7 +42,14 @@ def home(request):
         allVideoDetail.cartegory_id = str(allVideoDetail.cartegory_id)
         allVideoDetail.display = str(allVideoDetail.display)
         allVideoDetail.popular = str(allVideoDetail.popular)        
-        allVideoDetails.append(allVideoDetail)  
+        allVideoDetails.append(allVideoDetail) 
+    # latest videos 
+    lates = allVideoDetails[-1:-6:-1]
+    latests = []
+    for late in lates: 
+        if len(late.synopsis) > 50:
+            late.synopsis = "{syno}[...]".format(syno=str(late.synopsis)[0:50:1])
+        latests.append(late)
     if userDetail["buyer"]:
         is_approved = userDetail["userMembDetailsDic"]
     elif userDetail["seller"]:
@@ -56,6 +62,8 @@ def home(request):
             "cartegories":cartegories,
             "allVideoDetails": allVideoDetails,
             "is_approved":is_approved,
+            "latestVideos": latests,
+            "greater": len(allVideoDetails) >= 5,
         }
     else:
          context = {
@@ -64,6 +72,8 @@ def home(request):
             "videoObject":videoObject,
             "cartegories":cartegories,
             "allVideoDetails": allVideoDetails,
+            "latestVideos": latests,
+            "greater": len(allVideoDetails) >= 5,
         }
     
     return render(request, "homePage.html", {"context":context})
@@ -566,6 +576,7 @@ def downloadAll(request):
 
         total = 0 
         for vid in videodetails:
+            print(vid.title)
             total += int(VideoUpload.objects.get(title = vid).price)
         for cart in allCarts:
             videoDetailz.append(VideoUpload.objects.get(title = cart.video_name))

@@ -14,7 +14,8 @@ KingstoneMovies
     }
     #imgTrail {
         width: 100%;
-        height: 100%;
+        height: 60vh;
+        object-fit: cover;
     }
     #Trailler-title {
         font-size: 1.8rem;
@@ -32,8 +33,8 @@ KingstoneMovies
         font-size: 0.8rem;
         letter-spacing: 1.5px;
     }
-    #movie {
-        background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5) )
+    #movix {
+        background-image: linear-gradient(to top,rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4) )
     }
  
    #CartegoryOverflow::webkit-scrollbar {
@@ -42,7 +43,30 @@ KingstoneMovies
    #CartegoryOverflow::webkit-scrollbar-thumb {
     width:3px;
    }
- 
+   #movie {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    animation: slides 30s infinite;
+   }
+   @keyframes slides {
+    0% {transform: translateX(0%);}
+    20% {transform: translateX(0%);}
+    25% {transform: translateX(-100%);}
+    40% {transform: translateX(-100%);}
+    45% {transform: translateX(-200%);}
+    60% {transform: translateX(-200%);}
+    65% {transform: translateX(-300%);}
+    80% {transform: translateX(-300%);}
+    85% {transform: translateX(-400%);}
+    100% {transform: translateX(-400%);}
+
+   }
+   .slide {
+    min-width: 100%;
+    max-width: 100%;
+   }
    @media screen and (min-width: 500px) {
         #CartegoryOverflow {
             display: flex;
@@ -52,12 +76,12 @@ KingstoneMovies
                 
      
    }
-   @media screen and (min-width:720px) {
-        #movie {
-            display: grid;
-            grid-template-columns:1fr 1fr;
-        }
-
+   @media screen and (min-width:900px) {
+    #imgTrail {
+        width: 100%;
+        height: 70vh;
+        object-fit: cover;
+    }
     }
 
     #profile, #profile1 {
@@ -112,9 +136,10 @@ KingstoneMovies
     <li><a href="/membership/login/" class="pt-4 text-center hover:text-red-500 transition-all block w-full duration-100 ease-out">Login</a></li>
     {% endif %}
 </ul>
-  <header class="relative w-full" id="header">
+  <header class="sticky top-0 w-full z-20" id="header">
 
    
+   <!-- <div class="fixed top-0 left-0 w-full"> -->
     <div class="bg-gray-500 flex justify-between items-center relative p-3 gap-2">
         <h1 class="text-red-600 bold flex items-start justify-start flex-wrap text-3xl font-bold  ">
             <p>Kingstone</p>
@@ -224,6 +249,7 @@ KingstoneMovies
              </div>
         </nav>
     </div>
+   <!-- </div> -->
     <!-- search form -->
     <div class="py-3 w-full h-0 hidden transition-all duration-500 ease-linear  disappear bg-gray-800 px-3">
         <form action="/search/" class=" ">
@@ -237,74 +263,56 @@ KingstoneMovies
             <button class="bg-blue-600  py-1 px-2 border-none focus:border-none focus:ring-0 outline-none text-white text-opacity-90 rounded-md">Search</button>
         </span>
         </form>
-    </div>
-        <div class="grid px-6  h-full place-content-center" id="movie">
-            <div>
-                <!--MovieOnLag-->
-               <div class="w-5/6">
-                    <img src="{{context.videoObject.image.url}}" class="absolute top-0 left-0 -z-50 object-cover backdrop-blur-lg" id="imgTrail" alt="">
-                    <div class="flex flex-col justify-center items-center w-fit pb-4">
-                        <p class="text-2xl text-yellow-600 bold capitalize">{{context.videoObject.title}} </p>
-                        <p class="text-2xl text-blue-500 bold capitalize">{{context.videoObject.season}} </p>
-                    </div>
+    </div>   
+  </header>
+  <div class="overflow-hidden">
+    <div  id="movie">
+        {% for latest in context.latestVideos%}
+            <div class="relative slide">
+            <div class="">
+                    <img src="{{latest.image.url}}" id="imgTrail" alt="">
                 </div>
+                <div class="absolute top-0 left-0 w-full grid place-content-center h-full gap-3" id="movix">
+                    <div class=" pb-4">
+                        <p class="text-2xl text-gray-300 text-center tracking-wider font-mono font-extrabold capitalize">{{latest.title}} </p>
+                        <p class="text-2xl text-sky-400 font-bold text-center tracking-wide capitalize">{{latest.season}} </p>
+                    </div>
                     
+                    <div class="pt-4">
+                        <p class="font-sans font-bold font-sm text-white text-opacity-80 text-center pt-3 capitalize" id="Trailler-description">{{latest.synopsis}} </p>
+                    </div>
+            
+                    <div class="flex justify-start items-center mt-3 w-full flex-wrap">
+                        <!--Link to category page-->
+                        <form action="/multi-media/cart/" class="border-r-2 pr-4 border-white">
+                            <input type="text" name ="cartName" value="{{latest.cartegory}}" hidden>
+                            <button class="text-red-600 font-bold capitalize">{{latest.cartegory}}</button>
+                        </form>
+            
+                        <!--Link to type page-->
+                        <form action="/multi-media/tvShows/" class="border-r-2 pl-4 pr-4 border-white">
+                            <input type="text" value="{{latest.typs}}" name="type" hidden>
+                            <button class="text-red-600 font-bold capitalize">{{latest.typs}}</button>
+                        </form>
+            
+                        <!--link to movie page-->
+                        <form action="/mp4/">
+            
+                            <input type="text" name="videoTitle" value="{{latest.title}}" hidden>
+                            <button class="border-r-2 pl-4 pr-4 border-white text-red-600 capitalize font-bold">{{latest.season}}</button>
+                        </form>
+                    </div>
                     <!--link to watch trailler play page-->
-                   <form action="/mp4/">
-                        <input type="text" name="videoTitle" value="{{context.videoObject.title}}" hidden>
+                    <form action="/mp4/">
+                        <input type="text" name="videoTitle" value="{{latest.title}}" hidden>
                         <button class="inline-block bg-black bg-opacity-60 text-sm font-extrabold font-sans text-red-600 bold p-2 rounded-md hover:text-red-500 hover:cursor-pointer" >WATCH</button>
                     </form>
-                    <p class="bg-black bg-opacity-60 text-sm font-extrabold font-sans text-red-600 bold p-2 rounded-md hover:text-red-500 hover:cursor-pointer hidden" id="playTrailer">WATCH</p>
                 
-
-                <!--Video container-->
-                <div class="fixed top-0 left-0  place-content-center w-full h-full bg-black bg-opacity-70 backdrop-blur-sm hidden" id="trailerVideoContainer">
-
-                    <div class="mb-2" id="cancelTrailer">
-                        <svg class="w-6 text-2xl font-extrabold  h-6 text-white block hover:cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                          </svg>
-                          
-                    </div>
-
-                    <iframe src="https://drive.google.com/file/d/1eK3lV6wpcuZuf4YEoCZHWEpo2p_lkHPF/preview" width="640" height="480" allow="autoplay"></iframe>
-                </div>
-                <!--Trailler-->
-               <!----> <div class="pt-4">
-                   <form action="/mp4/">
-
-                    <input type="text" name="videoTitle" value="{{context.videoObject.title}}" hidden>
-                    <button class="text-xl font-bold font-sans capitalize " id="Trailler-title">{{context.videoObject.title}} </button>
-                   </form>
-                    <p class="font-sans font-bold font-sm text-white text-opacity-80 text-justify pt-3 capitalize" id="Trailler-description">{{context.videoObject.synopsis}} </p>
-                </div>
-
-                <div class="flex justify-start items-center mt-3 w-full flex-wrap">
-                    <!--Link to category page-->
-                    <form action="/multi-media/cart/" class="border-r-2 pr-4 border-white">
-                        <input type="text" name ="cartName" value="{{context.videoObject.cartegory}}" hidden>
-                        <button class="text-red-600 font-bold capitalize">{{context.videoObject.cartegory}}</button>
-                    </form>
-
-                    <!--Link to type page-->
-                    <form action="/multi-media/tvShows/" class="border-r-2 pl-4 pr-4 border-white">
-                        <input type="text" value="{{context.videoObject.typs}}" name="type" hidden>
-                        <button class="text-red-600 font-bold capitalize">{{context.videoObject.typs}}</button>
-                    </form>
-
-                    <!--link to movie page-->
-                    <form action="/mp4/">
-
-                        <input type="text" name="videoTitle" value="{{context.videoObject.title}}" hidden>
-                        <button class="border-r-2 pl-4 pr-4 border-white text-red-600 capitalize font-bold">{{context.videoObject.season}}</button>
-                       </form>
-                    
-                    
                 </div>
             </div>
-        </div>
-   
-  </header>
+        {%endfor%}
+    </div>
+  </div>
   <main class="px-8 bg-black text-white pt-3">
     
     <div class="pt-4">
