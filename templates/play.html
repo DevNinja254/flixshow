@@ -3,6 +3,17 @@
 {{context.playVideo.name}} | Watching
 {% endblock title %}
 {% block style %}
+   video::-internal-media-controls-download-button {
+    display:none;
+   }
+
+   video::-webkit-media-controls-enclosure {
+        overflow:hidden;
+   }
+
+   video::-webkit-media-controls-panel {
+        width: calc(100% + 30px);
+   }
 s {
         background-image: linear-gradient(to right, rgb(4, 139, 163), rgb(64, 40, 172), rgb(174, 0, 255));
         min-height:100vh;
@@ -72,7 +83,7 @@ s {
         <button id="deactivatePay"></button>
     </form>
     <div class="w-full md:w-4/5 m-auto pt-6 bg-gray-700" >
-        <video controls muted class="w-full" title="{{context.playVideo.name}}" id="videoPlay"> 
+        <video controls oncontextmenu="return false;"  muted controlsList="nodownload" class="w-full" title="{{context.playVideo.name}}" id="videoPlay"> 
             <source src="{{context.playVideo.video.url}}" type="video/mp4">
         </video>
     </div>
@@ -87,7 +98,7 @@ s {
                     <input type="text" name="quality" value={{context.quality}} hidden>
                     <button class="grid hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out max-w-56" id="{{vids.video}}">
                     
-                        <video  muted class="inline-block object-cover max-w-56 vido" id="{{vids.video}}">
+                        <video oncontextmenu="return false;"  muted class="inline-block object-cover max-w-56 vido" id="{{vids.video}}">
                             <source src="{{viddas.video.url}}" type="video/mp4">
                             <source src="{{viddas.video.url}}" type="video/ogg">
                             <source src="{{viddas.video.url}}" type="video/mkv">

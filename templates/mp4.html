@@ -4,6 +4,17 @@
 {{context.videoDetails.title}}
 {% endblock title %}
 {% block style %}
+ video::-internal-media-controls-download-button {
+    display:none;
+   }
+
+   video::-webkit-media-controls-enclosure {
+        overflow:hidden;
+   }
+
+   video::-webkit-media-controls-panel {
+        width: calc(100% + 30px);
+   }
     main {
         min-height: 90vh; 
     }
@@ -188,7 +199,7 @@
                                     <input type="text" name="quality" value={{context.videolity}} hidden>
                                     <button class=" hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out max-w-56" id="{{vids.video}}">
                                     
-                                        <video  muted class="inline-block object-cover max-w-56 vidaz" id="{{vids.video}}">
+                                        <video oncontextmenu="return false;"  muted class="inline-block object-cover max-w-56 vidaz" id="{{vids.video}}">
                                             <source src="{{vids.video.url}}" type="video/mp4">
                                             <source src="{{vids.video.url}}" type="video/ogg">
                                             Your browser does not support the video tag.

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'multimedia',
     'Members',
     'django_browser_reload',
-    'compressor'
+    'compressor',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ AUTH_USER_MODEL = "Members.Members"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if DEBUG:
+if  DEBUG:
     DATABASES = {
            'default': {
                'ENGINE': 'django.db.backends.postgresql',
@@ -130,7 +131,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+WEBPUSH_SETTINGS = {
+   "VAPID_PUBLIC_KEY": "BBYaa0FQmdfE8hPaLNvFtcREwg3Hfu2ALoBxu1NNxX-ETscM8F1RwxizbeCXfynpKkU831_D8IBsgAQtqCXFXP0",
+   "VAPID_PRIVATE_KEY": "iaFSdEjLkUVi-OBtTT5IaelzrWT3iKflXYxSr7ABNNA",
+   "VAPID_ADMIN_EMAIL": "aga.imbali1@gmail.com"
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

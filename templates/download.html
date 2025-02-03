@@ -20,7 +20,9 @@
             {% for vida in context.videos %}
             <div class="vidaContainer bg-gray-400">
                 {% for img in context.videoDetails %}
+                 {%if  img.title == vida.name%}
                 <img src="{{img.image.url}}" alt="movie image">
+                {%endif%}
                 {%endfor%}
                 <p class="{{vida.video}} vidName">{{vida.video}}</p>
                 <a href="{{vida.video.url}}" download >

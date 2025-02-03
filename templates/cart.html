@@ -146,9 +146,12 @@
     <div class="my-5">
         <p class="capitalize font-bold text-lg font-sans tracking-wide">Grand total: Ksh.<span>{{context.total}}</span></p>
     </div>
-    <form action="/downloadall/" class="bg-amber-700 w-fit p-1 rounded-md text-sm text-white font-bold hover:shadow-md hover:shadow-sky-300">
+ 	 {% if context.all%}
+    <form method="post" action="/downloadall/" class="bg-amber-700 w-fit p-1 rounded-md text-sm text-white font-bold hover:shadow-md hover:shadow-sky-300">
+	    {%csrf_token%}
         <button class="">Downaload All</button>
     </form>
+    {%endif%}
 </main>
 
 <!--Delete confirm-->

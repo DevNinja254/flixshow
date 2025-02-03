@@ -57,13 +57,7 @@ KingstoneMovies
             display: grid;
             grid-template-columns:1fr 1fr;
         }
-        
-        #listMenu {
-            display:none;
-        }
-        #listMenus {
-            display:flex;
-        }
+
     }
 
     #profile, #profile1 {
@@ -121,35 +115,62 @@ KingstoneMovies
   <header class="relative w-full" id="header">
 
    
-    <div class="px-6 grid grid-cols-2 grid-flow-row bg-gray-950 bg-opacity-20 fixed backdrop-blur-sm w-full top-0 pb-5 items-center">
+    <div class="bg-gray-500 flex justify-between items-center relative p-3 gap-2">
         <h1 class="text-red-600 bold flex items-start justify-start flex-wrap text-3xl font-bold  ">
             <p>Kingstone</p>
             <p>Movies</p>
         </h1>
-        <nav>
-            <ul class="hidden font-mono text-white justify-evenly lg:justify-end lg:gap-4 text-opacity-80 font-bold" id="listMenus">
-                <li><a href="" class="hover:text-red-500 transition-all duration-100 ease-out">Home</a></li>
+        <form action="/search/" class="hidden w-0 md:flex  transition-all duration-150 ease-linear text-black rounded-md overflow-hidden lg:w-fit" id="searchForm">
+            <input type="text" name="searchTerm" placeholder="Search a movie" class="focus:outline-0 outline-none focus:border-none border-none w-full" autofocus>
+            <button class="bg-black bg-opacity-20 text-white px-2 font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                  
+            </button>
+        </form>
+        <nav class="md:flex md:items-center md:justify-end gap-2">
+            <!-- <div class="flex items-center justify-end gap-2"> -->
+                <div id="disappearButtonMd" class="hidden md:block ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                    
+                </div>
+            <ul class="hidden md:flex md:gap-2" id="listMenus">
+                <li>
+                    <form action="/search/" class="hidden" id="searchForm">
+                        <input type="text" name="searchTerm" placeholder="Search a movie" class="focus:outline-0 outline-none focus:border-none border-none" autofocus>
+                        <button class="bg-black bg-opacity-20 text-white px-2 font-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                              </svg>
+                              
+                        </button>
+                    </form>
+                </li>
+                <!-- <li><a href="" class="hover:text-red-500 transition-all duration-100 ease-out linkSearch">Home</a></li> -->
                 <!--<li><a href="/admins/" class="hover:text-red-500 transition-all duration-100 ease-out">About</a></li>-->
                 <li><form action="/multi-media/movies/">
                     <input type="text" value="movies" name="type" class="hidden">
-                    <button class="hover:text-red-500 transition-all duration-100 ease-out">Movies</button>
+                    <button class="hover:text-red-500 transition-all duration-100 ease-out ">Movies</button>
                 </form></li>
-                <!--<li><form action="/multi-media/music/">
+                <li><form action="/multi-media/music/" class="linkSearch">
                     <input type="text" value="Music" name="type" class="hidden">
                     <button class="hover:text-red-500 transition-all duration-100 ease-out">Music</button>
-                </form></li>-->
-                <li><form action="/multi-media/tvShows/">
+                </form></li>
+                <li><form action="/multi-media/tvShows/" class="">
                     <input type="text" value="series" name="type" class="hidden">
-                    <button class="hover:text-red-500 transition-all duration-100 ease-out">Tv Show</button>
+                    <button class="hover:text-red-500 transition-all duration-100 ease-out whitespace-nowrap">Tv Show</button>
                 </form></li>
 
                 <!--if Autheticated display profile clickable link-->
                 {% if user.is_authenticated %}
                     {% if context.is_approved.is_approved %}
-                        <a href="/admins/" class="hover:text-red-500 transition-all duration-100 ease-out">Admins</a>
+                        <a href="/admins/" class="linkSearch hover:text-red-500 transition-all duration-100 ease-out">Admins</a>
                     {% endif %}
                     {% if context.is_approved.is_superuser %}
-                        <a href="/admin/" class="hover:text-red-500 transition-all duration-100 ease-out">Admin</a>
+                        <a href="/admin/" class="linkSearch hover:text-red-500 transition-all duration-100 ease-out">Admin</a>
                     {% endif %}
                     <div class="bg-sky-600" id="profile">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -159,7 +180,7 @@ KingstoneMovies
 
                 <!--profile setting links display-->
 
-                <div class="fixed top-4 bg-slate-600 p-4 rounded-md w-0 -right-1/3 transition-all duration-200 ease-in-out" id="profileSetting">
+                <div class="fixed  top-4 bg-slate-600 p-4 rounded-md w-0 -right-1/3 transition-all duration-200 ease-in-out z-30" id="profileSetting">
                     <div class="mouse-over flex items-center justify-start gap-6 py-3 shadow-md shadow-gray-400 px-2 mb-3">
                         <div class="bg-sky-600 w-fit h-fit" id="profile1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -167,7 +188,7 @@ KingstoneMovies
                               </svg>
                               
                         </div>
-                        <div class="mouse-over">
+                        <div class="mouse-over ">
                             {% if not context.username == "False" %}
                             <p class="border-b-2 border-gray-300 border-opacity-50">Hi, {{context.username}}</p>
                             {% else %}
@@ -188,13 +209,34 @@ KingstoneMovies
                 <li><a href="/membership/login/" class="hover:text-red-500 transition-all duration-100 ease-out">Login</a></li>
                 {% endif %}
             </ul >
-            <div id="listMenu" class="flex justify-end"><svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/>
-              </svg>
-            </div>
-
+            <!-- search icon -->
+             <div class=" flex gap-3 items-start justify-end text-lg font-bold md:hidden">
+                <div id="disappearButton">
+                    <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                    
+                </div>
+                <div id="listMenu" class=""><svg class="w-6 h-6  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/>
+                  </svg>
+                </div>
+             </div>
         </nav>
-
+    </div>
+    <!-- search form -->
+    <div class="py-3 w-full h-0 hidden transition-all duration-500 ease-linear  disappear bg-gray-800 px-3">
+        <form action="/search/" class=" ">
+            <label for="searchTerm" class="block text-white text-opacity-60 text-xl py-3">Search Term:</label>
+            <span class="flex items-center justify-center gap-4">
+            <input type="text" placeholder="
+            {% block searchFor %}
+            Search for {{context.type}}
+            {% endblock searchFor %}
+            " name="searchTerm" class=" bg-gray-400 py-1 px-2 bg-opacity-20 w-full border-none focus:border-none focus:ring-0 outline-none text-white text-opacity-90 rounded-md">
+            <button class="bg-blue-600  py-1 px-2 border-none focus:border-none focus:ring-0 outline-none text-white text-opacity-90 rounded-md">Search</button>
+        </span>
+        </form>
     </div>
         <div class="grid px-6  h-full place-content-center" id="movie">
             <div>
@@ -392,8 +434,7 @@ KingstoneMovies
         </div>
   </footer>
   <script>
-    
-    const listMenuBar = document.getElementById("listMenu")
+	 const listMenuBar = document.getElementById("listMenu")
     const headerSection = document.getElementById("header")
     const cancelButton = document.getElementById("cancelButton")
     const cancelMenus = document.getElementById("cancelMenus")
@@ -406,7 +447,20 @@ KingstoneMovies
     const playTrailer = document.getElementById("playTrailer")
     const cartName = document.getElementsByClassName("cartName")
     //on click listMenuBar cancelMenus: displayflex and hide headerSection
-    
+     //<!-- search bar -->
+     const disappear = document.querySelector(".disappear")
+     const disappearButton = document.querySelector("#disappearButton")
+     console.log(disappear, "hello")
+     disappearButton.addEventListener("click", ()=> {
+        window.scrollTo({top: 0, left:0, behavior:"smooth"})
+         if (disappear.classList.contains("hidden")) {
+            disappear.classList.remove("hidden")
+            disappear.classList.add("h-fit")  
+         } else {
+            disappear.classList.remove("h-fit")
+            disappear.classList.add("hidden")    
+         }
+     })
     try{
         listMenuBar.addEventListener('click', ()=> {
             cancelMenus.style.width = "100%"
@@ -450,9 +504,28 @@ KingstoneMovies
         trailerVideoContainer.classList.add("grid")
     })
 
-   /* for (const cart of cartName) {
-        console.log(cart.textContent)
-        cart.inner
+   /* search button md
     }*/
+    const searchForm = document.getElementById("searchForm")
+    const linkSearch = document.querySelectorAll(".linkSearch")
+    const buttonSearchMd = document.getElementById("disappearButtonMd") 
+    buttonSearchMd.addEventListener("click", ()=> {
+        if (searchForm.classList.contains("w-0")){
+            for (const element of linkSearch) {
+                element.classList.add("hidden")
+            }
+            searchForm.classList.remove("w-0")
+            searchForm.classList.add("w-full")
+            buttonSearchMd.innerHTML = ""
+        } else {
+            searchForm.classList.remove("w-full")
+            searchForm.classList.add("w-0")
+            for (const element of linkSearch) {
+                element.classList.remove("hidden")
+            }
+            buttonSearchMd.classList.remove("hidden")
+            buttonSearchMd.classList.add("block")
+        }
+    }) 
   </script>
 {% endblock bodyContent %}
