@@ -9,9 +9,11 @@ class CustomUserAdmin(UserAdmin):
     model = Members
     list_display = ("email", "is_staff", "is_active",)
     list_filter = ("email", "is_staff", "is_active",)
+    search_fields = ("email", "username")
+    readonly_fields = ("date_joined",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "is_active-joined", "groups", "user_permissions")}),
     )
     add_fieldsets = (
         (None, {
@@ -22,16 +24,74 @@ class CustomUserAdmin(UserAdmin):
             )}
         ),
     )
-    search_fields = ("email",)
+    # search_fields = ("email",)
     ordering = ("email",)
     class Meta:
         db_table = "Members"
 
+class BuyersEdit(UserAdmin):
+    list_display=("username","email", "date_joined", "account")
+    search_fields=("username", "email")
+    readonly_fields = ("date_joined",)
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ("date_joined",)
+
+
+class DepositHistoryEdit(UserAdmin):
+    list_display=("name","amount", "time",)
+    search_fields=("name", "amount")
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ("time", )
+
+
+class DownloadHistoryEdit(UserAdmin):
+    list_display=("name","video_name", "cost", "time")
+    search_fields=("name", "video_name")
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ("time",)
+
+class CartsEdit(UserAdmin):
+    list_display=("username","video_name")
+    search_fields=("username", "video_name")
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ()
+
+
+class MessageEdit(UserAdmin):
+    list_display=("email", "message")
+    search_fields=("email",)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ()
+
+class OnwatchEdit(UserAdmin):
+    list_display=("watcher","video_name")
+    search_fields=("watcher", "video_name")
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ()
+
+
+
 admin.site.register(Members, CustomUserAdmin)
-admin.site.register(Buyers)
-admin.site.register(Onwatch)
-admin.site.register(Payment)
-admin.site.register(DepositHistory)
-admin.site.register(DownloadHistory)
-admin.site.register(Cart)
-admin.site.register(Message)
+admin.site.register(Buyers,BuyersEdit )
+admin.site.register(Onwatch, OnwatchEdit)
+admin.site.register(DepositHistory, DepositHistoryEdit)
+admin.site.register(DownloadHistory, DownloadHistoryEdit)
+admin.site.register(Cart, CartsEdit)
+admin.site.register(Message, MessageEdit)

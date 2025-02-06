@@ -1,10 +1,36 @@
 from django.contrib import admin
-from .models import Type, VideoUpload, Cartegories, HomepageVideo,videos
-
+from .models import Type, VideoUpload, Cartegories as Cartegorie,videos as Video
+from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
-admin.site.register(Type)
-admin.site.register(VideoUpload)
-admin.site.register(Cartegories)
-admin.site.register(HomepageVideo)
-admin.site.register(videos)
+class CartegoryEdit(UserAdmin):
+    list_display=("cartId", "cartName")
+    search_fields=("cartName",)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ()
+
+
+class VideoUploadEdit(UserAdmin):
+    list_display=("title","price", "season", "cartegory", "typs", "date_uploaded")
+    search_fields=("title", "season", "typs")
+    readonly_fields = ("date_uploaded",)
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ("date_uploaded",)
+
+class VideoEdit(UserAdmin):
+    list_display=("name", "quality")
+    search_fields=("name",)
+    readonly_fields = ()
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+    ordering = ()
+
+admin.site.register(VideoUpload, VideoUploadEdit)
+admin.site.register(Cartegorie, CartegoryEdit)
+admin.site.register(Video, VideoEdit)
