@@ -39,7 +39,7 @@ class BuyersEdit(UserAdmin):
     ordering = ("date_joined",)
 
 
-class DepositHistoryEdit(UserAdmin):
+class DepositHistoryEdit(admin.ModelAdmin):
     list_display=("name","amount", "time",)
     search_fields=("name", "amount")
     readonly_fields = ()
@@ -49,7 +49,7 @@ class DepositHistoryEdit(UserAdmin):
     ordering = ("time", )
 
 
-class DownloadHistoryEdit(UserAdmin):
+class DownloadHistoryEdit(admin.ModelAdmin):
     list_display=("name","video_name", "cost", "time")
     search_fields=("name", "video_name")
     readonly_fields = ()
@@ -58,7 +58,7 @@ class DownloadHistoryEdit(UserAdmin):
     fieldsets = ()
     ordering = ("time",)
 
-class CartsEdit(UserAdmin):
+class CartsEdit(admin.ModelAdmin):
     list_display=("username","video_name")
     search_fields=("username", "video_name")
     readonly_fields = ()
@@ -68,7 +68,7 @@ class CartsEdit(UserAdmin):
     ordering = ()
 
 
-class MessageEdit(UserAdmin):
+class MessageEdit(admin.ModelAdmin):
     list_display=("email", "message")
     search_fields=("email",)
     readonly_fields = ()
@@ -77,7 +77,7 @@ class MessageEdit(UserAdmin):
     fieldsets = ()
     ordering = ()
 
-class OnwatchEdit(UserAdmin):
+class OnwatchEdit(admin.ModelAdmin):
     list_display=("watcher","video_name")
     search_fields=("watcher", "video_name")
     readonly_fields = ()

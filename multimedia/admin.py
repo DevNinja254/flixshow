@@ -3,7 +3,7 @@ from .models import Type, VideoUpload, Cartegories as Cartegorie,videos as Video
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
-class CartegoryEdit(UserAdmin):
+class CartegoryEdit(admin.ModelAdmin):
     list_display=("cartId", "cartName")
     search_fields=("cartName",)
     readonly_fields = ()
@@ -13,7 +13,7 @@ class CartegoryEdit(UserAdmin):
     ordering = ()
 
 
-class VideoUploadEdit(UserAdmin):
+class VideoUploadEdit(admin.ModelAdmin):
     list_display=("title","price", "season", "cartegory", "typs", "date_uploaded")
     search_fields=("title", "season", "typs")
     readonly_fields = ("date_uploaded",)
@@ -22,7 +22,7 @@ class VideoUploadEdit(UserAdmin):
     fieldsets = ()
     ordering = ("date_uploaded",)
 
-class VideoEdit(UserAdmin):
+class VideoEdit(admin.ModelAdmin):
     list_display=("name", "quality")
     search_fields=("name",)
     readonly_fields = ()
