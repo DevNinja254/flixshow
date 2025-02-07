@@ -20,7 +20,7 @@ class VideoUploadEdit(admin.ModelAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
-    ordering = ("date_uploaded",)
+    ordering = ("-date_uploaded",)
 
 class VideoEdit(admin.ModelAdmin):
     list_display=("name", "quality")

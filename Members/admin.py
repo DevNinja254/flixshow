@@ -36,7 +36,7 @@ class BuyersEdit(UserAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
-    ordering = ("date_joined",)
+    ordering = ("-date_joined",)
 
 
 class DepositHistoryEdit(admin.ModelAdmin):
@@ -46,7 +46,7 @@ class DepositHistoryEdit(admin.ModelAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
-    ordering = ("time", )
+    ordering = ("-time", )
 
 
 class DownloadHistoryEdit(admin.ModelAdmin):
@@ -56,7 +56,7 @@ class DownloadHistoryEdit(admin.ModelAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
-    ordering = ("time",)
+    ordering = ("-time",)
 
 class CartsEdit(admin.ModelAdmin):
     list_display=("username","video_name")
