@@ -10,3 +10,4 @@ assets
 */migrations/
 */*/migrations/
 */*/*/migrations/
+env
