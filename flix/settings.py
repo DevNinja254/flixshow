@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+ 
 ROOT_URLCONF = 'flix.urls'
 
 TEMPLATES = [
@@ -181,3 +182,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER ='aga.imbali1@gmail.com'
 EMAIL_HOST_PASSWORD ='oyqtbwumfqecasik'
 
+JAZZMIN_SETTINGS = {
+    "show_ui_builder": True,
+    # "language_chooser":True,
+    "related_modal_active":True,
+    # "site_logo": "images/play.png"
+}

@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     readonly_fields = ("date_joined",)
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active-joined", "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "date_joined", "groups", "user_permissions")}),
     )
     add_fieldsets = (
         (None, {
@@ -44,7 +44,7 @@ class DepositHistoryEdit(admin.ModelAdmin):
     search_fields=("name", "amount")
     readonly_fields = ()
     filter_horizontal = ()
-    list_filter = ()
+    list_filter = ("time",)
     fieldsets = ()
     ordering = ("-time", )
 
@@ -54,7 +54,7 @@ class DownloadHistoryEdit(admin.ModelAdmin):
     search_fields=("name", "video_name")
     readonly_fields = ()
     filter_horizontal = ()
-    list_filter = ()
+    list_filter = ("time",)
     fieldsets = ()
     ordering = ("-time",)
 
