@@ -41,7 +41,7 @@ class Onwatch(models.Model):
     watcher = models.CharField(max_length=150, default = "aga")
     start_date = models.DateTimeField(default=timezone.now)
     def __str__(self):
-        return self.username
+        return self.watcher
     class Meta:
         db_table = "watch"
 class Cart(models.Model):
