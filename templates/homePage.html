@@ -123,9 +123,9 @@ KingstoneMovies
     #profile:hover {
         cursor:pointer;
     }
-   
-  
-  
+    #autoTyped {
+        display: inline-block;
+    }
 {% endblock style %}
 {% block bodyContent %}
 
@@ -346,7 +346,11 @@ KingstoneMovies
     </div>
   </div>
   <main class="px-8 bg-black text-white pt-3">
-    
+    <!-- Auto type infomation -->
+     <div class="text-white w-full font-bold font-mono overflow-hidden shadow-md shadow-gray-500" id="autoTypedContainer" >
+        <span class="hidden" id="notices">{{context.notifications}}</span>
+        <p id="autoTyped" class="whitespace-normal font-mono text-sky-400 text-sm p-2 text-center w-11/12 md:w-5/6 xl:w-4/5 mx-auto"></p>
+     </div>
     <div class="pt-4">
         
         <h2 class="font-bold font-sans text-lg pb-4">Popular</h2>
@@ -473,6 +477,8 @@ KingstoneMovies
             </div>
         </div>
   </footer>
+  <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
   <script>
 	 const listMenuBar = document.getElementById("listMenu")
     const headerSection = document.getElementById("header")
@@ -490,7 +496,7 @@ KingstoneMovies
      //<!-- search bar -->
      const disappear = document.querySelector(".disappear")
      const disappearButton = document.querySelector("#disappearButton")
-     console.log(disappear, "hello")
+     //console.log(disappear, "hello")
      disappearButton.addEventListener("click", ()=> {
         window.scrollTo({top: 0, left:0, behavior:"smooth"})
          if (disappear.classList.contains("hidden")) {
@@ -520,35 +526,52 @@ KingstoneMovies
         console.warn(error.title)
     }
 
-    profile.addEventListener("mouseover", ()=> {
-        profileSetting.style.right = '0'
-        profileSetting.style.width = "fit-content"
-    })
+    try {
+        profile.addEventListener("mouseover", ()=> {
+            profileSetting.style.right = '0'
+            profileSetting.style.width = "fit-content"
+        })
+    } catch (error) {
+        console.log(error)
+    }
 
-    
+   try {
+     
     profileSetting.addEventListener("mouseleave", ()=> {
         
         profileSetting.style.width = "0"
         profileSetting.style.right = '-33%'
     })
+   } catch(error) {
+    console.log(error)
+   }
 
     //trailer container stop
 
-    cancelTrailer.addEventListener("click", ()=> {
-        trailerVideoContainer.classList.remove("grid")
-        trailerVideoContainer.classList.add("hidden")
-    })
+    try {
+        cancelTrailer.addEventListener("click", ()=> {
+            trailerVideoContainer.classList.remove("grid")
+            trailerVideoContainer.classList.add("hidden")
+        })
+    } catch(error) {
+        console.log(error)
+    }
 
+   try {
     playTrailer.addEventListener("click", ()=> {
         trailerVideoContainer.classList.remove("hidden")
         trailerVideoContainer.classList.add("grid")
     })
+   } catch (error) {
+    console.log(error)
+   }
 
    /* search button md
     }*/
     const searchForm = document.getElementById("searchForm")
     const linkSearch = document.querySelectorAll(".linkSearch")
     const buttonSearchMd = document.getElementById("disappearButtonMd") 
+   try {
     buttonSearchMd.addEventListener("click", ()=> {
         if (searchForm.classList.contains("w-0")){
             for (const element of linkSearch) {
@@ -567,5 +590,40 @@ KingstoneMovies
             buttonSearchMd.classList.add("block")
         }
     }) 
+
+   }catch (error) {
+    console.log(error)
+   }
+    //Auto typing
+    try {
+        const autoTypedContainer = document.getElementById("autoTypedContainer")
+        const notices = document.getElementById("notices").innerText.split("'")
+        //notices.pop(notice) -->
+        let noticeEdited = []
+        for (let i = 0; i < notices.length; i++) {
+            if (i % 2 == 1) {
+                noticeEdited.unshift(notices[i] + " ^1200")
+            }
+        }
+        console.log(noticeEdited)
+    var typed = new Typed('#autoTyped', {
+        strings: noticeEdited,
+        typeSpeed: 120,
+        //attr: "value"
+        showCursor: false,
+        cursorChar: '|',
+        autoInsertCss: true,
+        smartBackspace: true,
+        backSpeed:50,
+        onComplete: (self) => {
+            if(!autoTypedContainer.classList.contains("hidden")) {
+                autoTypedContainer.classList.add("hidden")
+            }
+        }
+
+    }) 
+    } catch (error) {
+        console.log(error)
+    }
   </script>
 {% endblock bodyContent %}
