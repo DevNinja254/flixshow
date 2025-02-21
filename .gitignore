@@ -11,3 +11,5 @@ assets
 */*/migrations/
 */*/*/migrations/
 env
+node_modules/
+# package.json

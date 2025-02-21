@@ -84,3 +84,6 @@ class Payment(models.Model):
         return self.username
     class Meta:
         db_table = "payments"
+class Notification(models.Model):
+    message = models.TextField()
+    date_notified = models.DateTimeField(auto_now_add=True)

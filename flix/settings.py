@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.xyz", "kingstonemovies.xyz","https://comic-finch-strongly.ngrok-free.app", "comic-finch-strongly.ngrok-free.app"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
@@ -186,5 +186,10 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": True,
     # "language_chooser":True,
     "related_modal_active":True,
+<<<<<<< HEAD
     # "site_logo": "images/play.png"
 }
+=======
+    "site_logo": "images/download_2.png"
+}
+>>>>>>> da16925992b75c91170aa75ab7f9de5194e936f8

@@ -4,7 +4,7 @@ from multimedia.form import VideoUploads,VideoForm
 from django.contrib.auth.decorators import login_required
 from .DRY import userDetails
 from multimedia.models import videos as Videos, HomepageVideo, VideoUpload, Cartegories
-from Members.models import DepositHistory, DownloadHistory, Buyers, Cart,Message,Members, Onwatch, Payment
+from Members.models import DepositHistory, DownloadHistory, Buyers, Cart,Message,Members, Onwatch, Payment, Notification
 from.stk_code import sendStkPush
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -54,6 +54,14 @@ def home(request):
         is_approved = userDetail["userMembDetailsDic"]
     elif userDetail["seller"]:
         is_approved = userDetail["userMembDetailsDic"]
+    # notitication 
+    notifications = Notification.objects.all()
+    notice = []
+    for noti in notifications:
+        notice.append(noti.message)
+    print(len(notice))    
+    if len(notice) == 0:
+        notice = ['All updates, changes and instructions to be communicated here.']
     if userDetail["logged"] == True:
         context = {
             "username": userDetail["username"],
@@ -64,6 +72,7 @@ def home(request):
             "is_approved":is_approved,
             "latestVideos": latests,
             "greater": len(allVideoDetails) >= 5,
+            "notifications":notice,
         }
     else:
          context = {
@@ -74,6 +83,7 @@ def home(request):
             "allVideoDetails": allVideoDetails,
             "latestVideos": latests,
             "greater": len(allVideoDetails) >= 5,
+            "notifications":notifications,
         }
     
     return render(request, "homePage.html", {"context":context})
