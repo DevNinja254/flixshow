@@ -1,168 +1,321 @@
 {% extends "layout.html" %}
+{%load static%}
 
 {% block title %}
 Dashboard
 {% endblock title %}
 
 {% block style %}
-    #header, header, #ttlIcon {
-        background: rgb(0, 84, 117);
-    }
-    #header {
-       
-        max-height: 40vh;
+    body {
+        background: rgb(227 230 234);
     }
     #ttlIcon {
         padding:2px;
         color:whitesmoke;
         border-radius: 25%;
     }
+    .profile {
+        display: block;
+        max-width: 150px;
+        min-width: 150px;
+        max-height: 150px;
+        min-height: 150px;
+        border-radius: 50%;
+        object-fit:cover;
+    }
+    .fixed {
+        min-width: 100%;
+    }
+    .update {
+        min-width: 100%;
+    }
+    @media screen and (min-width: 600px) {
+        main {
+            width: 80%;
+            margin: auto;
+        }
+    }
+    @media screen and (min-width: 1000px) {
+        main {
+            width: 75%;
+            margin: auto;
+        }
+    }
+   
 {% endblock style %}
 
 {% block bodyContent %}
 
-<header class="p-3 flex items-start justify-between gap-5">
+<header class="px-3 py-4 flex items-start justify-between gap-5 text-gray-400 bg-white sticky top-0 shadow-sm shadow-gray-200">
     <div>
-        <a href="/" class="text-gray-300 font-sans font-bold text-xl sm:text-3xl hover:text-white transition-all duration-150 ease-linear gap-8">KingstoneMovies</a>
+        <a href="/" class="text-lg font-serif tracking-wide font-bold capitalize text-gray-700">Welcome, <span>{{context.userDetail.username}}</span></a>
     </div>
-    <nav class="items-center justify-end gap-3 flex">
-        <a href="/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">Home</a>
-        <span class="text-white font-extrabold text-2xl block">/</span>
-        <a href="/membership/logout/" class="capitalize font-sans font-bold text-white hover:text-sky-400 transition-all duration-100 ease-linear">logout</a>
+    <nav class="items-center justify-end gap-3 flex text-md">
+        <!-- notification -->
+        <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+              </svg>
+              
+        </a>
+        <!-- message -->
+        <a href="/message/">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+              
+        </a>
+        <a href="/membership/logout/" class="capitalize font-sans font-bold hover:text-sky-400 transition-all duration-100 ease-linear">logout</a>
     </nav>
 </header>
 
-<main class="px-4 mb-5">
-    <h1 class="my-4 text-center font-bold font-sans text-2xl">Dashboard</h1>
-    <div class="flex flex-wrap items-center justify-between gap-6">
-        <div>
-
-        
-            <div class="flex items-center justify-start  gap-4 py-3">
-                <div id="ttlIcon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-                    </svg>
-                    
+<main class="px-3 mb-5 ">
+    <!-- <div> -->
+    <div class="mt-5">
+        <span class="p-3 bg-white rounded-xl text-lg font-bold inline-block shadow-md shadow-gray-100" id="profileActivate">Profile</span>
+        <span class="p-3 shadow-md shadow-gray-100 text-lg rounded-xl  text-gray-600 inline-block  " id="dashboardActivate">Dashboard</span>
+    </div>
+    <!-- Profile page -->
+    <div class="py-3" id="profile">
+        <!-- profile pic -->
+        <figure class="grid place-content-center">
+            <img src="{{context.userObject.profile.url}}" class="profile" alt="no image">
+            <figcaption class="mt-3 ">
+                <p class="text-center font-mono text-gray-600 capitalize">{{context.userDetail.username}}</p>
+               <div class="flex justify-cent gap-10 mt-3">
+                    <a href="/" class="text-sky-600">Home</a>
+                    <a href="/deposit/" class="text-sky-600">Deposit</a>
+               </div>
+            </figcaption>
+        </figure>
+       <div class="mt-5 bg-white rounded-md p-3">
+        <div >
+        <!-- fixed data -->
+            <div id="fixed" class="shadow-sm shadow-gray-200 p-2">
+                <div class="border-b-2 border-t-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">Username</p>
+                    <p class="py-4 text-gray-600 capitalize">{{context.userDetail.username}}</p>
                 </div>
-                <p class="text-lg">Total Balance</p>
-            </div>
-            <div class="flex items-center justify-start gap-4 pb-5">
-                <p id="shownBalance" class="hidden">Ksh. <span>{{context.userDetail.account}}</span></p>
-                <p class="font-sans font-extrabold tracking-widest text-lg" id="hidenBalance">*******</p>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">email</p>
+                    <p class="py-4 text-gray-600 capitalize">{{context.userDetail.email}}</p>
+                </div>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">phone number</p>
+                    <p class="py-4 text-gray-600 capitalize">+254 {{context.userDetail.phone_number}}</p>
+                </div>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">Account balance</p>
+                    <p class="py-4 text-gray-600 capitalize">Ksh. <span>{{context.userDetail.account}}</span></p>
+                </div>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">date joined</p>
+                    <p class="py-4 text-gray-600 capitalize">{{context.userDetail.date_joined}}</p>
+                </div>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">Country</p>
+                    <p class="py-4 text-gray-600 capitalize">{{context.userDetail.country}}</p>
+                </div>
+                <div class="border-b-2 border-gray-500 border-opacity-10 grid grid-cols-2 px-2 gap-2">
+                    <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize text-gray-700 tracking-wider">city</p>
+                    <p class="py-4 text-gray-600 capitalize">{{context.userDetail.city}}</p>
+                </div>
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hover:cursor-pointer" id="showBalance">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
-                    
+                    <span class="inline-block bg-slate-500 my-5 p-3 text-sm font-bold text-white rounded-md" id="fixedDeactivate">Edit</span>
                 </div>
-                <div>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 hidden hover:cursor-pointer" id="hideBalance">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                    </svg>
-                </div>
-                
-                
             </div>
+            <!-- update data -->
+             <div  id="update" class="hidden shadow-sm shadow-gray-200 p-2">
+                <form action="/membership/dashboard/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label class="block text-gray-600 capitalize my-2" for="username">username</label>
+                    <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0" type="text" name="username" id="username" value="{{context.userDetail.username}}">
+                    <label  class="block text-gray-600 capitalize my-2" for="email">email</label>
+                    <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0"  type="email" name="email" id="email" value="{{context.userDetail.email}}">
+                    <label class="block text-gray-600 capitalize my-2" for="phone number">phone number</label>
+                    <span class="bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-none p-2 flex items-center gap-2">
+                        <span>+254</span>
+                        <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0"phone number" value="{{context.userDetail.phone_number}}">
+                    </span>
+                    <label  class="block text-gray-600 capitalize my-2" for="country">country</label>
+                    <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0"  type="text" name="country" id="country" value="{{context.userDetail.country}}">
+                    <label  class="block text-gray-600 capitalize my-2" for="city">city</label>
+                    <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0"  type="text" name="city" id="city" value="{{context.userDetail.city}}">
+                    <label  class="block text-gray-600 capitalize my-2" for="profile image">profile image</label>
+                    <input class="block bg-gray-600 w-full mt-2 mb-3 rounded-md bg-opacity-10 outline-transeparent p-2 focus:ring-0 focus:outline-none ring-0"  type="file" name="profile" id="profile image" value="{{context.userObject.profile.url}}">
+                    <span class="text-sm font-bold text-white bg-gray-600 p-3 capitalize rounded-md" id="updateDeactivate"> cancel</span>
+                    <button class="text-sm font-bold text-white bg-blue-600 p-3 capitalize rounded-md">update</button>
+                </form>
+             </div>
         </div>
-        <div>
-            <a href="/deposit/" class="text-white px-3 py-2 font-bold text- rounded-lg hover:shadow-md hover:shadow-sky-400" id="header">Deposit</a>
-        </div>
+       </div>
     </div>
 
-    <!--Download History-->
-    <div class="sm:grid-cols-2 grid gap-5 gsm:gap-5 sm:items-start sm:justify-center">
-        <div id="header" class="p-3 rounded-md overflow-scroll">
-            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Download History</h2>
-            <table class="w-full">
-                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
-                    <th class="text-left">Name</th>
-                    <th>Cost</th>
-                    <th>Time</th>
-                </thead>
-                <tbody>
-                    {% for dwds in context.downloadHistory %}
-                    <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
-                        <td class="p-1 text-left">{{dwds.video_name}}</td>
-                        <td class="p-1">Ksh. <span>{{dwds.cost}}</span></td>
-                        <td class="p-1">{{dwds.time}}</td>
-                    </tr>
-                    {% endfor %}
-                
-                </tbody>
-            </table>
+    
+    <div class="mt-5 mx-3 hidden"  id="dashboard">
+        <!--Download History-->
+        <div class="bg-white rounded-sm p-3 shadow-md shadow-gray-200">
+            <h2 class="text-center font-bold text-lg my-3 capitalize text-gray-800" >Purchase History</h2>
+            <div class="w-full border-t-2 border-r-2    border-gray-500 border-opacity-10  mx-2">
+                {% for dwds in context.downloadHistory %}
+                    <form action="/mp4/">
+                        <input type="text" name="videoTitle" value="{{dwds.video_name}}" hidden>
+                        <button class="grid grid-cols-2 border-b-2  border-gray-500 border-opacity-10 px-2 gap-2 w-full text-left border-l-2">
+                            <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize tracking-wider text-left text-sky-600">{{dwds.video_name}}</p>
+                            <p class="py-4 text-gray-600 capitalize">Ksh. <span>{{dwds.cost}}</span></p>
+                        </button>
+                    </form>
+                {% endfor %}
+            </div>
         </div>
 
         <!--Deposit History-->
 
-        <div id="header" class="p-3 rounded-md overflow-scroll">
-            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Deposit History</h2>
-            <table class="w-full">
-                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
-                    
-                    <th class="text-left">Ksh. <span>Amount</span></th>
-                    <th>Time</th>
-                </thead>
-                <tbody>
-                    {% for depo in context.depositHistory %}
-                        <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
-                            <td class="p-1 text-left">Ksh. <span>{{depo.amount}}</span></td>
-                            <td class="p-1">{{depo.time}}</td>
-                        </tr>
-                    {% endfor %}
-                
-                </tbody>
-            </table>
+        <div class="bg-white rounded-sm p-3 my-5 shadow-md shadow-gray-200">
+            <h2 class="text-center font-bold text-lg my-3 capitalize text-gray-800">Deposit History</h2>
+            <div class="w-full border-t-2 border-r-2    border-gray-500 border-opacity-10  mx-2">
+                {% for depo in context.depositHistory %}
+                    <div class="grid grid-cols-2 border-b-2  border-gray-500 border-opacity-10 px-2 gap-2 w-full text-left border-l-2">
+                        <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize tracking-wider text-left text-gray-700">Ksh. <span>{{depo.amount}}</span></p>
+                        <p class="py-4 text-gray-600 capitalize">{{depo.time}}</p>
+                    </div>
+                {% endfor %}
+            
+            </div>
         </div>
-    </div>
-    <!--watching-->
-    <div class="sm:grid-cols-2 grid gap-5 gsm:gap-5 sm:items-start sm:justify-center">
-        <div id="header" class="p-3 mt-6 rounded-md overflow-scroll">
-            <h2 class="text-white text-center font-sans font-bold py-2 text-xl">Watching</h2>
-            <table class="w-full">
-                <thead class="w-full bg-gray-600 text-gray-300 text-lg text-center">
-                    
-                    <th class="text-left">Video_Title</th>
-                    <th>Start Time</th>
-                </thead>
-                <tbody>
+   
+        <!--watching-->
+        <div class="bg-white rounded-sm p-3 my-5 shadow-md shadow-gray-200">
+            <div >
+                <h2 class="text-center font-bold text-lg my-3 capitalize text-gray-800">Watching</h2>
+                <div class="w-full border-t-2 border-r-2    border-gray-500 border-opacity-10  mx-2">
                     {% for depo in context.watch %}
-                        <tr class="bg-gray-500 text-white text-md text-center border-b-2 border-gray-700 border-opacity-50">
-                            <td class="p-1 text-left">{{depo.video_name}}</span></td>
-                            <td class="p-1">{{depo.start_date}}</td>
-                        </tr>
+                        <div class="grid grid-cols-2 border-b-2  border-gray-500 border-opacity-10 px-2 gap-2 w-full text-left border-l-2">
+                            <p class="border-r-gray-500 border-opacity-10 border-r-2 py-4 capitalize tracking-wider text-left text-gray-700">{{depo.video_name}}</span></p>
+                            <p class="py-4 text-gray-600 capitalize">{{depo.start_date}}</p>
+                        </div>
                     {% endfor %}
                 
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     </div>
 </main>
+<footer class="text-center sm:flex-wrap px-3 pt-16 bg-gray-600 sm:flex gap-6 sm:items-start sm:justify-evenly">
+    <h2 class="text-red-600 bold pb-2 text-3xl font-bold pt-4 sm:pt-0">KingstoneMovies</h2>
+    <div>
+        <h3 class="text-white font-bold text-lg ">Quick Navigation</h3>
+        <div class=" md:flex flex-col items-start justify-center">
+            <a href="/" class="text-white text-opacity-70 font-sans text-bold block">Home</a>
+            <a href="https://augustine.pages.dev" class="text-white text-opacity-70 font-sans text-bold block">About</a>
+            <form action="/multi-media/movies/">
+                <input type="text" value="movies" name="type" class="hidden">
+                <button class="text-white text-opacity-70 font-sans text-bold">Movies</button>
+            </form>
+            <form action="/multi-media/music/">
+                <input type="text" value="music" name="type" class="hidden">
+                <button class="text-white text-opacity-70 font-sans text-bold">Music</button>
+            </form>
+            <form action="/multi-media/tvShows/">
+                <input type="text" value="tvShows" name="type" class="hidden">
+                <button class="text-white text-opacity-70 font-sans text-bold">Tv Show</button>
+            </form>
+           
+            <!--<a href="https://augustine.pages.dev" class="text-white text-opacity-70 font-sans text-bold">Movies</a>
+            <a href="https://augustine.pages.dev" class="text-white text-opacity-70 font-sans text-bold">Tv Shows</a>
+            <a href="https://augustine.pages.dev" class="text-white text-opacity-70 font-sans text-bold">Music</a>-->
+        </div>
+    </div>
+    <div>
+        <h3 class="text-white font-bold text-lg">Contact Us</h3>
+        <p class="text-white text-opacity-70 font-sans text-bold">Email Address</>
+        <p class="text-white text-opacity-70 font-sans text-bold">+254706335775</p>
+        <a href="/message/" class="text-white text-opacity-70 font-sans text-bold">Message</a>
+    </div>
+    <div>
+        <h3 class="text-white font-bold text-lg">Social Media</h3>
+        <div class="flex items-center justify-center gap-1">
+            <!--facebook-->
+            <a href="https://www.facebook.com/profile.php?id=61562863659214" class="text-white text-opacity-70 font-sans text-bold" target="blank" ><svg class="w-6 h-6 text-gray-800 hover:text-sky-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M13.135 6H15V3h-1.865a4.147 4.147 0 0 0-4.142 4.142V9H7v3h2v9.938h3V12h2.021l.592-3H12V6.591A.6.6 0 0 1 12.592 6h.543Z" clip-rule="evenodd"/>
+              </svg>
+              </a>
 
+            <!--instagram-->
+            <a href="https://www.instagram.com/aleewamovies/profilecard/?igsh=MWQ2ZDB3dmJxaW1maw==" class="text-white text-opacity-70 font-sans text-bold" target="blank"><svg class="w-6 h-6 text-gray-800 hover:text-sky-200 dark dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path fill="currentColor" fill-rule="evenodd" d="M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Zm5-3a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H8Zm7.597 2.214a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2h-.01a1 1 0 0 1-1-1ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm-5 3a5 5 0 1 1 10 0 5 5 0 0 1-10 0Z" clip-rule="evenodd"/>
+        </svg>
+            </a>
+
+            <!--Twitter-->
+            <a href="https://x.com/Geniuskevoh?t=XuuzUe9qhUMCV0oNGca5Rw&s=09" class="text-white text-opacity-70 font-sans text-bold" target="blank"><svg class="w-6 h-6 text-gray-800 hover:text-sky-200 dark dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M22 5.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.343 8.343 0 0 1-2.605.981A4.13 4.13 0 0 0 15.85 4a4.068 4.068 0 0 0-4.1 4.038c0 .31.035.618.105.919A11.705 11.705 0 0 1 3.4 4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 6.1 13.635a4.192 4.192 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 2 18.184 11.732 11.732 0 0 0 8.291 20 11.502 11.502 0 0 0 19.964 8.5c0-.177 0-.349-.012-.523A8.143 8.143 0 0 0 22 5.892Z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+
+            <!--Whatsapp-->
+            <a href="https://wa.me/254708198410" class="text-white text-opacity-70 font-sans text-bold" target="blank"><svg class="w-6 h-6 text-gray-800 hover:text-sky-200 dark dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path fill="currentColor" fill-rule="evenodd" d="M12 4a8 8 0 0 0-6.895 12.06l.569.718-.697 2.359 2.32-.648.379.243A8 8 0 1 0 12 4ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a9.96 9.96 0 0 1-5.016-1.347l-4.948 1.382 1.426-4.829-.006-.007-.033-.055A9.958 9.958 0 0 1 2 12Z" clip-rule="evenodd"/>
+                <path fill="currentColor" d="M16.735 13.492c-.038-.018-1.497-.736-1.756-.83a1.008 1.008 0 0 0-.34-.075c-.196 0-.362.098-.49.291-.146.217-.587.732-.723.886-.018.02-.042.045-.057.045-.013 0-.239-.093-.307-.123-1.564-.68-2.751-2.313-2.914-2.589-.023-.04-.024-.057-.024-.057.005-.021.058-.074.085-.101.08-.079.166-.182.249-.283l.117-.14c.121-.14.175-.25.237-.375l.033-.066a.68.68 0 0 0-.02-.64c-.034-.069-.65-1.555-.715-1.711-.158-.377-.366-.552-.655-.552-.027 0 0 0-.112.005-.137.005-.883.104-1.213.311-.35.22-.94.924-.94 2.16 0 1.112.705 2.162 1.008 2.561l.041.06c1.161 1.695 2.608 2.951 4.074 3.537 1.412.564 2.081.63 2.461.63.16 0 .288-.013.4-.024l.072-.007c.488-.043 1.56-.599 1.804-1.276.192-.534.243-1.117.115-1.329-.088-.144-.239-.216-.43-.308Z"/>
+              </svg>
+              </a>
+        </div>
+    </div>
+</footer>
 <script>
-    const hideBalance = document.getElementById("hideBalance")
-    const hidenBalance = document.getElementById("hidenBalance")
-    const showBalance = document.getElementById("showBalance")
-    const shownBalance = document.getElementById("shownBalance")
-
-    showBalance.addEventListener("click", ()=> {
-        if(shownBalance.classList.contains("hidden")){
-            shownBalance.classList.remove("hidden")
-            showBalance.classList.add("hidden")
-            hideBalance.classList.remove("hidden")
-            hidenBalance.classList.add("hidden")
+   try{
+        const profileActivate = document.getElementById("profileActivate")
+        const profile = document.getElementById("profile")
+        const dashboardActivate = document.getElementById("dashboardActivate")
+        const dashboard = document.getElementById("dashboard")
+        profileActivate.addEventListener("click", () => {
+            if (profile.classList.contains("hidden")) {
+                profile.classList.remove("hidden")
+                dashboard.classList.add("hidden")
+                profileActivate.classList.remove("text-gray-600")
+                profileActivate.classList.add("bg-white")
+                profileActivate.classList.add("font-bold")
+                dashboardActivate.classList.add("text-gray-600")
+                dashboardActivate.classList.remove("bg-white")
+                dashboardActivate.classList.remove("font-bold")
+            }
+        })
+        dashboardActivate.addEventListener("click", () => {
+            if (dashboard.classList.contains("hidden")) {
+                dashboard.classList.remove("hidden")
+                profile.classList.add("hidden")
+                profileActivate.classList.add("text-gray-600")
+                profileActivate.classList.remove("bg-white")
+                profileActivate.classList.remove("font-bold")
+                dashboardActivate.classList.remove("text-gray-600")
+                dashboardActivate.classList.add("bg-white")
+                dashboardActivate.classList.add("font-bold")
+                
+            }
+        })
+   } catch(error) {
+    console.warn(error)
+   }
+   try {
+    const fixedDeactivate = document.getElementById("fixedDeactivate")
+    const fixed = document.getElementById("fixed")
+    const update = document.getElementById("update")
+    const updateDeactivate = document.getElementById("updateDeactivate")
+    fixedDeactivate.addEventListener("click" , ()=>{
+        if(update.classList.contains("hidden")) {
+            update.classList.remove("hidden")
+            fixed.classList.add("hidden")
         }
     })
-
-    hideBalance.addEventListener("click", ()=> {
-        if(hidenBalance.classList.contains("hidden")){
-            shownBalance.classList.add("hidden")
-            showBalance.classList.remove("hidden")
-            hideBalance.classList.add("hidden")
-            hidenBalance.classList.remove("hidden")
+    updateDeactivate.addEventListener("click" , ()=>{
+        if(fixed.classList.contains("hidden")) {
+            fixed.classList.remove("hidden")
+            update.classList.add("hidden")
         }
     })
+    
+   }catch(error) {
+    console.warn(error)
+   }
 </script>
 {% endblock bodyContent %}

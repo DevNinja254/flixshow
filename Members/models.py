@@ -24,6 +24,10 @@ class Buyers(Members):
     BuyerID = models.BigAutoField(auto_created=True,unique=True, primary_key=True)
     username = models.CharField(max_length=150, null=False, unique=True)
     account = models.IntegerField(verbose_name="account(Ksh)", default=0,)    
+    phone_number = models.IntegerField(default="0700000000")
+    country = models.CharField(max_length=100, default="Kenya")
+    city = models.CharField(max_length=100, default="mombasa")
+    profile = models.ImageField(upload_to="profile_pics/", default="profile_pics/download.png")
     def __str__(self):
         return self.username  
     class Meta:

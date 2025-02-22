@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.xyz", "kingstonemovies.xyz","https://comic-finch-strongly.ngrok-free.app", "comic-finch-strongly.ngrok-free.app"]
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")

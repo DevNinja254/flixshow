@@ -4,7 +4,7 @@ from django.contrib.auth import logout as auth_logout, login as auth_login, auth
 from  Members.form import Buyer
 from django.contrib.auth.decorators import login_required
 from flix.DRY import userDetails
-from .models import DepositHistory, DownloadHistory,Onwatch
+from .models import DepositHistory, DownloadHistory,Onwatch, Buyers
 
 import os
 # Create your views here.
@@ -52,14 +52,29 @@ def logout(request):
 @login_required(login_url="/membership/login/")
 def dashboard(request):
     userDetailed = userDetails(request)["userBuyrDetailsDi"]
+    userObject = Buyers.objects.get(username = userDetailed['username'])
+    if request.method == "POST":
+        print(userObject.username)
+        profile = request.FILES.get("profile")
+        userObject.username = request.POST["username"]
+        userObject.email = request.POST["email"]
+        userObject.phone_number = request.POST["phone_number"]
+        userObject.country = request.POST["country"]
+        userObject.city = request.POST["city"]
+        if profile:
+            userObject.profile = request.FILES.get("profile")
+        userObject.save()
+        return redirect("/membership/dashboard/")
     downloadHistory = DownloadHistory.objects.filter(name = userDetailed['username'])
     depositHistory = DepositHistory.objects.filter(name = userDetailed['username'])
     watch = Onwatch.objects.all().reverse()
+    print(Buyers.objects.get(username = userDetailed['username']).profile)
     context = {
         "userDetail":userDetailed,
         "downloadHistory":downloadHistory.reverse(),
         "depositHistory":depositHistory.reverse(),
-        "watch":watch
+        "watch":watch,
+        "userObject":userObject
     }
     return render(request, "dashboard.html", {"context": context})
 

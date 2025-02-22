@@ -83,7 +83,7 @@ def home(request):
             "allVideoDetails": allVideoDetails,
             "latestVideos": latests,
             "greater": len(allVideoDetails) >= 5,
-            "notifications":notifications,
+            "notifications":notice,
         }
     
     return render(request, "homePage.html", {"context":context})
