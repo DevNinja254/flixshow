@@ -4,70 +4,80 @@ Register
 {% endblock title %}
 
 {% block style %}
-    #formSection {
-        background-image: linear-gradient(to right, rgb(4, 139, 163), rgb(64, 40, 172), rgb(174, 0, 255));
-    }
-    form div {
-       paddding: 0.5rem 0 ;
-       margin: 1rem 1rem 0;
-       border-bottom: 1px solid rgba(37, 37, 37, 0.3);
-       min-width: 40vw;
-       min-width:120px;
+form {
+    margin: 5vh 1rem 0;
+    
+}
+    label {
+        display:block;
+        font-size:13px;
+        margin-bottom: 0.4rem;
+        margin-top: 0.6rem;
+        color: rgba(0, 0 ,0 , 0.7);
+        font-weight: bold;
+        letter-spacing: 1.2px;
     }
     li {
         color: red;
-        
-        
+        font-size: 12px;
+        padding-top: 0.5rem;
+        <!-- text-align:center; -->
     }
-    form input:focus {
-        border-bottom: 1px solid rgba(37, 37, 37, 0.6);
-        outline:none;
-    }
-    form textarea:focus {
-        border: 1px solid rgba(37, 37, 37, 0.6);
-        outline:none;
-    }
-    form label {
-        color: rgba(37, 37, 37, 0.9);
+    
+    #form input {
+        background-color: rgb(0, 0 ,0, 0.05);
         display:block;
+        width: 100%;
+        outline: none;
+        border: none;
+        color: rgb(0, 0 ,0, 0.7);
+        font-size: 13px;
+        border-radius: 7px;
     }
-    form input {
-       padding:0.3rem; 
-       display:block;
-       width:100%;
-       
+    #form input:active {
+        outline:none;
+        border:none;
     }
-    @media screen and (min-width:1000px) {
-        form div {
-            min-width: 30vw;
+    @media screen and (min-width: 600px) {
+        #formSection {
+            width: 80%;
+            margin: 5vh auto;
         }
     }
-    @media screen and (min-width:1200px) {
-        form div {
-            min-width: 20vw;
+    @media screen and (min-width: 750px) {
+        #formSection {
+            width: 65%;
+            margin: 5vh auto;
         }
     }
-    @media screen and (min-width:1800px) {
-        form div {
-            min-width: 10vw;
+    @media screen and (min-width: 1000px) {
+        #formSection {
+            width: 50%;
+            margin: 5vh auto;
+        }
+    }
+    @media screen and (min-width: 1200px) {
+        #formSection {
+            width: 40%;
+            margin: 5vh auto;
         }
     }
 {% endblock style %}
 
     
 {% block bodyContent %}
-<section id="formSection" class="min-h-screen grid place-content-center">
-    <div class="bg-white rounded-md overflow-hidden">
+<section id="formSection" class="mx-5">
+    <div class="">
         <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">KingstoneMovies</a>
         {% block form %}
         
-       <form action="/membership/register/" method="post" id="form" class="w-fit m-auto font-sans">
+       <form action="/membership/register/" method="post" id="form" class=" font-sans">
             {% csrf_token %}
             
             {{form}}
             
             
-            <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+            <button class="bg-blue-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90" >
                
                 Signup
                 
@@ -80,9 +90,9 @@ Register
         {% block removeExtra %}
         
         
-        <div class="w-4/5 m-auto whitespace-nowrap">
+        <div class="whitespace-nowrap  my-2 text-sm ">
             
-            <p class="py-2 text-gray-600">
+            <p class="text-gray-600 px-3">
                 {% block formExtra %}
                 You have account? 
                 {% endblock formExtra %}
@@ -92,7 +102,7 @@ Register
                         /membership/login/
                     {% endblock formExtraLink%}
 
-                " class="text-sky-600 font-sans hover:text-sky-400">
+                " class="text-sky-600 font-sans hover:text-sky-400 inline-block hover:opacity-90 text-sm">
                     {% block formExtraLinkName %}
                     login
                     {% endblock formExtraLinkName %}

@@ -4,76 +4,101 @@ Upload | video
 {% endblock title %}
 
 {% block style %}
-    #formSection {
-        background-image: linear-gradient(to right, rgb(4, 139, 163), rgb(64, 40, 172), rgb(174, 0, 255));
-    }
-    .formSection {
-        min-height: 90vh;
-    }
-    form div {
-       paddding: 0.5rem 0 ;
-       margin: 1rem 1rem 0;
-       border-bottom: 1px solid rgba(37, 37, 37, 0.3);
-       min-width: 40vw;
-    }
-    form div li {
-        color: red;
-        
-        
-    }
-    form input:focus {
-        border-bottom: 1px solid rgba(37, 37, 37, 0.6);
-        outline:none;
-    }
-    form textarea:focus {
-        border: 1px solid rgba(37, 37, 37, 0.6);
-        outline:none;
-    }
-    form label {
-        color: rgba(37, 37, 37, 0.9);
+form {
+    margin: 2vh 1rem 0;
+    padding: 1rem;
+    
+}
+    label, select {
         display:block;
+        font-size:13px;
+        margin-bottom: 0.4rem;
+        margin-top: 0.6rem;
+        color: rgba(0, 0 ,0 , 0.7);
+        font-weight: bold;
+        letter-spacing: 1.2px;
     }
-    form input {
-       padding:0.3rem; 
-       display:block;
-       width:100%;
-       
+    li {
+        color: red;
+        font-size: 12px;
+        padding-top: 0.5rem;
+        <!-- text-align:center; -->
     }
-    @media screen and (min-width:1000px) {
-        form div {
-            min-width: 30vw;
+    
+    #form input {
+        background-color: rgb(0, 0 ,0, 0.05);
+        display:block;
+        width: 100%;
+        outline: none;
+        border: none;
+        color: rgb(0, 0 ,0, 0.7);
+        font-size: 13px;
+        border-radius: 7px;
+    }
+    #form #hideInput {
+        display: none;
+    }
+    #form input:active {
+        outline:none;
+        border:none;
+    }
+    #form #id_image, #form #id_video {
+        padding: 5px;
+    }
+    #form #id_popular, #form #id_display {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0;
+        border: 1px solid rgba(0,0,0,0.5)
+    }
+    #form #id_synopsis {
+        width: 100%;
+        border: 1px solid rgba(0,0,0,0.3);
+        margin-bottom: 1rem;
+    }
+    @media screen and (min-width: 600px) {
+        #formSection {
+            width: 80%;
+            margin: 5vh auto;
         }
     }
-    @media screen and (min-width:1200px) {
-        form div {
-            min-width: 20vw;
+    @media screen and (min-width: 750px) {
+        #formSection {
+            width: 65%;
+            margin: 5vh auto;
         }
     }
-    @media screen and (min-width:1800px) {
-        form div {
-            min-width: 10vw;
+    @media screen and (min-width: 1000px) {
+        #formSection {
+            width: 50%;
+            margin: 5vh auto;
         }
     }
-{% endblock style %}
+    @media screen and (min-width: 1200px) {
+        #formSection {
+            width: 40%;
+            margin: 5vh auto;
+        }
+    }
+    {% endblock style%}
 
     
 {% block bodyContent %}
 
 {% if context.is_approved%}
-<div class="" id="formSection">
-    <div class="bg-white p-2 mb-7 mt-2S flex items-center justify-center ">
+<div class="mx-5" id="formSection">
+    <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">KingstoneMovies</a>
+    <div class="bg-white p-2 mt-2S flex items-center justify-center ">
         <span class="text-xl bg-amber-700 text-white px-2 rounded-s-md hover:cursor-pointer hover:bg-amber-600 font-sans" id="videoDetailsSpan">Video Details</span>
-        <span class="text-xl bg-amber-700 text-gray-300 px-2 rounded-e-md opacity-50 hover:cursor-pointer hover:bg-amber-600 font-sans" id="videoSpan">Video Upload</span>
+        <span class="text-xl bg-amber-700 text-gray-300 px-2 rounded-e-md opacity-50 hover:cursor-pointer  hover:bg-amber-600 font-sans" id="videoSpan">Video Upload</span>
     </div>
-    <section id="formSection" class=" grid items-start justify-center mt-2 pb-6 formSection px-3" >
-        <div class="bg-white rounded-md overflow-hidden" id="videoDetailsForm">
-            <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">KingstoneMovies</a>
-            
-            <form action="/admins/addVideo/" method="post" id="form" class="sm:w-fit m-auto font-sans" enctype="multipart/form-data">
+    <section  class=" " >
+        <div class="" id="videoDetailsForm">            
+            <form action="/admins/addVideo/" method="post" id="form" class="font-sans" enctype="multipart/form-data">
                 {% csrf_token %}
                     {{context.form}}
-                    <input type="text" name="upload_type" value = "video_details" hidden>
-                <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out formSect" >
+                    <input type="text" name="upload_type" value = "video_details" id="hideInput" class="hidden">
+                <button class="bg-blue-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90" >
                 
                     Upload
                     
@@ -81,11 +106,11 @@ Upload | video
             </form>
         
         </div>
-        <div class="bg-white rounded-md overflow-hidden hidden" id="videoForm">
-            <a href="/" class="block text-center py-5 text-xl font-bold font-sans border-gray-150 border-2 hover:bg-gray-400 transition-all duration-150 ease-in-out">KingstoneMovies</a>
+        <div class="hidden" id="videoForm">
             
             
-            <form action="/admins/addVideo/" method="post" id="form" class="w-fit m-auto font-sans" enctype="multipart/form-data">
+            
+            <form action="/admins/addVideo/" method="post" id="form" class=" font-sans" enctype="multipart/form-data">
                 {% csrf_token %}
                
 
@@ -95,7 +120,7 @@ Upload | video
                     {{context.videoForm}}
                 
                 
-                <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out formSect" >
+                <button class="bg-blue-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90"  >
                 
                     Upload
                     
@@ -134,7 +159,15 @@ Upload | video
     const videoDetailsSpan = document.getElementById("videoDetailsSpan")
     const uploadProgress = document.getElementById("uploadProgress")
     const textarea = document.querySelector("textarea")
+    const popular = document.getElementById("id_popular")
+    const display = document.getElementById("id_display")
+    const sele = [popular, display]
     
+    for (const sel of sele) {
+        sel.addEventListener("click", () => {
+            sel.style.backgroundColor = "gray"
+        })
+    }
     try {
         const id_file = document.getElementById("id_video")
         id_file.setAttribute("multiple", "True")
@@ -186,7 +219,7 @@ Upload | video
         }  
         
     })
-    console.log(id_name)
+   
    for(const formsec of form){
     formsec.addEventListener('submit',()=>{
         if(id_name.value){

@@ -4,24 +4,25 @@
 {% block title %}
 Login
 {% endblock title %}
+
 {% block form %}
-<form action="/membership/login/" method="post" id="form" class="text-black w-fit m-auto font-sans">
+<form action="/membership/login/" method="post" id="form" class="text-black font-sans">
      {% csrf_token %}
      
      {{form}}
      
      
-     <button id="formSection" class="block w-4/5 m-auto my-4 py-1 rounded-md font-sans font-bold text-white hover:translate-x-1 hover:scale-110 transition-all duaration-150 ease-in-out" >
+     <button class="bg-blue-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90" >
         
-         login
+         Login
          
      </button>
  </form>
  {% endblock form %}
  {% block forgotPassword %}
- <div class="w-4/5 m-auto whitespace-nowrap">
+ <div class="whitespace-nowrap  my-3 ">
              
-     <p class="py-2 text-gray-600">forgot password?
+     <p class="pt-2 text-gray-600 px-3 text-sm">Forgot password?
          <a href="{% url 'password_reset' %}" class="text-sky-600 font-sans text-sm hover:text-sky-400">
              Reset
          </a></p>
