@@ -425,6 +425,10 @@ def stkCallback(request):
         userAccount = Buyers.objects.get(username = paid.username)
         # print(paid.username)
         userAccount.account = int(userAccount.account) + int(amount)
+        DepositHistory.objects.create(
+                amount = amount,
+                name = paid.username
+            )
         userAccount.save()
         userAccount1 = Buyers.objects.get(username = paid.username)
         userAccount1.account = int(userAccount.account) + int(amount)
@@ -447,10 +451,6 @@ def stkCallback(request):
             delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
             delete.delete()
             userAccount1.save()
-        DepositHistory.objects.create(
-                amount = amount,
-                name = paid.username
-            )
         paid.delete()
     else:
         paid.delete()   
