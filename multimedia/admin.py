@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Type, VideoUpload, Cartegories as Cartegorie,videos as Video
+from .models import Type, VideoUpload, Cartegories as Cartegorie,videos as Video, AwaitingActivation
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
@@ -34,3 +34,4 @@ class VideoEdit(admin.ModelAdmin):
 admin.site.register(VideoUpload, VideoUploadEdit)
 admin.site.register(Cartegorie, CartegoryEdit)
 admin.site.register(Video, VideoEdit)
+admin.site.register(AwaitingActivation)

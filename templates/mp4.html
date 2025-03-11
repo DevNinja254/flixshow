@@ -493,17 +493,9 @@
     const vidzContainer = document.getElementById("vidzContainer")
 
  
-       
-
-        for(const vidzLabel of videoLabel) {
-            if (vidzLabel.id == vids.id){
-                vidzLabel.innerText = vids.id.split("/")[1].split(".")[0] 
-            }
-        }
     
-   
+    
+        const lastPageUrl = document.referrer;
+        console.log(lastPageUrl)
 </script>
 {% endblock bodyContent %}
-                                                                                                                                                                                     410,1         Bot
-
-

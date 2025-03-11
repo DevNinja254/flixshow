@@ -85,3 +85,8 @@ class HomepageVideo(models.Model):
 
     class Meta:
         db_table = "homepagevideos"
+class AwaitingActivation(models.Model):
+    username = models.CharField(max_length=100, default="user")
+    video_name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    date_entered = models.DateTimeField(default=timezone.now)

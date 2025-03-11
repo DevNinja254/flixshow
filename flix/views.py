@@ -3,7 +3,7 @@ from Members.form import Messages, DepositForm
 from multimedia.form import VideoUploads,VideoForm
 from django.contrib.auth.decorators import login_required
 from .DRY import userDetails
-from multimedia.models import videos as Videos, HomepageVideo, VideoUpload, Cartegories
+from multimedia.models import videos as Videos,AwaitingActivation, HomepageVideo, VideoUpload, Cartegories
 from Members.models import DepositHistory, DownloadHistory, Buyers, Cart,Message,Members, Onwatch, Payment, Notification
 from.stk_code import sendStkPush
 from django.views.decorators.csrf import csrf_exempt
@@ -270,7 +270,6 @@ def play(request):
 
 
 def deposit(request):
-    
     userid = Members.objects.get(email = request.user)
     userExist = Buyers.objects.filter(members_ptr_id = userid.id)
     if userExist.exists():
@@ -290,7 +289,7 @@ def deposit(request):
             # Creating the Basic Auth token
             basic_auth_token = f'Basic {encoded_credentials}'
             # Output the token
-            print(basic_auth_token)
+            # print(basic_auth_token)
 
 
             import requests
@@ -307,6 +306,7 @@ def deposit(request):
                 "provider": "m-pesa",
                 "external_reference": "INV-009",
                 "callback_url": "https://kingstonemovies.xyz/stk/"
+                # "callback_url":"https://smooth-vast-thrush.ngrok-free.app/stk/"
             }
 
             response = requests.post(url, json=data, headers=headers)
@@ -409,7 +409,7 @@ def download(request):
 @csrf_exempt
 def stkCallback(request):
     callback_data = json.loads(request.body)
-    print(callback_data)
+    # print(callback_data)
      # Check the result code
     amount = None
     phone_number = None
@@ -425,6 +425,25 @@ def stkCallback(request):
         userAccount = Buyers.objects.get(username = paid.username)
         # print(paid.username)
         userAccount.account = int(userAccount.account) + int(amount)
+        userAccount.save()
+        awaiting = AwaitingActivation.objects.all()
+        for awyt in awaiting:
+            # print(userAccount.account)
+            # print(awyt.price)
+            if userAccount.account < int(awyt.price):
+                delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
+                delete.delete()
+                # print("redirecting")
+                return redirect("/deposit/")
+            # print("deducting")
+            userAccount.account -= int(awyt.price)
+            # print("watching")
+            Onwatch.objects.create(
+                video_name = awyt.video_name,
+                watcher = awyt.username
+            )
+            delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
+            delete.delete()
         userAccount.save()
         DepositHistory.objects.create(
                 amount = amount,
@@ -472,10 +491,15 @@ def activate(request):
     if request.method == "POST":
 
         userAccount = Buyers.objects.get(username = userDetails(request)["userBuyrDetailsDi"]["username"])
-        print(request.POST["videoName"])
+        # print(request.POST["videoName"])
         videoDet = VideoUpload.objects.get(title = request.POST["videoName"])
         # print(videoDet.price,userAccount.account)
         if userAccount.account < videoDet.price:
+            AwaitingActivation.objects.get_or_create(
+                username = userDetails(request)["userBuyrDetailsDi"]["username"],
+                video_name = request.POST["videoName"],
+                price = VideoUpload.objects.get(title = request.POST["videoName"]).price
+            )
             return redirect("/deposit/")
         else:
             userAccount.account = int(userAccount.account) - int(videoDet.price)

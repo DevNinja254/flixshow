@@ -112,7 +112,7 @@ form {
         {% endblock removeExtra %}
     </div>
 </section>
-
+{%block script%}
 <script>
     const form = document.getElementById("form")
     const inputs = document.querySelectorAll("input")
@@ -133,4 +133,5 @@ form {
         }
     }
 </script>
+{%endblock script%}
 {% endblock bodyContent %}
