@@ -83,8 +83,8 @@ s {
         <button id="deactivatePay"></button>
     </form>
     <div class="w-full md:w-4/5 m-auto pt-6 bg-gray-700" >
-        <video controls oncontextmenu="return false;"  muted controlsList="nodownload" class="w-full" title="{{context.playVideo.name}}" id="videoPlay"> 
-            <source src="{{context.playVideo.video.url}}" type="video/mp4">
+        <video controls oncontextmenu="return false;"  muted  class="w-full" title="{{context.playVideo.name}}" id="videoPlay"> 
+            <source src="{{context.playVideo.video.url}}" type="video/mp4" type="video/webm">
         </video>
     </div>
 
@@ -92,21 +92,11 @@ s {
         <h2 class="font-bold font-sans text-2xl my-10 text-center tracking-wider">Similar to {{context.playVideo.name}}: </h2>
         <div class="flex flex-wrap items-start justify-center gap-5">       
             {% for viddas in context.otherVideo %}
-                <form action="/play/" class="max-w-56 overflow-hidden rounded-md min-w-52 shadow-md shadow-gray-400 bg-gray-500 hover:shadow-sky-400">
-                    <input type="text" name="videoNae" value="{{viddas.video}}" hidden>
-                    <input type="text" name="name" value="{{viddas.name}}" hidden>
-                    <input type="text" name="quality" value={{context.quality}} hidden>
-                    <button class="grid hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out max-w-56" id="{{vids.video}}">
-                    
-                        <video oncontextmenu="return false;"  muted class="inline-block object-cover max-w-56 vido" id="{{vids.video}}">
-                            <source src="{{viddas.video.url}}" type="video/mp4">
-                            <source src="{{viddas.video.url}}" type="video/ogg">
-                            <source src="{{viddas.video.url}}" type="video/mkv">
-                            Your browser does not support the video tag.
-                        </video>
-                        <span class = "text-white w-full overflow-hidden">
-                            <p class="videoLabel whitespace-nowrap" id="{{viddas.video}}"></p>
-                        </span>
+                <form action="/mp4/" class="max-w-56 overflow-hidden rounded-md min-w-52 shadow-md shadow-gray-400 bg-gray-500 hover:shadow-sky-400">
+                    <input type="text" name="videoTitle" value="{{viddas.title}}" hidden>
+                    <button class="grid hover:shadow-md hover:shadow-sky-400 pb-3 transition-all duration-300 ease-out max-w-56 bg-white" id="{{vids.video}}">
+                    <img src="{{viddas.image.url}}"/>
+                    <p>{{viddas.title}}</p>
                     </button>
                 </form>
             {% endfor %}
@@ -154,8 +144,8 @@ s {
             break
         }
     }
-    console.log(paid)
-    if (!paid) {
+    {% comment %} console.log(paid) {% endcomment %}
+    {% comment %} if (!paid) {
         let internalId = setInterval(()=>{ 
             if(videoPlay.currentTime > 10) {
                 
@@ -165,7 +155,7 @@ s {
                     clearInterval(internalId)
             }
         },500)
-    }  
+    }   {% endcomment %}
     for (const vid of vido) {
     vid.currentTime = 3
        vid.play()

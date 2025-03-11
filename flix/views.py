@@ -245,57 +245,25 @@ def addVideo(request):
 
 def play(request):
     user = userDetails(request)["userBuyrDetailsDi"]
-    nam = str(request.GET["name"]).strip()
-    videoName = request.GET["videoNae"]
-    vide = Videos.objects.filter(name = nam)
-    otherVideos = []
-    count = 1
+    videos = Videos.objects.filter(name = str(request.GET["name"]).strip())
     playVideo = ''
-    ended = []
-    endTrue = 0
-    endFalse = 0
-    for vi in vide:
-        if videoName == vi.video:
-            vi.quality = str(vi.quality).upper()
-            playVideo = vi
-        ended.append(vi.ended)
-    vided = Videos.objects.all()
-    for ends in ended:
-        if ends:
-            endTrue +=1
-        else:
-            endFalse += 1
-    # print(endFalse, endTrue)
-    for viz in vided:
-        if count <= 10:
-            otherVideos.append(viz)
-            count += 1
-        else:
+    for vid in videos:
+        playVideo = vid
+        break
+    videoCartegory = VideoUpload.objects.filter(cartegory = VideoUpload.objects.get(title = request.GET["name"]).cartegory)
+    videoOther = []
+    count = 0
+    for videoCartegor in videoCartegory:
+        if videoCartegor.title == request.GET["name"]:
+            continue
+        videoOther.append(videoCartegor)
+        if count > 5:
             break
     
-    # fetch all watch videos
-    onWatch = Onwatch.objects.all()
-    if endFalse == 0:
-        for onwat in onWatch:
-            if onwat.name == videoName:
-                onwat.delete()
-    titles = []
-    # Downloaded movies
-    downloaded = DownloadHistory.objects.filter(name = user["username"])
-    if downloaded.exists():
-        for div in downloaded:
-            titles.append(div.video_name)
-        # print(downloadeds)
-    for wat in onWatch:
-        if wat.watcher == userDetails(request)["userBuyrDetailsDi"]["username"]:
-            titles.append(wat.video_name)
-    
+   
     context = {
-        "videos":vide,
         "playVideo":playVideo,
-        "quality":str(request.GET["quality"]).strip().upper(),
-        "otherVideo":otherVideos,
-        "titles":titles
+        "otherVideo":videoOther,
     }
     return render(request, "play.html", {"context":context})
 @login_required(login_url="/membership/login/")
@@ -502,7 +470,9 @@ def removeCart(request):
     return redirect("/cart/")
 def activate(request):
     if request.method == "POST":
+
         userAccount = Buyers.objects.get(username = userDetails(request)["userBuyrDetailsDi"]["username"])
+        print(request.POST["videoName"])
         videoDet = VideoUpload.objects.get(title = request.POST["videoName"])
         # print(videoDet.price,userAccount.account)
         if userAccount.account < videoDet.price:
