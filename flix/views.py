@@ -426,17 +426,19 @@ def stkCallback(request):
         # print(paid.username)
         userAccount.account = int(userAccount.account) + int(amount)
         userAccount.save()
+        userAccount1 = Buyers.objects.get(username = paid.username)
+        userAccount1.account = int(userAccount.account) + int(amount)
         awaiting = AwaitingActivation.objects.all()
         for awyt in awaiting:
             # print(userAccount.account)
             # print(awyt.price)
-            if userAccount.account < int(awyt.price):
+            if userAccount1.account < int(awyt.price):
                 delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
                 delete.delete()
                 # print("redirecting")
                 return redirect("/deposit/")
             # print("deducting")
-            userAccount.account -= int(awyt.price)
+            userAccount1.account -= int(awyt.price)
             # print("watching")
             Onwatch.objects.create(
                 video_name = awyt.video_name,
@@ -444,7 +446,7 @@ def stkCallback(request):
             )
             delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
             delete.delete()
-        userAccount.save()
+            userAccount1.save()
         DepositHistory.objects.create(
                 amount = amount,
                 name = paid.username
