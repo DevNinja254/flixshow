@@ -24,7 +24,7 @@
     <input type="number" name="amount" id="amount" placeholder="amount to deposit">
     <label for="amount">Phone Number</label>
     <input type="number" name="phoneNumber" id="phoneNumber" placeholder="phone number ">
-    <button class="bg-green-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90" id="deposit">
+    <button type="submit" class="bg-green-600 mt-3 p-2 text-sm text-white rounded-md font-bold hover:opacity-90" id="deposit">
         
         deposit
         
@@ -45,15 +45,3 @@
 {% block formExtraLinkName %}
 
 {% endblock formExtraLinkName %}
-{% block script %}
-<script>
-    const form = document.getElementById("form")
-    const deposit = document.getElementById("deposit")
-    deposit.addEventListener("click", (e) => {
-        e.preventDefault()
-        form.submit()
-        //history.back()
-    })
-    console.log()
-</script>
-{% endblock script %}

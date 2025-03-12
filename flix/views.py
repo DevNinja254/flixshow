@@ -299,6 +299,7 @@ def deposit(request):
                 'Content-Type': 'application/json',
                 'Authorization': basic_auth_token
             }
+            print("sending data")
             data = {
                 "amount": Amount,
                 "phone_number": phoneNumber,
@@ -310,14 +311,14 @@ def deposit(request):
             }
 
             response = requests.post(url, json=data, headers=headers)
-            # print(response.json())
+            print(response.json())
             paymentDict = {
 
             }
             for key in response.json():
                 paymentDict[key] = response.json()[key]
             
-            print(paymentDict['success'])
+            # print(paymentDict['success'])
             # insert pending info
             if paymentDict['success']:
                 depoExist = Payment.objects.filter(phone_number = phoneNumber)
