@@ -186,6 +186,22 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": True,
     # "language_chooser":True,
     "related_modal_active":True,
-    "site_logo": "images/download_2.png"
+    "site_logo": "images/download_2.png",
+     # Copyright on the footer
+    "copyright": "kingstone movies",
+     "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "View Site",  "url": "/", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        {"name": "Support", "url": "https://wa.me/254713934480", "new_window": True},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        # {"app": "auth"},
+    ],
 }
 #>>>>>>> da16925992b75c91170aa75ab7f9de5194e936f8
