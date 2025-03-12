@@ -430,26 +430,29 @@ def stkCallback(request):
                 name = paid.username
             )
         awaiting = AwaitingActivation.objects.all()
-        for awyt in awaiting:
-            # print(userAccount.account)
-            # print(awyt.price)
-            if userAccount.account < int(awyt.price):
-                delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
-                delete.delete()
-                # print("redirecting")
-                userAccount.save()
-                return redirect("/deposit/")
-            # print("deducting")
-            else:
-                userAccount.account -= int(awyt.price)
-                # print("watching")
-                Onwatch.objects.create(
-                    video_name = awyt.video_name,
-                    watcher = awyt.username
-                )
-                delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
-                delete.delete()
-                userAccount.save()
+        if awaiting.exists():
+            for awyt in awaiting:
+                # print(userAccount.account)
+                # print(awyt.price)
+                if userAccount.account < int(awyt.price):
+                    delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
+                    delete.delete()
+                    # print("redirecting")
+                    userAccount.save()
+                    return redirect("/deposit/")
+                # print("deducting")
+                else:
+                    userAccount.account -= int(awyt.price)
+                    # print("watching")
+                    Onwatch.objects.create(
+                        video_name = awyt.video_name,
+                        watcher = awyt.username
+                    )
+                    delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
+                    delete.delete()
+                    userAccount.save()
+        else:
+            userAccount.save()
         paid.delete()
     else:
         paid.delete()   
