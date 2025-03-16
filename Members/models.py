@@ -91,3 +91,10 @@ class Payment(models.Model):
 class Notification(models.Model):
     message = models.TextField()
     date_notified = models.DateTimeField(auto_now_add=True)
+
+class Paymentcodes(models.Model):
+    code = models.CharField(max_length=150)
+    amount = models.IntegerField()
+
+    def __str__(self):
+        return self.code

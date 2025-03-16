@@ -4,7 +4,7 @@ from multimedia.form import VideoUploads,VideoForm
 from django.contrib.auth.decorators import login_required
 from .DRY import userDetails
 from multimedia.models import videos as Videos,AwaitingActivation, HomepageVideo, VideoUpload, Cartegories
-from Members.models import DepositHistory, DownloadHistory, Buyers, Cart,Message,Members, Onwatch, Payment, Notification
+from Members.models import DepositHistory, DownloadHistory, Buyers, Cart,Message,Members, Onwatch, Payment, Notification, Paymentcodes
 from.stk_code import sendStkPush
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -309,25 +309,22 @@ def deposit(request):
                 "callback_url": "https://kingstonemovies.xyz/stk/"
                 # "callback_url":"https://smooth-vast-thrush.ngrok-free.app/stk/"
             }
-
-            response = requests.post(url, json=data, headers=headers)
-            print(response.json())
-            paymentDict = {
-
-            }
-            for key in response.json():
-                paymentDict[key] = response.json()[key]
-            
-            # print(paymentDict['success'])
-            # insert pending info
-            if paymentDict['success']:
+            print("sending data....")
+            response = requests.post(url, json=data, headers=headers).json()
+            print(response)
+            if response["success"]:
                 depoExist = Payment.objects.filter(phone_number = phoneNumber)
-                if depoExist.exists() == False:
-                    Payment.objects.create(
-                        username = user["username"],
-                        phone_number = phoneNumber
-                    )
-
+                # delete list and add this new
+                if depoExist.exists():
+                    for dep in depoExist:
+                        dep.delete()
+                print("creting payments")
+                Payment.objects.get_or_create(
+                    username = user["username"],
+                    phone_number = phoneNumber
+                )
+            else:
+                return redirect("/deposit/")
             return redirect("/membership/dashboard/")
     else:
         is_buyer = False
@@ -409,56 +406,56 @@ def download(request):
 
 @csrf_exempt
 def stkCallback(request):
+    print("paid done...")
     callback_data = json.loads(request.body)
-    # print(callback_data)
-     # Check the result code
-    amount = None
-    phone_number = None
-    result_status = callback_data['response']['Status']
-    if result_status == "Success":
-        amount = callback_data['response']['Amount']
-        phone_number=callback_data['response']['Phone']
-    
-    
-    paid = Payment.objects.get(phone_number = str(phone_number))
-    # print(paid)
-    if paid.payment_Suc == False:
-        userAccount = Buyers.objects.get(username = paid.username)
-        # print(paid.username)
-        userAccount.account = int(userAccount.account) + int(amount)
-        DepositHistory.objects.create(
-                amount = amount,
-                name = paid.username
+    response = callback_data['response']
+    if callback_data["status"]:
+        print("status true and code added")
+        Paymentcodes.objects.create(
+            code = response['MpesaReceiptNumber'],
+            amount = response["Amount"]
+        )  
+        try :
+            paymentwaiting = Payment.objects.get(phone_number = response["Phone"])
+            paymentExist = True
+        except Payment.DoesNotExist:
+            paymentExist = False
+
+        if paymentExist:
+            print("payment exist")
+            userAccount = Buyers.objects.get(username = paymentwaiting.username)
+            userAccount.account = int(userAccount.account) + response["Amount"]
+            DepositHistory.objects.create(
+                amount = response["Amount"],
+                name = paymentwaiting.username
             )
-        awaiting = AwaitingActivation.objects.all()
-        if awaiting.exists():
-            for awyt in awaiting:
-                # print(userAccount.account)
-                # print(awyt.price)
-                if userAccount.account < int(awyt.price):
-                    delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
-                    delete.delete()
-                    # print("redirecting")
-                    userAccount.save()
-                    return redirect("/deposit/")
-                # print("deducting")
-                else:
-                    userAccount.account -= int(awyt.price)
-                    # print("watching")
-                    Onwatch.objects.create(
-                        video_name = awyt.video_name,
-                        watcher = awyt.username
-                    )
-                    delete = AwaitingActivation.objects.get(video_name = awyt.video_name)
-                    delete.delete()
-                    userAccount.save()
-        else:
-            userAccount.save()
-        paid.delete()
-    else:
-        paid.delete()   
+            awaiting = AwaitingActivation.objects.filter(username = paymentwaiting.username)
+            if awaiting.exists():
+                print("awaiting found")
+                for awyt in awaiting:
+                    if userAccount.account  < int(awyt.price):
+                        print("less balance")
+                        awyt.delete()
+                        # print("redirecting")
+                        userAccount.save()
+                        return redirect("/deposit/")
+                    # print("deducting")
+                    else:
+                        print("more balance")
+                        userAccount.account -= int(awyt.price)
+                        # print("watching")
+                        Onwatch.objects.create(
+                            video_name = awyt.video_name,
+                            watcher = awyt.username
+                        )
+                        awyt.delete()
+                        userAccount.save()
+            else:
+                print("no waiting activation found")
+                userAccount.save()
+            paymentwaiting.delete() 
     # Return a success response to the M-Pesa server
-    response_data = {'ResultStatus': result_status, 'ResultDesc': 'Success'}
+    response_data = {'ResultStatus': True, 'ResultDesc': 'Success'}
     return JsonResponse(response_data)
 login_required(login_url="/membership/login")
 def cart(request):

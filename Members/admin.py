@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .form import CustomUserCreationForm, CustomUserChangeForm
-from .models import Members,Buyers, Onwatch, Payment, DepositHistory, DownloadHistory,Cart, Message, Notification
+from .models import Members,Buyers, Onwatch, Paymentcodes, DepositHistory, DownloadHistory,Cart, Message, Notification
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -77,6 +77,9 @@ class OnwatchEdit(admin.ModelAdmin):
     ordering = ()
 
 
+class Paymentcod(admin.ModelAdmin):
+    list_display = ("code", "amount",)
+    search_fields = ["code"]
 
 admin.site.register(Members, CustomUserAdmin)
 admin.site.register(Buyers,BuyersEdit )
@@ -86,3 +89,4 @@ admin.site.register(DownloadHistory, DownloadHistoryEdit)
 admin.site.register(Cart, CartsEdit)
 admin.site.register(Message, MessageEdit)
 admin.site.register(Notification)
+admin.site.register(Paymentcodes, Paymentcod)
