@@ -23,24 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('admin/', admin.site.urls),
-    path("", views.home, name="homePage"),
-    path("multi-media/" , include("multimedia.urls")),
-    # path("movies/", views.moviesAndSeries, name="moviesAndSeries"),
-    path("mp4/", views.moviesAndSeries, name="moviesAndSeries"),
-    path("membership/", include("Members.urls")),
-    path("admins/", views.admins, name="admins"),
-    path("message/", views.message, name="messages"),
-    path("cart/", views.cart, name="cart"),
-    path("admins/addVideo/", views.addVideo, name="addVideo"),
-    path("play/", views.play, name="play"),
-    path("deposit/", views.deposit, name="deposit"),
-    path("download/", views.download, name="download"),
-    path("removeCart/", views.removeCart, name = "removeCart"),
-    path("activate/", views.activate, name="activate"),
+    path("api/v1/", include("api.urls")),
     path("stk/", views.stkCallback, name="stkCallBack"),
-    path("search/", views.search, name="Search"),
-    path("deactivatePay/", views.cancelPurchase, name="cancelPurcharse"),
-    path("downloadall/", views.downloadAll, name="downloadAll")
+   
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 

@@ -1,32 +1,24 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .form import CustomUserCreationForm, CustomUserChangeForm
-from .models import Members,Buyers, Onwatch, Paymentcodes, DepositHistory, DownloadHistory,Cart, Message, Notification
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import Members,Profile, Onwatch, Paymentcodes, DepositHistory, DownloadHistory,Cart, Message, Notification, Purchased
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = Members
-    list_display = ("email", "is_staff", "is_active",)
-    list_filter = ("email", "is_staff", "is_active",)
+    list_display = ("email","username", "is_staff", "is_active",)
+    list_filter = ("is_staff", "is_active",)
     search_fields = ("email", "username")
     readonly_fields = ("date_joined",)
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email",)}),
         ("Permissions", {"fields": ("is_staff", "date_joined", "groups", "user_permissions")}),
     )
-    # search_fields = ("email",)
+    list_display_links = ('email',)
+    list_editable = ["username"]
     ordering = ("email",)
     class Meta:
         db_table = "Members"
-
-class BuyersEdit(UserAdmin):
-    list_display=("username","email", "date_joined", "account")
-    search_fields=("username", "email")
-    readonly_fields = ("date_joined",)
-    filter_horizontal = ()
-    list_filter = ()
-    fieldsets = ()
-    ordering = ("-date_joined",)
 
 
 class DepositHistoryEdit(admin.ModelAdmin):
@@ -80,9 +72,12 @@ class OnwatchEdit(admin.ModelAdmin):
 class Paymentcod(admin.ModelAdmin):
     list_display = ("code", "amount",)
     search_fields = ["code"]
+class Buyer(admin.ModelAdmin):
+    list_display = ("user",'account', "username")
+    search_fields = ["username"]
 
 admin.site.register(Members, CustomUserAdmin)
-admin.site.register(Buyers,BuyersEdit )
+admin.site.register(Profile, Buyer )
 admin.site.register(Onwatch, OnwatchEdit)
 admin.site.register(DepositHistory, DepositHistoryEdit)
 admin.site.register(DownloadHistory, DownloadHistoryEdit)
@@ -90,3 +85,4 @@ admin.site.register(Cart, CartsEdit)
 admin.site.register(Message, MessageEdit)
 admin.site.register(Notification)
 admin.site.register(Paymentcodes, Paymentcod)
+admin.site.register(Purchased)

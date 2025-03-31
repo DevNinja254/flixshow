@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "64.23.255.98", "www.kingstonemovies.xyz", "kingstonemovies.xyz","https://comic-finch-strongly.ngrok-free.app", "comic-finch-strongly.ngrok-free.app", "https://smooth-vast-thrush.ngrok-free.app/", 'smooth-vast-thrush.ngrok-free.app']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1","https://smooth-vast-thrush.ngrok-free.app/", 'smooth-vast-thrush.ngrok-free.app']
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app", 'https://smooth-vast-thrush.ngrok-free.app']
 #CORS_ALLOW_CREDENTIALS = True
@@ -38,16 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api',
     'tailwind',
     'theme',
     'multimedia',
     'Members',
     'django_browser_reload',
     'compressor',
-    # 'webpush',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    "corsheaders",
+    "django_filters",
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -182,7 +190,9 @@ EMAIL_POST = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER ='aga.imbali1@gmail.com'
 EMAIL_HOST_PASSWORD ='oyqtbwumfqecasik'
-
+REST_FRAMEWORK_PASSWORD_RESET = {
+    'RESET_PASSWORD_TOKEN_LIFETIME': 60 * 60 * 24,  # 1 day (adjust as needed)
+}
 JAZZMIN_SETTINGS = {
     "show_ui_builder": True,
     # "language_chooser":True,
@@ -204,5 +214,48 @@ JAZZMIN_SETTINGS = {
         # App with dropdown menu to all its models pages (Permissions checked against models)
         # {"app": "auth"},
     ],
+}
+REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    # ],
+     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 200,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+SIMPLE_JWT = {
+'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
+'ROTATE_REFRESH_TOKENS': True,
+'BLACKLIST_AFTER_ROTATION': True,
+'UPDATE_LAST_LOGIN': False,
+'ALGORITHM': 'HS256',
+'VERIFYING_KEY': None,
+'AUDIENCE': None,
+'ISSUER': None,
+'JWK_URL': None,
+'LEEWAY': 0,
+'AUTH_HEADER_TYPES': ('Bearer',),
+'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+'USER_ID_FIELD': 'id',
+'USER_ID_CLAIM': 'user_id',
+'USER_AUTHENTICATION_RULE':
+'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+'TOKEN_TYPE_CLAIM': 'token_type',
+'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+'JTI_CLAIM': 'jti',
+'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+CORS_ALLOW_ALL_ORIGINS = True
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Short-lived for reset
+    'SIGNING_KEY': SECRET_KEY,
+    'ALGORITHM': 'HS256',
 }
 #>>>>>>> da16925992b75c91170aa75ab7f9de5194e936f8
