@@ -26,6 +26,7 @@ from rest_framework.views import APIView
 from django.conf import settings
 from django.utils import timezone
 from rest_framework_simplejwt.tokens import AccessToken
+from .custom_permision import *
 class VideoDetailsAPIView(viewsets.ModelViewSet):
     serializer_class = VideoUploadSerializer
     queryset = VideoUpload.objects.all()
@@ -35,6 +36,7 @@ class VideoDetailsAPIView(viewsets.ModelViewSet):
     search_fields = ["title", "popular", "typs"]
     ordering = "date_uploaded"
     pagination_class = CustomPagination
+    permission_classes = [AuthorizedAccess]
 class SearchAPIView(viewsets.ModelViewSet):
     serializer_class = VideoUploadSerializer
     queryset = VideoUpload.objects.all()
@@ -42,66 +44,73 @@ class SearchAPIView(viewsets.ModelViewSet):
     http_method_names = ["get", "head", "option"]
     ordering = "date_uploaded"
     pagination_class = None
+    permission_classes = [AuthorizedAccess]
 class CartegoryAPIView(viewsets.ModelViewSet):
     serializer_class = CartegoriesSerializer
     queryset = Cartegories.objects.all()
+    permission_classes = [AuthorizedAccess]
 class MessageAPIView(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     queryset = Message.objects.all()
+    permission_classes = [AuthorizedAccess]
 class VideoAPIView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
     serializer_class = videosSerializer
     queryset = videos.objects.all()
     http_method_names = ["get", "head", "option"]
     filterset_class = VideoFilter
+    permission_classes = [AuthorizedAccess]
 class PurchasedAPIView(viewsets.ModelViewSet):
     serializer_class = PurchasedSerializer
     queryset = Purchased.objects.all()
     filterset_class = PurchaseFilter
-    # renderer_classes = [JSONRenderer]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
 class DownloadHistoryAPIView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
     serializer_class = DownloadHistorySerializer
-    # http_method_names = ["get", "head", "option"]
+    permission_classes = [AuthorizedAccess]
     queryset = DownloadHistory.objects.all()
     filterset_class = DownloadsFilter
-    # renderer_classes = [JSONRenderer]
 class DepositHistoryAPIView(viewsets.ModelViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
     serializer_class = DepositHistorySerializer
-    # http_method_names = ["get", "head", "option"]
+    http_method_names = ["get", "head", "option"]
     queryset = DepositHistory.objects.all()
     filterset_class = DepositFilter
-    # renderer_classes = [JSONRenderer]
 class OnwatchAPIView(viewsets.ModelViewSet):
     serializer_class = OnwatchSerializer
     queryset = Onwatch.objects.all()
     http_method_names = ["get", "head", "option"]
     filter_backends = [DjangoFilterBackend]
     filterset_class = WatchFilter
-    # renderer_classes = [JSONRenderer] # Only return json.
-    # permission_classes = [IsAuthenticated]
-
+    permission_classes = [AuthorizedAccess]
 class ReviewAPIView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     queryset = Review.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
 class LikeAPIView(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     queryset = Like.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
 class CartAPIView(viewsets.ModelViewSet):
     serializer_class = CartSerializer
     queryset = Cart.objects.all()
     filterset_class = CartFilter
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
 class ProfileAPIView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AuthorizedAccess]
+class BettingRecordsAPIView(viewsets.ModelViewSet):
+    serializer_class = BettingRecordsSerializer
+    queryset = BettingRecords.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering = 'betting_date'
+    permission_classes = [AuthorizedAccess]
+class ErrorsAPIView(viewsets.ModelViewSet):
+    serializer_class = ErrosSerializer
+    queryset = Errors.objects.all()
+    permission_classes = [AuthorizedAccess]
 class UserRegistrationAPIView(GenericAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AuthorizedAccess]
     serializer_class = RegisterSerializer
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -115,7 +124,7 @@ class UserRegistrationAPIView(GenericAPIView):
         }
         return Response(data, status=status.HTTP_201_CREATED)
 class UserLoginAPIView(GenericAPIView):
-
+    permission_classes = [AuthorizedAccess]
     permission_classes = [AllowAny]
     serializer_class = UserLoginSerializer
 
@@ -152,14 +161,19 @@ class UserInfoAPIView(RetrieveAPIView):
     def get_object(self):
         return self.request.user
 class MembersAPIView(viewsets.ModelViewSet):
+    permission_classes = [AuthorizedAccess]
     serializer_class = MembersSerializer
     queryset = Members.objects.all()
 class NotificationAPIView(viewsets.ModelViewSet):
+    permission_classes = [AuthorizedAccess]
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering = 'date_notified'
 
 @api_view(['POST'])
 def deposit(request):
+        permission_classes = [AuthorizedAccess]
         if request.method == "POST":
             username = request.data["username"]
             Amount = int(request.data["amount"])
@@ -206,6 +220,7 @@ def deposit(request):
 
 
 class PasswordResetRequestView(APIView):
+    permission_classes = [AuthorizedAccess]
     def post(self, request):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
@@ -228,6 +243,7 @@ class PasswordResetRequestView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PasswordResetConfirmView(APIView):
+    permission_classes = [AuthorizedAccess]
     def post(self, request):
         serializer = PasswordResetConfirmSerializer(data=request.data)
         if serializer.is_valid():

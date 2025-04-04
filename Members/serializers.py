@@ -1,7 +1,16 @@
 from .models import *
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+class ErrosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Errors
+        fields = "__all__"
+class BettingRecordsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BettingRecords
+        fields = "__all__"
 class ProfileSerializer(serializers.ModelSerializer):
+    betting_record = BettingRecordsSerializer(many=True, read_only=True)
     class Meta:
         model = Profile
         fields = "__all__"

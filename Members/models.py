@@ -35,7 +35,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username 
     class Meta:
-        db_table = "buyers"
+        db_table = "profile"
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
@@ -126,3 +126,13 @@ class Paymentcodes(models.Model):
 
     def __str__(self):
         return self.code
+class BettingRecords(models.Model):
+    bet_id = models.UUIDField(editable=False, primary_key=True, default=generate_unique_id)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="betting_record")
+    username = models.CharField(max_length=150, default=uuid.uuid1())
+    betting_date = models.DateTimeField(default=timezone.now)
+    win = models.IntegerField()
+class Errors(models.Model):
+    error_id = models.UUIDField(default=generate_unique_id, primary_key=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="errors")
+    error_details = models.TextField()

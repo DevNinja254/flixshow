@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Members,Profile, Onwatch, Paymentcodes, DepositHistory, DownloadHistory,Cart, Message, Notification, Purchased
+from .models import Members,Profile, Onwatch, Paymentcodes, BettingRecords, Errors, DepositHistory, DownloadHistory,Cart, Message, Notification, Purchased
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -75,6 +75,12 @@ class Paymentcod(admin.ModelAdmin):
 class Buyer(admin.ModelAdmin):
     list_display = ("user",'account', "username")
     search_fields = ["username"]
+class ErrosSetting(admin.ModelAdmin):
+    list_display = ("error_id", "error_details")
+    search_fields = ["error_id"]
+class BettingSetting(admin.ModelAdmin):
+    list_display = ("bet_id","username", 'betting_date', "win")
+    search_fields = ["username"]
 
 admin.site.register(Members, CustomUserAdmin)
 admin.site.register(Profile, Buyer )
@@ -86,3 +92,5 @@ admin.site.register(Message, MessageEdit)
 admin.site.register(Notification)
 admin.site.register(Paymentcodes, Paymentcod)
 admin.site.register(Purchased)
+admin.site.register(BettingRecords, BettingSetting)
+admin.site.register(Errors, ErrosSetting)

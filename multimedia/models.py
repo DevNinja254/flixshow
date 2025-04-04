@@ -18,7 +18,7 @@ class Cartegories(models.Model):
 class VideoUpload(models.Model):
     TYPE_CHOICES = [
         ('movies', 'Movies'),
-        ("series", 'Series'),
+        ("series", 'Series'), 
         ("anime", 'Anime')
     ]
  
