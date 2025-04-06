@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
-    path('admin', admin.site.urls),
+    path('admin/', admin.site.urls),
     path("api/v1/", include("api.urls")),
     path("stk/", views.stkCallback, name="stkCallBack"),
 ]

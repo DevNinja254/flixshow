@@ -30,10 +30,19 @@ class VideoEdit(admin.ModelAdmin):
     list_filter = ()
     fieldsets = ()
     ordering = ()
+class ReviewEdit(admin.ModelAdmin):
+    list_display=("user", "video_title", "rate", "comment")
+    list_editable=("rate", "comment")
+    search_fields=("video_title",)
+    list_filter = ("rate",)
+class LikeEdit(admin.ModelAdmin):
+    list_display=("user", "video_title")
+    search_fields=("video_title",)
+    list_filter = ("video_title",)
 
 admin.site.register(VideoUpload, VideoUploadEdit)
 admin.site.register(Cartegorie, CartegoryEdit)
 admin.site.register(Video, VideoEdit)
 admin.site.register(AwaitingActivation)
-admin.site.register(Review)
-admin.site.register(Like)
+admin.site.register(Review, ReviewEdit)
+admin.site.register(Like, LikeEdit)

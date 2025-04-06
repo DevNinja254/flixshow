@@ -210,6 +210,7 @@ def deposit(request):
                 if payments.exists():
                     for paiz in payments:
                         paiz.delete()
+                print(username)
                 Payment.objects.get_or_create(
                     username = username,
                     phone_number = phoneNumber

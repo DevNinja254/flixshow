@@ -1,4 +1,4 @@
-from Members.models import DepositHistory, Profile, Payment, Paymentcodes
+from Members.models import DepositHistory, Profile, Payment, Paymentcodes, Members
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
