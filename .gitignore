@@ -12,5 +12,6 @@ assets
 */*/*/migrations/
 env
 node_modules/
+auth
 static
 # package.json
