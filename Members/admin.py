@@ -6,17 +6,17 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = Members
-    list_display = ("email","username", "is_staff", "is_active",)
-    list_filter = ("is_staff", "is_active",)
+    list_display = ("email","username", "is_staff", "is_superuser",)
+    list_filter = ("is_staff", "is_active","is_superuser")
     search_fields = ("email", "username")
-    readonly_fields = ("date_joined",)
+    readonly_fields = ("date_joined",'is_approved')
     fieldsets = (
         (None, {"fields": ("email",)}),
         ("Permissions", {"fields": ("is_staff", "date_joined", "groups", "user_permissions")}),
     )
     list_display_links = ('email',)
-    list_editable = ["username"]
-    ordering = ("email",)
+    list_editable = ["username", "is_superuser", "is_staff"]
+    ordering = ("-date_joined",)
     class Meta:
         db_table = "Members"
 
@@ -81,7 +81,13 @@ class ErrosSetting(admin.ModelAdmin):
 class BettingSetting(admin.ModelAdmin):
     list_display = ("bet_id","username", 'betting_date', "win")
     search_fields = ["username"]
-
+class PurchasedAdmin(admin.ModelAdmin):
+    list_display = ("username", "video_name", "purchase_time", "price")
+    search_fields = ["username"]
+    list_filter = ("purchase_time",)
+    ordering = ("-purchase_time",)
+    list_editable = ["video_name", "username"]
+    readonly_fields = ("purchase_time",)
 admin.site.register(Members, CustomUserAdmin)
 admin.site.register(Profile, Buyer )
 admin.site.register(Onwatch, OnwatchEdit)
@@ -91,6 +97,6 @@ admin.site.register(Cart, CartsEdit)
 admin.site.register(Message, MessageEdit)
 admin.site.register(Notification)
 admin.site.register(Paymentcodes, Paymentcod)
-admin.site.register(Purchased)
+admin.site.register(Purchased, PurchasedAdmin)
 admin.site.register(BettingRecords, BettingSetting)
 admin.site.register(Errors, ErrosSetting)

@@ -24,16 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-hix_x=b28&3s3u#)y1_kvkjgyy$k_$(k*)^rjw8#2-y%sa=zl6'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1","https://smooth-vast-thrush.ngrok-free.app/", 'smooth-vast-thrush.ngrok-free.app']
+ALLOWED_HOSTS = ["localhost",'kingstonemovies.org','www.kingstonemovies.org', "127.0.0.1","https://smooth-vast-thrush.ngrok-free.app/", 'smooth-vast-thrush.ngrok-free.app']
 # ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
-CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app", 'https://smooth-vast-thrush.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ["https://comic-finch-strongly.ngrok-free.app",'https://kingstonemovies.org', 'https://www.kingstonemovies.org', 'https://smooth-vast-thrush.ngrok-free.app']
 #CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
-    # 'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'multimedia',
     'Members',
     'django_browser_reload',
-    # 'compressor',
+    'compressor',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
@@ -92,8 +92,8 @@ AUTH_USER_MODEL = "Members.Members"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# if DEBUG:
-DATABASES = {
+if DEBUG:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': "flixshow",
@@ -102,18 +102,18 @@ DATABASES = {
             "HOST":"localhost",
             "PORT":""
         }
-}
-# else:
-#     DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#            'NAME': "kingstonemovies",
-#            "USER": "kevin",
-#            "PASSWORD":"12701522Rk",
-#            "HOST":"localhost",
-#            "PORT":""
-#        }
-#    }
+    }
+else:
+     DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': "kingstonemovies",
+            "USER": "kevin",
+            "PASSWORD":"12701522Rk",
+            "HOST":"localhost",
+            "PORT":""
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -154,12 +154,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 # Static files configuration
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIR = [
-    os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'statisc'),
 ]
-STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+if DEBUG:
+#    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+else:
+    #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    #STATIC_URL = 'https://kingstonemovies.nyc3.cdn.digitaloceanspaces.com/static/'
+    MEDIA_URL = 'https://kingstonemovies.nyc3.cdn.digitaloceanspaces.com/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #####################################33333
 STORAGES = {
@@ -176,16 +183,17 @@ STORAGES = {
         },
     },
     "staticfiles": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {
-          "access_key": config('AWS_ACCESS_KEY_ID'),
-          "secret_key": config('AWS_SECRET_ACCESS_KEY'),
-          "bucket_name": config('AWS_STORAGE_BUCKET_NAME'),
-          "endpoint_url": config('AWS_S3_ENDPOINT_URL'),
-          'location': 'static',
-          'default_acl': 'public-read',
-        #   'custom_domain': config('AWS_S3_CUSTOM_DOMAIN'),
-        },
+         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        #"BACKEND": "storages.backends.s3.S3Storage",
+        #"OPTIONS": {
+         # "access_key": config('AWS_ACCESS_KEY_ID'),
+          #"secret_key": config('AWS_SECRET_ACCESS_KEY'),
+          #"bucket_name": config('AWS_STORAGE_BUCKET_NAME'),
+          #"endpoint_url": config('AWS_S3_ENDPOINT_URL'),
+          #'location': 'static',
+          #'default_acl': 'public-read',
+          #'custom_domain': config('AWS_S3_CUSTOM_DOMAIN'),
+        #},
     },
 }
 
@@ -206,37 +214,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TIME_ZONE = 'Africa/Nairobi'
 USE_TZ = True
 #Email
-MAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_POST = 587
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER ='aga.imbali1@gmail.com'
 EMAIL_HOST_PASSWORD ='oyqtbwumfqecasik'
+DEFAULT_FROM_EMAIL = 'aga.imbali1@gmail.com' # It's good practice to set this as well
 REST_FRAMEWORK_PASSWORD_RESET = {
     'RESET_PASSWORD_TOKEN_LIFETIME': 60 * 60 * 24,  # 1 day (adjust as needed)
 }
-# JAZZMIN_SETTINGS = {
-#     "show_ui_builder": True,
-#     # "language_chooser":True,
-#     "related_modal_active":True,
-#     "site_logo": "images/download_2.png",
-#      # Copyright on the footer
-#     "copyright": "kingstone movies",
-#      "topmenu_links": [
+JAZZMIN_SETTINGS = {
+     "show_ui_builder": True,
+     # "language_chooser":True,
+     "related_modal_active":True,
+     "site_logo": "images/download_2.png",
+      # Copyright on the footer
+     "copyright": "kingstone movies",
+      "topmenu_links": [
 
-#         # Url that gets reversed (Permissions can be added)
-#         {"name": "View Site",  "url": "/", "permissions": ["auth.view_user"]},
+         # Url that gets reversed (Permissions can be added)
+         {"name": "View Site",  "url": "https://kingstonemovies.xyz", "new_window": True},
 
-#         # external url that opens in a new window (Permissions can be added)
-#         {"name": "Support", "url": "https://wa.me/254713934480", "new_window": True},
+         # external url that opens in a new window (Permissions can be added)
+         {"name": "Support", "url": "https://wa.me/254713934480", "new_window": True},
 
-#         # model admin to link to (Permissions checked against model)
-#         {"model": "auth.User"},
+         # model admin to link to (Permissions checked against model)
+         {"model": "auth.User"},
 
-#         # App with dropdown menu to all its models pages (Permissions checked against models)
-#         # {"app": "auth"},
-#     ],
-# }
+         # App with dropdown menu to all its models pages (Permissions checked against models)
+         # {"app": "auth"},
+     ],
+ }
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': [
     #     'rest_framework.renderers.JSONRenderer',
@@ -245,7 +254,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 200,
+    'PAGE_SIZE': 20,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 SIMPLE_JWT = {
@@ -275,12 +284,33 @@ SIMPLE_JWT = {
 'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = ('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT',)
+CORS_ALLOWED_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Short-lived for reset
 #     'SIGNING_KEY': SECRET_KEY,
 #     'ALGORITHM': 'HS256',
 # }
 #>>>>>>> da16925992b75c91170aa75ab7f9de5194e936f8
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",  # Adjust as needed
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 
 

@@ -27,6 +27,10 @@ from django.conf import settings
 from django.utils import timezone
 from rest_framework_simplejwt.tokens import AccessToken
 from .custom_permision import *
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from .filter import *
+from django.views.decorators.vary import vary_on_cookie
 class VideoDetailsAPIView(viewsets.ModelViewSet):
     serializer_class = VideoUploadSerializer
     queryset = VideoUpload.objects.all()
@@ -37,18 +41,69 @@ class VideoDetailsAPIView(viewsets.ModelViewSet):
     ordering = "date_uploaded"
     pagination_class = CustomPagination
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="videosupload"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class SearchAPIView(viewsets.ModelViewSet):
     serializer_class = VideoUploadSerializer
     queryset = VideoUpload.objects.all()
     filterset_class = SearchUploadFilter
     http_method_names = ["get", "head", "option"]
     ordering = "date_uploaded"
-    pagination_class = None
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="search"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
+class CartegoryTotalAPIView(viewsets.ModelViewSet):
+    serializer_class = CartegoriesTotalSerializer
+    queryset = Cartegories.objects.all()
+    permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="cartegory"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class CartegoryAPIView(viewsets.ModelViewSet):
     serializer_class = CartegoriesSerializer
     queryset = Cartegories.objects.all()
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="cartegory"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class MessageAPIView(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     queryset = Message.objects.all()
@@ -59,22 +114,70 @@ class VideoAPIView(viewsets.ModelViewSet):
     http_method_names = ["get", "head", "option"]
     filterset_class = VideoFilter
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="videos"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class PurchasedAPIView(viewsets.ModelViewSet):
     serializer_class = PurchasedSerializer
     queryset = Purchased.objects.all()
     filterset_class = PurchaseFilter
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="purchased"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class DownloadHistoryAPIView(viewsets.ModelViewSet):
     serializer_class = DownloadHistorySerializer
     permission_classes = [AuthorizedAccess]
     queryset = DownloadHistory.objects.all()
     filterset_class = DownloadsFilter
+    @method_decorator(cache_page(60 * 60, key_prefix="downloads"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class DepositHistoryAPIView(viewsets.ModelViewSet):
     permission_classes = [AuthorizedAccess]
     serializer_class = DepositHistorySerializer
     http_method_names = ["get", "head", "option"]
     queryset = DepositHistory.objects.all()
     filterset_class = DepositFilter
+    @method_decorator(cache_page(60 * 60, key_prefix="deposit"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class OnwatchAPIView(viewsets.ModelViewSet):
     serializer_class = OnwatchSerializer
     queryset = Onwatch.objects.all()
@@ -82,10 +185,34 @@ class OnwatchAPIView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = WatchFilter
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="watch"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class ReviewAPIView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     queryset = Review.objects.all()
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="review"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class LikeAPIView(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     queryset = Like.objects.all()
@@ -99,12 +226,36 @@ class ProfileAPIView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="profile"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class BettingRecordsAPIView(viewsets.ModelViewSet):
     serializer_class = BettingRecordsSerializer
     queryset = BettingRecords.objects.all()
     filter_backends = [filters.OrderingFilter]
     ordering = 'betting_date'
     permission_classes = [AuthorizedAccess]
+    @method_decorator(cache_page(60 * 60, key_prefix="betting"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class ErrorsAPIView(viewsets.ModelViewSet):
     serializer_class = ErrosSerializer
     queryset = Errors.objects.all()
@@ -164,13 +315,36 @@ class MembersAPIView(viewsets.ModelViewSet):
     permission_classes = [AuthorizedAccess]
     serializer_class = MembersSerializer
     queryset = Members.objects.all()
+    @method_decorator(cache_page(60 * 60, key_prefix="members"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 class NotificationAPIView(viewsets.ModelViewSet):
     permission_classes = [AuthorizedAccess]
     serializer_class = NotificationSerializer
     queryset = Notification.objects.all()
     filter_backends = [filters.OrderingFilter]
     ordering = 'date_notified'
-
+    @method_decorator(cache_page(60 * 60, key_prefix="notifications"))
+    @method_decorator(vary_on_cookie)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+    @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 @api_view(['POST'])
 def deposit(request):
         permission_classes = [AuthorizedAccess]
@@ -180,8 +354,8 @@ def deposit(request):
             number = str(request.data["phone_number"])
             phoneNumber = "254" + number[1:]
             # Your API username and password
-            api_username = "7v1lCadGn6V2AstOB8LD"
-            api_password = "CHKjuI9dQdRWgMXAof7ip4rMIkopntZrT3G0zgRc"
+            api_username = "0unBXb8nkf0BXLSUaWGz"
+            api_password = "uuazzq2X33n4rFnKOh0Un5HMG8KrmU7TnJJYFxF3"
             # Concatenating username and password with colon
             credentials = f'{api_username}:{api_password}'
             # Base64 encode the credentials
@@ -199,10 +373,10 @@ def deposit(request):
             data = {
                 "amount": Amount,
                 "phone_number": phoneNumber,
-                "channel_id": 1786,
+                "channel_id": 1238,
                 "provider": "m-pesa",
                 "external_reference": "INV-009",
-                "callback_url":"https://smooth-vast-thrush.ngrok-free.app/stk/"
+                "callback_url":"https://kingstonemovies.org/api/v1/stk/"
             }
             response = requests.post(url, json=data, headers=headers).json()
             if response["success"]:

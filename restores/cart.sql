@@ -1,0 +1,12 @@
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (1, 'comedy', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (2, 'horror', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (3, 'Action', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (4, 'Adventure', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (5, 'Series', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (6, 'Sci-fi movies', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (8, 'GUIDES', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (9, 'KIJESHI', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (7, 'MARVEL', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (10, 'Kihindi movies', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (11, 'ADULT MOVIES', NULL);
+INSERT INTO public.cartegories ("cartId", "cartName", "cart_image") VALUES (12, 'NEW GUIDES', NULL);

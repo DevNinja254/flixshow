@@ -21,14 +21,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("__reload__/", include("django_browser_reload.urls")),
-    path('admin/', admin.site.urls),
-    path("api/v1/", include("api.urls")),
-    path("stk/", views.stkCallback, name="stkCallBack"),
+    path('api/v1/', include([
+        path("__reload__/", include("django_browser_reload.urls")),
+        path('admin', admin.site.urls),
+        path("", include("api.urls")),
+        path("stk/", views.stkCallback, name="stkCallBack"),
+    ]))
 ]
 
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 admin.site.site_header = "KingstoneMovies Admin"  # Default: "Django Administration"
 admin.site.index_title = "Dashboard"  # Default: "Site administration"
